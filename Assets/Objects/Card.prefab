@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5434997013552965717}
   - component: {fileID: 3497578923378721624}
-  - component: {fileID: 6468939298562089449}
   - component: {fileID: 6594969699992660267}
+  - component: {fileID: 5635218100220709418}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,21 +92,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6468939298562089449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2526500741250569659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e93ba7cc5060a4c44b71cb692f90c3e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DragNDrop
-  SpeedScale: 0.1
-  CardSprite: {fileID: 0}
-  value: 3
 --- !u!65 &6594969699992660267
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -128,3 +113,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5, y: 2.5, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5635218100220709418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2526500741250569659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e93ba7cc5060a4c44b71cb692f90c3e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Card
+  SpeedScale: 0.1
+  CardSprite: {fileID: 0}

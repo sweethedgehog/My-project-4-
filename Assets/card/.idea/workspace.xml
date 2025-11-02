@@ -5,24 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4173c25b-e6af-4c8d-a399-d31c729b137e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../card.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Blue.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Blue.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Card.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Card.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CardSequence.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CardSequence.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GmaeManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GmaeManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Green.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Green.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Red.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Red.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Square.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Square.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yellow.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yellow.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../../ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Scripts/Card.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Scripts/Card.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Scripts/CardSequence.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Scripts/CardSequence.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,27 +24,27 @@
     <setting file="file://$PROJECT_DIR$/GmaeManager.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="34wGX0nQHdWSbz60iqjmmjCac0k" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "feature/Viktor",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/Viktor&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="4173c25b-e6af-4c8d-a399-d31c729b137e" name="Changes" comment="" />
@@ -66,7 +52,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1762117260093</updated>
-      <workItem from="1762117264737" duration="1715000" />
+      <workItem from="1762117264737" duration="3079000" />
     </task>
     <servers />
   </component>

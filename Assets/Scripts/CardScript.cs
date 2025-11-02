@@ -10,6 +10,8 @@ public class Card : MonoBehaviour
     public float SpeedScale = 0.1f;
     public Sprite CardSprite;
 
+    public int cardValue;
+
     private bool isDragin;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -17,6 +19,7 @@ public class Card : MonoBehaviour
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = CardSprite;
         camera = Camera.main;
+        cardValue = cardValue;
         // homePos = new Vector3(transform.position.x,  transform.position.y, 0);
     }
 

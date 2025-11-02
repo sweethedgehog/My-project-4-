@@ -20,6 +20,7 @@ public class CardSequence : MonoBehaviour
             GameObject obj = Instantiate(card, card.transform.position, Quaternion.identity);
             cards.Add(obj.GetComponent<Card>());
             cards[i].CardSprite = CardsTextures[Random.Range(0, CardsTextures.Length)];
+            cards[i].cardValue = i
             cards[i].setParent(this);
         }
         rebaseAll();
