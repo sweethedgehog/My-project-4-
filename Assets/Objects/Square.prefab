@@ -104,7 +104,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e93ba7cc5060a4c44b71cb692f90c3e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragNDrop
-  Card: {fileID: 0}
+  SpeedScale: 0.1
+  CardSprite: {fileID: 0}
+  value: 3
 --- !u!65 &6594969699992660267
 BoxCollider:
   m_ObjectHideFlags: 0
