@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Card : MonoBehaviour
+public class CardOld : MonoBehaviour
 {
     private Vector3 offset;
     private Camera camera;

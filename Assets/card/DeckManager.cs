@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class DeckManager : MonoBehaviour
 {
-    public GameObject Card;
+    public GameObject CardOld;
     public Sprite[] yellowCards;
     public Sprite[] blueCards;
     public Sprite[] redCards;
@@ -47,8 +47,8 @@ public class DeckManager : MonoBehaviour
         for (int i = 0; i < buf; ++i)
         {
             if (cards.Count <= 0) break;
-            GameObject card = Instantiate(Card, startPos, Quaternion.identity);
-            cardSequence.cards.Add(card.GetComponent<Card>());
+            GameObject card = Instantiate(CardOld, startPos, Quaternion.identity);
+            cardSequence.cards.Add(card.GetComponent<CardOld>());
             switch (cards[cards.Count - 1].first)
             {
                 case 0:

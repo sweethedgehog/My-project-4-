@@ -9,7 +9,7 @@ public class CardSequence : MonoBehaviour
     public float MinX = -5f, MaxX = 5f;
     public int yPos = 2;
     public int terminator = 0;
-    public List<Card> cards = new List<Card>();
+    public List<CardOld> cards = new List<CardOld>();
     void Start()
     {
         // for (int i = 0; i < StartCardsCount; i++)
@@ -22,7 +22,7 @@ public class CardSequence : MonoBehaviour
         // rebaseAll();
     }
 
-    public void addCard(Card card)
+    public void addCard(CardOld card)
     {
         card.setParent(this);
         if (cards.Count == 0) cards.Add(card);
@@ -46,7 +46,7 @@ public class CardSequence : MonoBehaviour
         }
         rebaseAll();
     }
-    public void removeCard(Card card)
+    public void removeCard(CardOld card)
     {
         cards.Remove(card);
         rebaseAll();
