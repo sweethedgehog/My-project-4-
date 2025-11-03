@@ -109,7 +109,6 @@ namespace CardGame.GameObjects
             
             RectTransform cardRect = card.GetComponent<RectTransform>();
             float cardX = cardRect.anchoredPosition.x;
-            float cardY = cardRect.anchoredPosition.y;
             
             // Find the best position to insert the card
             if (cards.Count == 0)

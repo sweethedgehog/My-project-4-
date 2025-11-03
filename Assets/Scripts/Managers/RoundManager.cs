@@ -301,7 +301,7 @@ namespace CardGame.Managers
             // Update suit text
             if (goalSuitText != null)
             {
-                goalSuitText.text = currentGoalSuit.ToString();
+                goalSuitText.text = RoundTips.replicas[(int)currentGoalSuit - 1, currentRound];
                 goalSuitText.color = GetSuitColor(currentGoalSuit);
             }
             
@@ -565,5 +565,8 @@ namespace CardGame.Managers
             
             Debug.Log("Game reset!");
         }
+
+        public float getScoreHistoryValue(int i) => scoreHistory[i];
+        public float getScoreHistoryCount() => scoreHistory.Count;
     }
 }
