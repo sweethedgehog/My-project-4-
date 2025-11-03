@@ -82,7 +82,7 @@ namespace CardGame.Managers
             {
                 resultText.gameObject.SetActive(false);
             }
-            _tilesManager = GameObject.Find("TilesPanel").GetComponent<TilesManager>();
+            _tilesManager = GameObject.Find("Tiles Panel").GetComponent<TilesManager>();
         }
         
         /// <summary>
