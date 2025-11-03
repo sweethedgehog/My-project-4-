@@ -26,7 +26,6 @@ namespace CardGame.Cards
             
             if (valueText == null)
                 valueText = GetComponentInChildren<Text>();
-            
         }
         
         public void Initialize(CardData cardData)

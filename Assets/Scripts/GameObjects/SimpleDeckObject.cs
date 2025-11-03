@@ -110,13 +110,12 @@ namespace CardGame.GameObjects
                 simpleCard.Initialize(cardData);
             }
             
-            // Make draggable
-            SimpleDraggable draggable = cardObj.GetComponent<SimpleDraggable>();
+            // Make draggable with board support
+            SimpleDraggableWithBoard draggable = cardObj.GetComponent<SimpleDraggableWithBoard>();
             if (draggable == null)
             {
-                draggable = cardObj.AddComponent<SimpleDraggable>();
+                draggable = cardObj.AddComponent<SimpleDraggableWithBoard>();
             }
-            draggable.StartDragging();
             
             Debug.Log($"Drew: {cardData.suit} - Value {cardData.value} (Remaining: {deck.RemainingCards})");
         }
@@ -131,9 +130,10 @@ namespace CardGame.GameObjects
             RectTransform rect = cardObj.AddComponent<RectTransform>();
             rect.sizeDelta = cardSize;
             
-            // Add Image for background
+            // Add Image for background - IMPORTANT: Must be raycast target!
             Image bgImage = cardObj.AddComponent<Image>();
             bgImage.color = Color.white;
+            bgImage.raycastTarget = true; // Enable raycast!
             
             // Add outline
             Outline outline = cardObj.AddComponent<Outline>();
@@ -155,6 +155,7 @@ namespace CardGame.GameObjects
             text.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             text.fontSize = 48;
             text.color = Color.white;
+            text.raycastTarget = false; // Text should NOT block raycasts
             
             // Add SimpleCard component
             SimpleCard cardScript = cardObj.AddComponent<SimpleCard>();
@@ -162,7 +163,8 @@ namespace CardGame.GameObjects
             cardScript.valueText = text;
             
             // Add CanvasGroup for dragging
-            cardObj.AddComponent<CanvasGroup>();
+            CanvasGroup cg = cardObj.AddComponent<CanvasGroup>();
+            cg.blocksRaycasts = true; // Initially should block raycasts
             
             return cardObj;
         }
@@ -193,7 +195,7 @@ namespace CardGame.GameObjects
     /// <summary>
     /// Simple draggable component for cards
     /// </summary>
-    public class SimpleDraggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
+    public class SimpleDraggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler
     {
         private RectTransform rectTransform;
         private Canvas canvas;
@@ -218,6 +220,8 @@ namespace CardGame.GameObjects
             {
                 img.raycastTarget = true;
             }
+            
+            Debug.Log($"SimpleDraggable initialized on {gameObject.name}");
         }
         
         public void StartDragging()
@@ -233,6 +237,8 @@ namespace CardGame.GameObjects
         
         public void OnPointerDown(PointerEventData eventData)
         {
+            Debug.Log($"Card CLICKED! Position: {eventData.position}");
+            
             // Calculate offset from card center to click position
             Vector2 clickPos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -243,16 +249,31 @@ namespace CardGame.GameObjects
             );
             
             offset = rectTransform.anchoredPosition - clickPos;
+            
+            // Bring to front when clicked
+            transform.SetAsLastSibling();
+        }
+        
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            Debug.Log("Card pointer UP");
         }
         
         public void OnBeginDrag(PointerEventData eventData)
         {
-            StartDragging();
+            Debug.Log("OnBeginDrag called!");
+            isDragging = true;
+            canvasGroup.blocksRaycasts = false;
+            transform.SetAsLastSibling();
         }
         
         public void OnDrag(PointerEventData eventData)
         {
-            if (!isDragging) return;
+            if (!isDragging) 
+            {
+                Debug.LogWarning("OnDrag called but isDragging is false!");
+                return;
+            }
             
             Vector2 mousePos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -268,9 +289,9 @@ namespace CardGame.GameObjects
         
         public void OnEndDrag(PointerEventData eventData)
         {
+            Debug.Log($"OnEndDrag called! Card dropped at: {rectTransform.anchoredPosition}");
             isDragging = false;
             canvasGroup.blocksRaycasts = true;
-            Debug.Log($"Card dropped at: {rectTransform.anchoredPosition}");
         }
     }
 }
