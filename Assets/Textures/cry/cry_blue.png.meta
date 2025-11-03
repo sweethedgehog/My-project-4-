@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 52365d839d8cbf74eb4bd8e4d84d249a
+guid: 961a4c07cbe262943be7f2d724e53922
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1301657196256593794
-    second: game_screen_clean_1920x1080_0
+      213: -1075627474985854830
+    second: cry_blue_0
+  - first:
+      213: -3832696323375812394
+    second: cry_blue_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: game_screen_clean_1920x1080_0
+      name: cry_blue_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 1920
-        height: 1080
+        y: 9
+        width: 32
+        height: 20
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +131,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2878432d25a601210800000000000000
-      internalID: 1301657196256593794
+      spriteID: 29851daa28a9211f0800000000000000
+      internalID: -1075627474985854830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cry_blue_1
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 0
+        width: 111
+        height: 113
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d03d3910078fcac0800000000000000
+      internalID: -3832696323375812394
       vertices: []
       indices: 
       edges: []
@@ -148,7 +173,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      game_screen_clean_1920x1080_0: 1301657196256593794
+      cry_blue_0: -1075627474985854830
+      cry_blue_1: -3832696323375812394
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
