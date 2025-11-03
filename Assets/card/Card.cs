@@ -5,17 +5,17 @@ public class Card : MonoBehaviour
 {
     private Vector3 offset;
     private Camera camera;
-    private Vector3 homePos;
+    private Vector3 homePos = Vector3.zero;
     private CardSequence parent;
-    public float SpeedScale = 0.1f;
-    public Sprite CardSprite;
+    public float speedScale = 0.1f;
+    public Sprite cardSprite;
 
     private bool isDragin;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = CardSprite;
+        spriteRenderer.sprite = cardSprite;
         camera = Camera.main;
         // homePos = new Vector3(transform.position.x,  transform.position.y, 0);
     }
@@ -66,9 +66,9 @@ public class Card : MonoBehaviour
 
     private void moveTo(Vector3 pos, float deltaTime, float z = 0)
     {
-        if (pos.x == transform.position.x) return;
+        if (pos.x == transform.position.x && pos.y == transform.position.y) return;
         Vector3 target = pos - transform.position;
-        target = target.normalized * (target.magnitude * deltaTime / SpeedScale);
+        target = target.normalized * (target.magnitude * deltaTime / speedScale);
         transform.position += target;
         transform.position.Set(transform.position.x, transform.position.y, z);
     }

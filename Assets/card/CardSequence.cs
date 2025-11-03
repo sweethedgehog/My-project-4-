@@ -5,28 +5,26 @@ using Random = UnityEngine.Random;
 
 public class CardSequence : MonoBehaviour
 {
-    public GameObject card;
-    public int StartCardsCount = 5;
     public int CardsMustBe = 5;
-    public float MinX = -7.5f, MaxX = 7.5f;
-    public Sprite[] CardsTextures;
+    public float MinX = -5f, MaxX = 5f;
     public int yPos = 2;
     public int terminator = 0;
-    private List<Card> cards = new List<Card>();
+    public List<Card> cards = new List<Card>();
     void Start()
     {
-        for (int i = 0; i < StartCardsCount; i++)
-        {
-            GameObject obj = Instantiate(card, card.transform.position, Quaternion.identity);
-            cards.Add(obj.GetComponent<Card>());
-            cards[i].CardSprite = CardsTextures[Random.Range(0, CardsTextures.Length)];
-            cards[i].setParent(this);
-        }
-        rebaseAll();
+        // for (int i = 0; i < StartCardsCount; i++)
+        // {
+        //     GameObject obj = Instantiate(card, card.transform.position, Quaternion.identity);
+        //     cards.Add(obj.GetComponent<Card>());
+        //     cards[i].CardSprite = CardsTextures[Random.Range(0, CardsTextures.Length)];
+        //     cards[i].setParent(this);
+        // }
+        // rebaseAll();
     }
 
     public void addCard(Card card)
     {
+        card.setParent(this);
         if (cards.Count == 0) cards.Add(card);
         else
         {
@@ -35,7 +33,7 @@ public class CardSequence : MonoBehaviour
             for (int i = 0; i < cards.Count; i++)
             {
                 float buf = Math.Abs(card.transform.position.x - getCoolX(i));
-                if (buf < minDif || minDif <= -0.5f)
+                if (buf < minDif || minDif == -1f)
                 {
                     minDif = buf;
                     index = i;
@@ -54,9 +52,20 @@ public class CardSequence : MonoBehaviour
         rebaseAll();
     }
 
-    private void rebaseAll()
+    public void rebaseAll()
     {
         for (int i = 0; i < cards.Count; i++) cards[i].setHomePos(new Vector3(getCoolX(i), yPos, 0));
+    }
+
+    public int getScore()
+    {
+        if (cards.Count == 0) return -1;
+        for (int i = 0; i < cards.Count; i++)
+        {
+            Destroy(cards[i].gameObject);
+        }
+        cards.Clear();
+        return 0;
     }
     private float getCoolX(int i)
     {
