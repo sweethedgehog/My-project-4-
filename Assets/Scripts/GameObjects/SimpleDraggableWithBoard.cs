@@ -133,7 +133,31 @@ namespace CardGame.GameObjects
             }
             else
             {
-                Debug.Log("Card not dropped on any board");
+                // No board found - must return to original board or find any board
+                Debug.Log("Card not dropped on any board - returning to source");
+                
+                // Try to return to original board
+                if (currentBoard != null)
+                {
+                    currentBoard.AddCard(simpleCard);
+                    Debug.Log($"Card returned to original board: {currentBoard.name}");
+                }
+                else
+                {
+                    // Find any available board
+                    CardBoard[] allBoards = FindObjectsOfType<CardBoard>();
+                    if (allBoards.Length > 0)
+                    {
+                        allBoards[0].AddCard(simpleCard);
+                        Debug.Log($"Card placed on default board: {allBoards[0].name}");
+                    }
+                    else
+                    {
+                        Debug.LogError("No boards available! Card is lost!");
+                        // Destroy card as last resort
+                        Destroy(gameObject);
+                    }
+                }
             }
         }
         
@@ -142,11 +166,12 @@ namespace CardGame.GameObjects
             CardBoard[] allBoards = FindObjectsOfType<CardBoard>();
             CardBoard closestBoard = null;
             
-            Vector2 cardPos = rectTransform.anchoredPosition;
+            // Get card's screen position
+            Vector2 cardScreenPos = Input.mousePosition;
             
             foreach (CardBoard board in allBoards)
             {
-                if (board.IsPositionNearBoard(cardPos))
+                if (board.IsPositionNearBoard(cardScreenPos))
                 {
                     closestBoard = board;
                     break; // Found a board in range
@@ -171,13 +196,16 @@ namespace CardGame.GameObjects
             
             Vector2 cardPos = rectTransform.anchoredPosition;
             
+            // Convert card position to screen space for accurate checking
+            Vector3 cardScreenPos = RectTransformUtility.WorldToScreenPoint(canvas.worldCamera, rectTransform.position);
+            
             foreach (CardBoard board in allBoards)
             {
                 // Use the board's position check method for better edge detection
-                if (board.IsPositionNearBoard(cardPos))
+                if (board.IsPositionNearBoard(cardScreenPos))
                 {
                     RectTransform boardRect = board.GetComponent<RectTransform>();
-                    float distance = Vector2.Distance(cardPos, boardRect.anchoredPosition);
+                    float distance = Vector2.Distance(rectTransform.position, boardRect.position);
                     
                     if (distance < nearestDistance)
                     {
@@ -190,6 +218,10 @@ namespace CardGame.GameObjects
             if (showDebugInfo && nearestBoard != null)
             {
                 Debug.Log($"Found board: {nearestBoard.name} at distance {nearestDistance}");
+            }
+            else if (showDebugInfo)
+            {
+                Debug.Log("No board found at current position");
             }
             
             return nearestBoard;

@@ -16,23 +16,34 @@ namespace CardGame.GameObjects
         [SerializeField] private int maxCards = 5;
         [SerializeField] private float minX = -300f;
         [SerializeField] private float maxX = 300f;
-        [SerializeField] private float yPosition = 0f;    
-    
-		[Header("Edge Detection")]
-    	[SerializeField] private float edgeExtension = 100f;
-    	[SerializeField] private float boardHeight = 150f;
+        [SerializeField] private float yPosition = 0f;
         
         [Header("Animation")]
         [SerializeField] private float moveSpeed = 10f;
         [SerializeField] private bool smoothMovement = true;
         
         [Header("Visual Feedback")]
-        [SerializeField] private Color boardColor = new Color(0.2f, 0.2f, 0.2f, 0.5f);
+        [SerializeField] private BoardColorPreset colorPreset = BoardColorPreset.DarkGray;
+        [SerializeField] private Color customBoardColor = new Color(0.3f, 0.3f, 0.3f, 0.3f);
         [SerializeField] private bool showBoardVisual = true;
         [SerializeField] private bool showDebugGizmos = false;
         
         private List<SimpleCard> cards = new List<SimpleCard>();
         private RectTransform rectTransform;
+        
+        // Board color presets enum
+        public enum BoardColorPreset
+        {
+            Custom,
+            DarkGray,
+            LightGray,
+            SemiTransparent,
+            Blue,
+            Green,
+            Red,
+            Purple,
+            Brown
+        }
         
         void Awake()
         {
@@ -53,22 +64,23 @@ namespace CardGame.GameObjects
         {
             if (!showDebugGizmos || rectTransform == null) return;
             
-            // Draw the board detection area
-            Vector3 boardPos = transform.position;
+            // Get actual board size
+            float boardWidth = rectTransform.rect.width;
+            float boardHeight = rectTransform.rect.height;
             
             // Convert local board coordinates to world space for gizmos
-            float leftEdge = minX - edgeExtension;
-            float rightEdge = maxX + edgeExtension;
-            float topEdge = boardHeight / 2f;
-            float bottomEdge = -boardHeight / 2f;
+            float leftEdge = -boardWidth / 2f - edgeExtension;
+            float rightEdge = boardWidth / 2f + edgeExtension;
+            float topEdge = boardHeight / 2f + boardHeight * 0.2f;
+            float bottomEdge = -boardHeight / 2f - boardHeight * 0.2f;
             
             // Draw board rectangle (green)
             Gizmos.color = Color.green;
             Vector3[] corners = new Vector3[4];
-            corners[0] = transform.TransformPoint(new Vector3(minX, bottomEdge, 0));
-            corners[1] = transform.TransformPoint(new Vector3(maxX, bottomEdge, 0));
-            corners[2] = transform.TransformPoint(new Vector3(maxX, topEdge, 0));
-            corners[3] = transform.TransformPoint(new Vector3(minX, topEdge, 0));
+            corners[0] = transform.TransformPoint(new Vector3(-boardWidth / 2f, bottomEdge + boardHeight * 0.2f, 0));
+            corners[1] = transform.TransformPoint(new Vector3(boardWidth / 2f, bottomEdge + boardHeight * 0.2f, 0));
+            corners[2] = transform.TransformPoint(new Vector3(boardWidth / 2f, topEdge - boardHeight * 0.2f, 0));
+            corners[3] = transform.TransformPoint(new Vector3(-boardWidth / 2f, topEdge - boardHeight * 0.2f, 0));
             
             for (int i = 0; i < 4; i++)
             {
@@ -96,8 +108,45 @@ namespace CardGame.GameObjects
             {
                 img = gameObject.AddComponent<UnityEngine.UI.Image>();
             }
-            img.color = boardColor;
+            img.color = GetBoardColor();
             img.raycastTarget = false; // Don't block card clicks
+        }
+        
+        /// <summary>
+        /// Get board color based on preset or custom
+        /// </summary>
+        private Color GetBoardColor()
+        {
+            switch (colorPreset)
+            {
+                case BoardColorPreset.DarkGray:
+                    return new Color(0.2f, 0.2f, 0.2f, 0.7f);
+                    
+                case BoardColorPreset.LightGray:
+                    return new Color(0.7f, 0.7f, 0.7f, 0.5f);
+                    
+                case BoardColorPreset.SemiTransparent:
+                    return new Color(0.3f, 0.3f, 0.3f, 0.3f);
+                    
+                case BoardColorPreset.Blue:
+                    return new Color(0.2f, 0.4f, 0.8f, 0.5f);
+                    
+                case BoardColorPreset.Green:
+                    return new Color(0.2f, 0.6f, 0.3f, 0.5f);
+                    
+                case BoardColorPreset.Red:
+                    return new Color(0.8f, 0.2f, 0.2f, 0.5f);
+                    
+                case BoardColorPreset.Purple:
+                    return new Color(0.6f, 0.2f, 0.8f, 0.5f);
+                    
+                case BoardColorPreset.Brown:
+                    return new Color(0.5f, 0.3f, 0.1f, 0.6f);
+                    
+                case BoardColorPreset.Custom:
+                default:
+                    return customBoardColor;
+            }
         }
         
         /// <summary>
@@ -109,6 +158,7 @@ namespace CardGame.GameObjects
             
             RectTransform cardRect = card.GetComponent<RectTransform>();
             float cardX = cardRect.anchoredPosition.x;
+            float cardY = cardRect.anchoredPosition.y;
             
             // Find the best position to insert the card
             if (cards.Count == 0)
@@ -151,22 +201,31 @@ namespace CardGame.GameObjects
         /// <summary>
         /// Check if a position is within the board's detection area
         /// Now includes edges and vertical range
+        /// Uses actual RectTransform bounds instead of hardcoded values
         /// </summary>
-        public bool IsPositionNearBoard(Vector2 position)
+        public bool IsPositionNearBoard(Vector2 screenPosition)
         {
-            // Get board position in local space
-            Vector2 boardCenter = rectTransform.anchoredPosition;
+            // Convert screen position to local position in board's space
+            Vector2 localPos;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                rectTransform,
+                screenPosition,
+                null,
+                out localPos
+            );
             
-            // Check horizontal range (with edge extension)
-            float leftEdge = boardCenter.x + minX - edgeExtension;
-            float rightEdge = boardCenter.x + maxX + edgeExtension;
+            // Get actual board size from RectTransform
+            float boardWidth = rectTransform.rect.width;
+            float boardHeight = rectTransform.rect.height;
             
-            // Check vertical range
-            float topEdge = boardCenter.y + boardHeight / 2f;
-            float bottomEdge = boardCenter.y - boardHeight / 2f;
+            // Calculate detection area with edge extension
+            float leftEdge = -boardWidth / 2f - edgeExtension;
+            float rightEdge = boardWidth / 2f + edgeExtension;
+            float topEdge = boardHeight / 2f + boardHeight * 0.2f; // 20% extra above
+            float bottomEdge = -boardHeight / 2f - boardHeight * 0.2f; // 20% extra below
             
-            bool inHorizontalRange = position.x >= leftEdge && position.x <= rightEdge;
-            bool inVerticalRange = position.y >= bottomEdge && position.y <= topEdge;
+            bool inHorizontalRange = localPos.x >= leftEdge && localPos.x <= rightEdge;
+            bool inVerticalRange = localPos.y >= bottomEdge && localPos.y <= topEdge;
             
             return inHorizontalRange && inVerticalRange;
         }
