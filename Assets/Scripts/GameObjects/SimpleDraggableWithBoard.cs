@@ -69,6 +69,9 @@ namespace CardGame.GameObjects
             // Remember original parent
             originalParent = transform.parent;
             
+            // Store current SCREEN position before parent change
+            Vector3 worldPos = rectTransform.position;
+            
             // Remove from current board if on one
             currentBoard = GetComponentInParent<CardBoard>();
             if (currentBoard != null)
@@ -79,6 +82,20 @@ namespace CardGame.GameObjects
             // Move to canvas root for free dragging
             transform.SetParent(canvas.transform);
             transform.SetAsLastSibling();
+            
+            // Restore the world position after parent change
+            rectTransform.position = worldPos;
+            
+            // Recalculate offset based on current position
+            Vector2 mousePos;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvas.transform as RectTransform,
+                eventData.position,
+                canvas.worldCamera,
+                out mousePos
+            );
+            
+            offset = rectTransform.anchoredPosition - mousePos;
         }
         
         public void OnDrag(PointerEventData eventData)

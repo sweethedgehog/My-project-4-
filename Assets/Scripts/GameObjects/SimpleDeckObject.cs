@@ -117,7 +117,7 @@ namespace CardGame.GameObjects
                 draggable = cardObj.AddComponent<SimpleDraggableWithBoard>();
             }
             
-            Debug.Log($"Drew: {cardData.suit} - Value {cardData.value} (Remaining: {deck.RemainingCards})");
+            Debug.Log($"Drew: {cardData.suit} - Value {cardData.cardValue} (Remaining: {deck.RemainingCards})");
         }
         
         GameObject CreateSimpleCard()

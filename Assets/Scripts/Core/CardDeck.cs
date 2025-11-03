@@ -121,7 +121,7 @@ namespace CardGame.Core
             int count = 0;
             foreach (var card in deck)
             {
-                if (card.suit == suit && card.value == value)
+                if (card.suit == suit && card.cardValue == value)
                     count++;
             }
             return count;

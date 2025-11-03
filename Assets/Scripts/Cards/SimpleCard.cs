@@ -31,7 +31,7 @@ namespace CardGame.Cards
         public void Initialize(CardData cardData)
         {
             suit = cardData.suit;
-            cardValue = cardData.value;
+            cardValue = cardData.cardValue;
             UpdateVisual();
         }
         

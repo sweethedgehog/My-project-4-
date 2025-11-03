@@ -26,7 +26,7 @@ namespace CardGame.GameObjects
         [SerializeField] private Color boardColor = new Color(0.2f, 0.2f, 0.2f, 0.5f);
         [SerializeField] private bool showBoardVisual = true;
         
-        private List<SimpleCard> cards = new List<SimpleCard>();
+        public List<SimpleCard> cards = new List<SimpleCard>();
         private RectTransform rectTransform;
         
         void Awake()
