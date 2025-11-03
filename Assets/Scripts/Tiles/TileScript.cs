@@ -1,10 +1,10 @@
 using CardGame.Managers;
+using DefaultNamespace.Tiles;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TileScript : MonoBehaviour
 {
-    public int index = 1;
     private Image thisImage;
     private Color color;
 
@@ -13,24 +13,20 @@ public class TileScript : MonoBehaviour
         thisImage = GetComponent<Image>();
         thisImage.color = Color.white;
     }
-    void Update()
+
+    public void setVisability(SuccessCodes status)
     {
-        GameObject obj = GameObject.Find("RoundManager");
-        RoundManager roundManager = obj.GetComponent<RoundManager>();
-        if (roundManager != null && roundManager.getScoreHistoryCount() >= index)
+        switch (status)
         {
-            switch (roundManager.getScoreHistoryValue(index - 1))
-            {
-                case 0.5f:
-                    thisImage.color = Color.yellow;
-                    break;
-                case 1f:
-                    thisImage.color = Color.green;
-                    break;
-                default:
-                    thisImage.color = Color.red;
-                    break;
-            }
+            case SuccessCodes.Success:
+                thisImage.color = Color.green;
+                break;
+            case SuccessCodes.Patrial:
+                thisImage.color = Color.yellow;
+                break;
+            default:
+                thisImage.color = Color.red;
+                break;
         }
     }
 }
