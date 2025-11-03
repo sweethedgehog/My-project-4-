@@ -254,7 +254,7 @@ namespace CardGame.Managers
             }
             
             // Calculate how many cards to deal
-            int currentCards = handBoard.CardCount;
+            int currentCards = handBoard.CardCount + targetBoard.CardCount;
             int cardsToDeal = Mathf.Max(0, cardsPerRound - currentCards);
             
             Debug.Log($"Board has {currentCards} cards. Dealing {cardsToDeal} more cards.");
