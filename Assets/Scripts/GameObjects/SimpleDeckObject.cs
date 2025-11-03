@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using CardGame.Core;
 using CardGame.Cards;
+using TMPro;
 
 namespace CardGame.GameObjects
 {
@@ -15,7 +16,7 @@ namespace CardGame.GameObjects
     {
         [Header("Deck Visual")]
         [SerializeField] private Color deckColor = new Color(0.3f, 0.3f, 0.3f);
-        [SerializeField] private Text cardCountText;
+        [SerializeField] private TextMeshProUGUI cardCountText;
         
         [Header("Card Settings")]
         [SerializeField] private GameObject simpleCardPrefab;
