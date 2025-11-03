@@ -153,35 +153,14 @@ namespace CardGame.Core
 
         private bool IsBordered(int cardNum, Suits suit)
         {
-            // Check if all cards from start to current position (inclusive) are the same suit
-            bool allLeftSameSuit = true;
-            for (int i = 0; i <= cardNum; i++)
+            if (cardNum == 0 || cardNum == cards.Count - 1)
             {
-                if (cards[i].cardSuit != suit)
-                {
-                    allLeftSameSuit = false;
-                    break;
-                }
-            }
-
-            if (allLeftSameSuit)
                 return true;
-
-            // Check if all cards from current position to end are the same suit
-            bool allRightSameSuit = true;
-            for (int i = cardNum; i < cards.Count; i++)
+            }
+            else
             {
-                if (cards[i].cardSuit != suit)
-                {
-                    allRightSameSuit = false;
-                    break;
-                }
+                return false;
             }
-
-            if (allRightSameSuit)
-                return true;
-
-            return false;
         }
 
         private int GetRedMultiplier(int cardNum)
