@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4173c25b-e6af-4c8d-a399-d31c729b137e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Scripts/Card.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Scripts/Card.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../Scripts/CardSequence.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Scripts/CardSequence.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ProjectSettings/ShaderGraphSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../../ProjectSettings/ShaderGraphSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +51,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1762117260093</updated>
-      <workItem from="1762117264737" duration="3079000" />
+      <workItem from="1762117264737" duration="5617000" />
     </task>
     <servers />
   </component>

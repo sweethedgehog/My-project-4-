@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 public class CardSequence : MonoBehaviour
 {
-    public GameObject card;
+    public GameObject Card;
     public int StartCardsCount = 5;
     public int CardsMustBe = 5;
     public float MinX = -7.5f, MaxX = 7.5f;
@@ -17,10 +17,10 @@ public class CardSequence : MonoBehaviour
     {
         for (int i = 0; i < StartCardsCount; i++)
         {
-            GameObject obj = Instantiate(card, card.transform.position, Quaternion.identity);
+            GameObject obj = Instantiate(Card, Card.transform.position, Quaternion.identity);
             cards.Add(obj.GetComponent<Card>());
             cards[i].CardSprite = CardsTextures[Random.Range(0, CardsTextures.Length)];
-            cards[i].cardValue = i
+            cards[i].cardValue = i;
             cards[i].setParent(this);
         }
         rebaseAll();
