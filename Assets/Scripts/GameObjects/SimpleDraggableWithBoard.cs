@@ -23,7 +23,8 @@ namespace CardGame.GameObjects
         private Vector2 offset;
         
         [Header("Drag Settings")]
-        [SerializeField] private float hoverDetectionDistance = 100f;
+        [SerializeField] private float hoverDetectionDistance = 200f; // Increased for edge detection
+        [SerializeField] private bool showDebugInfo = false;
         
         void Awake()
         {
@@ -140,21 +141,26 @@ namespace CardGame.GameObjects
         {
             CardBoard[] allBoards = FindObjectsOfType<CardBoard>();
             CardBoard closestBoard = null;
-            float closestDistance = float.MaxValue;
+            
+            Vector2 cardPos = rectTransform.anchoredPosition;
             
             foreach (CardBoard board in allBoards)
             {
-                RectTransform boardRect = board.GetComponent<RectTransform>();
-                float distance = Vector2.Distance(rectTransform.anchoredPosition, boardRect.anchoredPosition);
-                
-                if (distance < hoverDetectionDistance && distance < closestDistance)
+                if (board.IsPositionNearBoard(cardPos))
                 {
                     closestBoard = board;
-                    closestDistance = distance;
+                    break; // Found a board in range
                 }
             }
             
-            hoverBoard = closestBoard;
+            if (hoverBoard != closestBoard)
+            {
+                hoverBoard = closestBoard;
+                if (showDebugInfo && hoverBoard != null)
+                {
+                    Debug.Log($"Hovering over: {hoverBoard.name}");
+                }
+            }
         }
         
         private CardBoard FindNearestBoard()
@@ -163,16 +169,27 @@ namespace CardGame.GameObjects
             CardBoard nearestBoard = null;
             float nearestDistance = float.MaxValue;
             
+            Vector2 cardPos = rectTransform.anchoredPosition;
+            
             foreach (CardBoard board in allBoards)
             {
-                RectTransform boardRect = board.GetComponent<RectTransform>();
-                float distance = Vector2.Distance(rectTransform.anchoredPosition, boardRect.anchoredPosition);
-                
-                if (distance < hoverDetectionDistance && distance < nearestDistance)
+                // Use the board's position check method for better edge detection
+                if (board.IsPositionNearBoard(cardPos))
                 {
-                    nearestBoard = board;
-                    nearestDistance = distance;
+                    RectTransform boardRect = board.GetComponent<RectTransform>();
+                    float distance = Vector2.Distance(cardPos, boardRect.anchoredPosition);
+                    
+                    if (distance < nearestDistance)
+                    {
+                        nearestBoard = board;
+                        nearestDistance = distance;
+                    }
                 }
+            }
+            
+            if (showDebugInfo && nearestBoard != null)
+            {
+                Debug.Log($"Found board: {nearestBoard.name} at distance {nearestDistance}");
             }
             
             return nearestBoard;

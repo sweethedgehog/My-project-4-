@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 using CardGame.Core;
 using CardGame.Cards;
-using TMPro;
 
 namespace CardGame.GameObjects
 {
@@ -22,6 +22,10 @@ namespace CardGame.GameObjects
         [SerializeField] private GameObject simpleCardPrefab;
         [SerializeField] private Canvas parentCanvas;
         [SerializeField] private Vector2 cardSize = new Vector2(80, 120);
+        
+        [Header("Target Board")]
+        [SerializeField] private CardBoard targetBoard; // Assign the CardBoard to spawn cards on
+        [SerializeField] private bool spawnDirectlyOnBoard = true; // If true, cards go straight to board
         
         private CardDeck deck;
         private Image deckImage;
@@ -54,6 +58,7 @@ namespace CardGame.GameObjects
         
         public void OnPointerClick(PointerEventData eventData)
         {
+            Debug.Log($"Deck clicked! SpawnDirectlyOnBoard: {spawnDirectlyOnBoard}, TargetBoard: {(targetBoard != null ? targetBoard.name : "NULL")}");
             DrawCardUnderMouse();
         }
         
@@ -69,9 +74,65 @@ namespace CardGame.GameObjects
             
             if (cardData != null)
             {
-                SpawnCardAtMouse(cardData);
+                if (spawnDirectlyOnBoard && targetBoard != null)
+                {
+                    SpawnCardOnBoard(cardData);
+                }
+                else
+                {
+                    SpawnCardAtMouse(cardData);
+                }
                 UpdateVisual();
             }
+        }
+        
+        void SpawnCardOnBoard(CardData cardData)
+        {
+            if (targetBoard == null)
+            {
+                Debug.LogWarning("Target board is not assigned! Spawning under mouse instead.");
+                SpawnCardAtMouse(cardData);
+                return;
+            }
+            
+            // Create card - spawn it under the board's transform temporarily
+            GameObject cardObj;
+            
+            if (simpleCardPrefab != null)
+            {
+                cardObj = Instantiate(simpleCardPrefab, targetBoard.transform);
+            }
+            else
+            {
+                cardObj = CreateSimpleCard();
+                cardObj.transform.SetParent(targetBoard.transform);
+            }
+            
+            // Set initial position at board center (will be repositioned by AddCard)
+            RectTransform cardRect = cardObj.GetComponent<RectTransform>();
+            if (cardRect != null)
+            {
+                cardRect.anchoredPosition = Vector2.zero;
+            }
+            
+            // Initialize card
+            SimpleCard simpleCard = cardObj.GetComponent<SimpleCard>();
+            if (simpleCard != null)
+            {
+                simpleCard.Initialize(cardData);
+            }
+            
+            // Make draggable with board support
+            SimpleDraggableWithBoard draggable = cardObj.GetComponent<SimpleDraggableWithBoard>();
+            if (draggable == null)
+            {
+                draggable = cardObj.AddComponent<SimpleDraggableWithBoard>();
+            }
+            
+            // Add directly to target board - this will position it correctly
+            targetBoard.AddCard(simpleCard);
+            
+            Debug.Log($"Drew: {cardData.suit} - Value {cardData.cardValue} → Added to {targetBoard.name} (Remaining: {deck.RemainingCards})");
         }
         
         void SpawnCardAtMouse(CardData cardData)
@@ -161,7 +222,9 @@ namespace CardGame.GameObjects
             // Add SimpleCard component
             SimpleCard cardScript = cardObj.AddComponent<SimpleCard>();
             cardScript.cardBackground = bgImage;
-            cardScript.valueText = text;
+            // Note: valueText in SimpleCard is TextMeshProUGUI, but we're creating basic Text here
+            // This works because the field might be null and we check for it
+            // If you want TextMeshProUGUI, assign it manually or use a prefab
             
             // Add CanvasGroup for dragging
             CanvasGroup cg = cardObj.AddComponent<CanvasGroup>();
@@ -172,6 +235,8 @@ namespace CardGame.GameObjects
         
         void UpdateVisual()
         {
+            if (deck == null) return;
+            
             if (cardCountText != null)
             {
                 cardCountText.text = deck.RemainingCards.ToString();
@@ -190,6 +255,19 @@ namespace CardGame.GameObjects
             deck.ResetAndShuffle();
             UpdateVisual();
             Debug.Log("Deck reset and shuffled");
+        }
+        
+        // Public methods for external access
+        public int GetRemainingCards()
+        {
+            if (deck == null) return 0;
+            return deck.RemainingCards;
+        }
+        
+        public bool IsDeckEmpty()
+        {
+            if (deck == null) return true;
+            return deck.IsEmpty();
         }
     }
     

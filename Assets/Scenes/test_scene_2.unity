@@ -177,7 +177,6 @@ MonoBehaviour:
   smoothMovement: 1
   boardColor: {r: 0.2, g: 0.2, b: 0.2, a: 0.5}
   showBoardVisual: 1
-  cards: []
 --- !u!114 &52902510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,7 +424,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 56.54303}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 36.9149}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &418452708
@@ -482,8 +481,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -794,10 +793,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardGame.GameObjects.SimpleDeckObject
   deckColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
-  cardCountText: {fileID: 0}
+  cardCountText: {fileID: 418452708}
   simpleCardPrefab: {fileID: 0}
   parentCanvas: {fileID: 0}
   cardSize: {x: 80, y: 120}
+  targetBoard: {fileID: 52902509}
+  spawnDirectlyOnBoard: 1
 --- !u!114 &1505598448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1032,7 +1033,6 @@ MonoBehaviour:
   smoothMovement: 1
   boardColor: {r: 0.2, g: 0.2, b: 0.2, a: 0.5}
   showBoardVisual: 1
-  cards: []
 --- !u!114 &1681956490
 MonoBehaviour:
   m_ObjectHideFlags: 0
