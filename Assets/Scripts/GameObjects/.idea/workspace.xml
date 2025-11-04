@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f44df079-a06f-410c-ac83-8b45d83a2ef2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../Scenes/test_scene_2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/../../Scenes/test_scene_2.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Core/CardData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Core/CardData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Core/CardDeck.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Core/CardDeck.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CardBoard.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CardBoard.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Core/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Core/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SimpleDeckObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SimpleDeckObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpleDraggableWithBoard.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SimpleDraggableWithBoard.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Score/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Score/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../../TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,9 +20,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/../CardSequence.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Cards/SimpleCard.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Core/CardDeck.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Core/CardDeck.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/CardBoard.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DeckGameObject.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SimpleDraggableWithBoard.cs" root0="FORCE_HIGHLIGHTING" />
@@ -42,7 +40,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/Viktor",
+    "git-widget-placeholder": "local__viktor",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -62,6 +60,7 @@
       <workItem from="1762137086484" duration="2949000" />
       <workItem from="1762140212028" duration="3000" />
       <workItem from="1762140468630" duration="1578000" />
+      <workItem from="1762213874090" duration="3347000" />
     </task>
     <servers />
   </component>

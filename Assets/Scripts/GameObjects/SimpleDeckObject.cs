@@ -18,6 +18,12 @@ namespace CardGame.GameObjects
         [SerializeField] private Color deckColor = new Color(0.3f, 0.3f, 0.3f);
         [SerializeField] private TextMeshProUGUI cardCountText;
         
+        [Header("Deck Sprites")]
+        [SerializeField] private Sprite emptyDeckSprite; // No cards (can be null for no texture)
+        [SerializeField] private Sprite fewCardsSprite; // 1-4 cards
+        [SerializeField] private Sprite mediumCardsSprite; // 5-12 cards
+        [SerializeField] private Sprite manyCardsSprite; // 13+ cards
+        
         [Header("Card Settings")]
         [SerializeField] private GameObject simpleCardPrefab;
         [SerializeField] private Canvas parentCanvas;
@@ -33,8 +39,6 @@ namespace CardGame.GameObjects
         void Awake()
         {
             deckImage = GetComponent<Image>();
-            deckImage.color = deckColor;
-            
             if (parentCanvas == null)
             {
                 parentCanvas = GetComponentInParent<Canvas>();
@@ -236,18 +240,31 @@ namespace CardGame.GameObjects
         void UpdateVisual()
         {
             if (deck == null) return;
+
+			int remainingCards = deck.RemainingCards;
+			
+			if (remainingCards >= 13)
+			{
+				deckImage.sprite = manyCardsSprite;
+			}
+			else if (remainingCards >= 5)
+			{
+				deckImage.sprite = mediumCardsSprite;
+			}
+			else if (remainingCards >= 1)
+			{
+				deckImage.sprite = fewCardsSprite;
+			}
+			else
+          	{
+				deckImage.sprite = null;
+			}
             
             if (cardCountText != null)
             {
                 cardCountText.text = deck.RemainingCards.ToString();
             }
             
-            // Darken deck when empty
-            if (deckImage != null)
-            {
-                deckImage.color = deck.IsEmpty() ? 
-                    new Color(0.2f, 0.2f, 0.2f) : deckColor;
-            }
         }
         
         public void ResetDeck()
