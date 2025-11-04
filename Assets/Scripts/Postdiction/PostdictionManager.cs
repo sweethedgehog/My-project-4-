@@ -33,7 +33,8 @@ public class PostdictionManager : MonoBehaviour
     }
     private void makePostdiction()
     {
-        SceneManager.LoadScene(rightChoise ? "Win" : "Lose");
+        SceneManager.LoadScene(rightChoise ? "Win" : "Lose", LoadSceneMode.Additive);
+        // SceneManager.UnloadSceneAsync("PostdictionScene");
     }
     public void select(ImageType type)
     {

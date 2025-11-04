@@ -44,7 +44,7 @@ namespace CardGame.Managers
         
         [Header("End Round")]
         [SerializeField] private Button endRoundButton;
-        [SerializeField] private TextMeshProUGUI endButtonText;
+        [SerializeField] private Sprite postdictionSprite;
         [SerializeField] private TextMeshProUGUI resultText; // Shows round result
         [SerializeField] private float resultDisplayTime = 2f; // How long to show result
         
@@ -220,7 +220,8 @@ namespace CardGame.Managers
                 if (startRoundButton != null)
                 {
                     endRoundButton.onClick.RemoveAllListeners();
-                    endButtonText.SetText("Make a Postdict");
+                    Image buttonImage = endRoundButton.GetComponent<Image>();
+                    buttonImage.sprite = postdictionSprite;
                     endRoundButton.onClick.AddListener(StartPostdiction);
                 }
             }
