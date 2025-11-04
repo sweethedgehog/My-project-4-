@@ -1472,7 +1472,7 @@ MonoBehaviour:
   roundNumberText: {fileID: 0}
   scoreHistoryText: {fileID: 486951837}
   endRoundButton: {fileID: 1187628346}
-  endButtonText: {fileID: 1070931503}
+  endButtonText: {fileID: 0}
   resultText: {fileID: 0}
   resultDisplayTime: 2
   maxRounds: 6
@@ -2542,7 +2542,7 @@ MonoBehaviour:
   fewCardsSprite: {fileID: -316444796795699890, guid: 9de340fcc11f89748b57ad54b5452f24, type: 3}
   mediumCardsSprite: {fileID: -8441923500095732324, guid: 12411d4a469c064419b72495c209e521, type: 3}
   manyCardsSprite: {fileID: 412305847452878508, guid: ffdfabac9e4b66e46b7afa2eab8f26d9, type: 3}
-  simpleCardPrefab: {fileID: 0}
+  simpleCardPrefab: {fileID: 7288336276837508695, guid: 452d560ca5837714f9db803eb36b8bfd, type: 3}
   parentCanvas: {fileID: 0}
   cardSize: {x: 80, y: 120}
   targetBoard: {fileID: 52902509}
