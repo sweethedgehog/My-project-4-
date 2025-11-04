@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 using System.Collections;
@@ -7,6 +7,11 @@ using System.Collections.Generic;
 using CardGame.Core;
 using CardGame.GameObjects;
 using CardGame.Scoring;
+using DefaultNamespace.Tiles;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
+using Image = UnityEngine.UI.Image;
+using Random = UnityEngine.Random;
 
 namespace CardGame.Managers
 {
@@ -46,12 +51,15 @@ namespace CardGame.Managers
         [SerializeField] private int maxSameSuitOccurrences = 2;
         
         private int currentRound = 0;
-        private List<float> scoreHistory = new List<float>(); // List of scores per round
+        private List<SuccessCodes> scoreHistory = new List<SuccessCodes>(); // List of scores per round
+        private TilesManager tilesManager;
         private Dictionary<Suits, int> suitUsageCount = new Dictionary<Suits, int>(); // Track suit usage
         private int currentGoalValue;
         private Suits currentGoalSuit;
         private bool isDealing = false;
         private bool roundActive = false; // Track if round is in progress
+        private bool isRulesOpened = false;
+        private RulesPanel rulsePanel;
         
         void Start()
         {
@@ -80,6 +88,20 @@ namespace CardGame.Managers
             {
                 resultText.gameObject.SetActive(false);
             }
+            tilesManager = GameObject.Find("Tiles Panel").GetComponent<TilesManager>();
+            rulsePanel = GameObject.Find("Rules Panel").GetComponentInChildren<RulesPanel>();
+            isRulesOpened = false;
+        }
+
+        private void Update()
+        {
+            if (isRulesOpened && Input.GetMouseButton(0)) RulesToggle();
+        }
+
+        public void RulesToggle()
+        {
+            isRulesOpened = !isRulesOpened;
+            rulsePanel.moveTo(isRulesOpened ? RulesCords.Open : RulesCords.closed);
         }
         
         /// <summary>
@@ -166,8 +188,9 @@ namespace CardGame.Managers
             }
             
             // Calculate round score
-            float roundScore = CalculateRoundScore(scorer);
+            SuccessCodes roundScore = CalculateRoundScore(scorer);
             scoreHistory.Add(roundScore);
+            if (tilesManager.isActive) tilesManager.setVisibility(roundScore);
             
             // Show result
             StartCoroutine(ShowRoundResult(roundScore));
@@ -250,7 +273,7 @@ namespace CardGame.Managers
             }
             
             // Calculate how many cards to deal
-            int currentCards = handBoard.CardCount;
+            int currentCards = handBoard.CardCount + targetBoard.CardCount;
             int cardsToDeal = Mathf.Max(0, cardsPerRound - currentCards);
             
             Debug.Log($"Board has {currentCards} cards. Dealing {cardsToDeal} more cards.");
@@ -301,7 +324,7 @@ namespace CardGame.Managers
             // Update suit text
             if (goalSuitText != null)
             {
-                goalSuitText.text = currentGoalSuit.ToString();
+                goalSuitText.text = RoundTips.replicas[(int)currentGoalSuit - 1, currentRound];
                 goalSuitText.color = GetSuitColor(currentGoalSuit);
             }
             
@@ -316,7 +339,7 @@ namespace CardGame.Managers
         /// Calculate score based on goal matching
         /// Returns 0, 0.5, or 1.0
         /// </summary>
-        private float CalculateRoundScore(CardScorer scorer)
+        private SuccessCodes CalculateRoundScore(CardScorer scorer)
         {
             // Need to get the score from the scorer
             // We'll need to expose a method to get the current score
@@ -335,19 +358,19 @@ namespace CardGame.Managers
             {
                 // Score doesn't match goal
                 Debug.Log("Round Result: MISS - Score doesn't match goal (0 points)");
-                return 0f;
+                return SuccessCodes.Failer;
             }
             else if (scoreMatches && !suitMatches)
             {
                 // Score matches but suit doesn't
                 Debug.Log("Round Result: PARTIAL - Score matches but wrong suit (0.5 points)");
-                return 0.5f;
+                return SuccessCodes.Patrial;
             }
             else
             {
                 // Perfect match!
                 Debug.Log("Round Result: PERFECT - Exact match! (1 point)");
-                return 1f;
+                return SuccessCodes.Success;
             }
         }
         
@@ -373,7 +396,7 @@ namespace CardGame.Managers
         /// <summary>
         /// Show round result to player
         /// </summary>
-        private IEnumerator ShowRoundResult(float roundScore)
+        private IEnumerator ShowRoundResult(SuccessCodes roundScore)
         {
             if (resultText != null)
             {
@@ -382,12 +405,12 @@ namespace CardGame.Managers
                 string resultMessage = "";
                 Color resultColor = Color.white;
                 
-                if (roundScore == 0f)
+                if (roundScore == SuccessCodes.Failer)
                 {
                     resultMessage = "MISS!\nScore doesn't match\n+0 points";
                     resultColor = new Color(1f, 0.3f, 0.3f); // Red
                 }
-                else if (roundScore == 0.5f)
+                else if (roundScore == SuccessCodes.Patrial)
                 {
                     resultMessage = "PARTIAL!\nRight score, wrong suit\n+0.5 points";
                     resultColor = new Color(1f, 0.8f, 0.2f); // Orange/Yellow
@@ -452,9 +475,9 @@ namespace CardGame.Managers
         private void ShowGameOver()
         {
             float totalScore = 0f;
-            foreach (float score in scoreHistory)
+            foreach (SuccessCodes score in scoreHistory)
             {
-                totalScore += score;
+                totalScore += (float)score / 2;
             }
             
             if (resultText != null)
@@ -490,11 +513,11 @@ namespace CardGame.Managers
             }
             
             List<string> scoreStrings = new List<string>();
-            foreach (float score in scoreHistory)
+            foreach (SuccessCodes score in scoreHistory)
             {
-                if (score == 0f)
+                if (score == SuccessCodes.Failer)
                     scoreStrings.Add("0");
-                else if (score == 0.5f)
+                else if (score == SuccessCodes.Patrial)
                     scoreStrings.Add("1/2");
                 else
                     scoreStrings.Add("1");
@@ -547,7 +570,7 @@ namespace CardGame.Managers
         public void ResetGame()
         {
             currentRound = 0;
-            scoreHistory = new List<float> {};
+            scoreHistory = new List<SuccessCodes> {};
             currentGoalValue = 0;
             roundActive = false;
             
