@@ -13,6 +13,8 @@ public class TilesManager : MonoBehaviour
     public bool isActive = true;
     private int sumScore = 0;
     private int index = 0;
+    public Color succesTextColor;
+    public Color failerTextColor;
     private SuccessCodes[] statuses = { SuccessCodes.None, SuccessCodes.None, SuccessCodes.None, SuccessCodes.None, SuccessCodes.None, SuccessCodes.None};
 
     void Start()
@@ -41,7 +43,9 @@ public class TilesManager : MonoBehaviour
         bigTile.changeSuccessSprites(storySprites[index]);
         bigTile.setVisability(statuses[index]);
         failerText.text = statuses[index] == SuccessCodes.Failer ? HintsAndFailers.failers[index] : "";
+        failerText.faceColor = failerTextColor;
         successText.text = statuses[index] == SuccessCodes.Success ? HintsAndFailers.hints[index] : "";
+        successText.faceColor = succesTextColor;
     }
     public float GetScore() => (float) sumScore / 2;
 }
