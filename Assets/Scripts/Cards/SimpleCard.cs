@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using CardGame.Core;
+using System.Collections.Generic;
 
 namespace CardGame.Cards
 {
@@ -13,6 +14,11 @@ namespace CardGame.Cards
         [Header("Card Properties")]
         public Suits suit;
         public int cardValue;
+
+        public List<Sprite> RoseSprites;
+        public List<Sprite> SkullSprites;
+        public List<Sprite> CrownSprites;
+        public List<Sprite> CoinSprites;
         
         [Header("UI References")]
         public Image cardBackground;
@@ -37,19 +43,25 @@ namespace CardGame.Cards
         
         void UpdateVisual()
         {
-            // Set background color based on suit
-            if (cardBackground != null)
-            {
-                cardBackground.color = GetSuitColor(suit);
-            }
+            List<Sprite> card_set = new List<Sprite> {} ;
             
-            // Set value text
-            if (valueText != null)
+            switch (suit)
             {
-                valueText.text = cardValue.ToString();
-                valueText.color = Color.white;
-                valueText.fontSize = 48;
+                case Suits.Roses:
+                    card_set = RoseSprites;
+                    break;
+                case Suits.Skulls:
+                    card_set = SkullSprites;
+                    break;
+                case Suits.Coins:
+                    card_set = CoinSprites;
+                    break;
+                case Suits.Crowns:
+                    card_set = CrownSprites;
+                    break;
             }
+
+            cardBackground.sprite = card_set[cardValue - 1];
         }
         
         Color GetSuitColor(Suits suit)

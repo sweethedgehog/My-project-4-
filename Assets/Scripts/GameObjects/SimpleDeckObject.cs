@@ -108,6 +108,7 @@ namespace CardGame.GameObjects
             }
             else
             {
+				Debug.Log("createSimpleCard");
                 cardObj = CreateSimpleCard();
                 cardObj.transform.SetParent(targetBoard.transform);
             }
