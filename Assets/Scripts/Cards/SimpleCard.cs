@@ -23,6 +23,7 @@ namespace CardGame.Cards
         [Header("UI References")]
         public Image cardBackground;
         public Text valueText;
+        private GameObject overlay;
         
         void Awake()
         {
@@ -39,6 +40,8 @@ namespace CardGame.Cards
             suit = cardData.suit;
             cardValue = cardData.cardValue;
             UpdateVisual();
+            overlay = transform.Find("Overlay").gameObject;
+            TurnOffGlow();
         }
         
         void UpdateVisual()
@@ -60,10 +63,20 @@ namespace CardGame.Cards
                     card_set = CrownSprites;
                     break;
             }
-
+            
             cardBackground.sprite = card_set[cardValue - 1];
         }
         
+        public void TurnOffGlow()
+        {
+            overlay.SetActive(false);
+        }
+    
+        public void TurnOnGlow()
+        {
+            overlay.SetActive(true);
+        }
+
         Color GetSuitColor(Suits suit)
         {
             switch (suit)

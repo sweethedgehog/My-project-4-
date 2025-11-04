@@ -30,6 +30,7 @@ namespace CardGame.GameObjects
         
         private List<SimpleCard> cards = new List<SimpleCard>();
         private RectTransform rectTransform;
+        public bool neverGlow;
         
         void Awake()
         {
@@ -62,6 +63,11 @@ namespace CardGame.GameObjects
         public void AddCard(SimpleCard card)
         {
             if (card == null) return;
+
+            if (neverGlow)
+            {
+                card.TurnOffGlow();
+            }
             
             RectTransform cardRect = card.GetComponent<RectTransform>();
             

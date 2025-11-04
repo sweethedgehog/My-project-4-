@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using CardGame.Cards;
 
 namespace CardGame.Core
 {
@@ -83,7 +84,7 @@ namespace CardGame.Core
 
     public class CardLayout
     {
-        public List<Card> cards;
+        public List<SimpleCard> cards;
 
         private delegate int MultiplierFunc(int cardNum);
 
@@ -91,7 +92,7 @@ namespace CardGame.Core
 
         public CardLayout()
         {
-            cards = new List<Card>();
+            cards = new List<SimpleCard>();
 
             getMultiplier = new Dictionary<Suits, MultiplierFunc>
             {
@@ -108,9 +109,19 @@ namespace CardGame.Core
 
             for (int cardNum = 0; cardNum < cards.Count; cardNum++)
             {
-                Card card = cards[cardNum];
-                int multiplier = getMultiplier[card.cardSuit](cardNum);
-                result.AddScore(card.cardValue * multiplier, card.cardSuit);
+                SimpleCard card = cards[cardNum];
+                int multiplier = getMultiplier[card.suit](cardNum);
+				if (multiplier > 1)
+				{
+					card.TurnOnGlow();
+                    Debug.Log("make him see");
+				}
+				else
+				{
+					card.TurnOffGlow();
+				}	
+                result.AddScore(card.cardValue * multiplier, card.suit);
+				
             }
 
             return result;
@@ -122,7 +133,7 @@ namespace CardGame.Core
             cards.Clear();
         }
 
-        public void AddCard(Card card)
+        public void AddCard(SimpleCard card)
         {
             cards.Add(card);
         }
@@ -137,14 +148,14 @@ namespace CardGame.Core
             // Check left neighbor
             if (cardNum != 0)
             {
-                if (cards[cardNum - 1].cardSuit == suit)
+                if (cards[cardNum - 1].suit == suit)
                     return true;
             }
 
             // Check right neighbor
             if (cardNum != cards.Count - 1)
             {
-                if (cards[cardNum + 1].cardSuit == suit)
+                if (cards[cardNum + 1].suit == suit)
                     return true;
             }
 

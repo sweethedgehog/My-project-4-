@@ -395,8 +395,7 @@ namespace CardGame.Managers
             CardLayout layout = new CardLayout();
             foreach (var simpleCard in cards)
             {
-                Card card = new Card(simpleCard.GetSuit(), simpleCard.GetValue());
-                layout.AddCard(card);
+                layout.AddCard(simpleCard);
             }
             
             return layout.GetScore();

@@ -73,8 +73,7 @@ namespace CardGame.Scoring
             cardLayout.Clear();
             foreach (SimpleCard simpleCard in boardCards)
             {
-                Card card = new Card(simpleCard.GetSuit(), simpleCard.GetValue());
-                cardLayout.AddCard(card);
+                cardLayout.AddCard(simpleCard);
             }
             
             // Calculate score using CardLayout
