@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 using System.Collections;
@@ -8,6 +8,10 @@ using CardGame.Core;
 using CardGame.GameObjects;
 using CardGame.Scoring;
 using DefaultNamespace.Tiles;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
+using Image = UnityEngine.UI.Image;
+using Random = UnityEngine.Random;
 
 namespace CardGame.Managers
 {
@@ -48,12 +52,14 @@ namespace CardGame.Managers
         
         private int currentRound = 0;
         private List<SuccessCodes> scoreHistory = new List<SuccessCodes>(); // List of scores per round
-        private TilesManager _tilesManager;
+        private TilesManager tilesManager;
         private Dictionary<Suits, int> suitUsageCount = new Dictionary<Suits, int>(); // Track suit usage
         private int currentGoalValue;
         private Suits currentGoalSuit;
         private bool isDealing = false;
         private bool roundActive = false; // Track if round is in progress
+        private bool isRulesOpened = false;
+        private RulesPanel rulsePanel;
         
         void Start()
         {
@@ -82,7 +88,20 @@ namespace CardGame.Managers
             {
                 resultText.gameObject.SetActive(false);
             }
-            _tilesManager = GameObject.Find("Tiles Panel").GetComponent<TilesManager>();
+            tilesManager = GameObject.Find("Tiles Panel").GetComponent<TilesManager>();
+            rulsePanel = GameObject.Find("Rules Panel").GetComponentInChildren<RulesPanel>();
+            isRulesOpened = false;
+        }
+
+        private void Update()
+        {
+            if (isRulesOpened && Input.GetMouseButton(0)) RulesToggle();
+        }
+
+        public void RulesToggle()
+        {
+            isRulesOpened = !isRulesOpened;
+            rulsePanel.moveTo(isRulesOpened ? RulesCords.Open : RulesCords.closed);
         }
         
         /// <summary>
@@ -171,7 +190,7 @@ namespace CardGame.Managers
             // Calculate round score
             SuccessCodes roundScore = CalculateRoundScore(scorer);
             scoreHistory.Add(roundScore);
-            if (_tilesManager.isActive) _tilesManager.setVisibility(roundScore);
+            if (tilesManager.isActive) tilesManager.setVisibility(roundScore);
             
             // Show result
             StartCoroutine(ShowRoundResult(roundScore));

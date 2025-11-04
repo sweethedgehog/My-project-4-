@@ -5,6 +5,7 @@ using CardGame.Core;
 using CardGame.Cards;
 using CardGame.GameObjects;
 using TMPro;
+using UnityEngine.Serialization;
 
 namespace CardGame.Scoring
 {
@@ -17,11 +18,12 @@ namespace CardGame.Scoring
     {
         [Header("References")]
         [SerializeField] private TextMeshProUGUI totalScoreText;
-        [SerializeField] private Text redScoreText;
-        [SerializeField] private Text yellowScoreText;
-        [SerializeField] private Text blueScoreText;
-        [SerializeField] private Text greenScoreText;
+        [SerializeField] private TextMeshProUGUI roseScoreText;
+        [SerializeField] private TextMeshProUGUI crownScoreText;
+        [SerializeField] private TextMeshProUGUI skullScoreText;
+        [SerializeField] private TextMeshProUGUI coinsScoreText;
         [SerializeField] private TextMeshProUGUI dominantSuitText;
+        [SerializeField] private CryLogic crystal;
         
         [Header("Display Format")]
         [SerializeField] private string totalScoreFormat = "Total: {0}";
@@ -96,50 +98,51 @@ namespace CardGame.Scoring
             // Individual suit scores
             if (showBreakdown)
             {
-                if (redScoreText != null)
+                if (roseScoreText != null)
                 {
                     int redScore = score.GetSuitScore(Suits.Roses);
-                    redScoreText.text = string.Format(suitScoreFormat, "Red", redScore);
-                    redScoreText.color = GetSuitColor(Suits.Roses);
+                    roseScoreText.text = score.GetSuitScore(Suits.Roses).ToString();
+                    roseScoreText.color = GetSuitColor(Suits.Roses);
                 }
                 
-                if (yellowScoreText != null)
+                if (crownScoreText != null)
                 {
-                    int yellowScore = score.GetSuitScore(Suits.Skulls);
-                    yellowScoreText.text = string.Format(suitScoreFormat, "Yellow", yellowScore);
-                    yellowScoreText.color = GetSuitColor(Suits.Skulls);
+                    int yellowScore = score.GetSuitScore(Suits.Crowns);
+                    crownScoreText.text = score.GetSuitScore(Suits.Crowns).ToString();
+                    crownScoreText.color = GetSuitColor(Suits.Crowns);
                 }
                 
-                if (blueScoreText != null)
+                if (skullScoreText != null)
                 {
-                    int blueScore = score.GetSuitScore(Suits.Coins);
-                    blueScoreText.text = string.Format(suitScoreFormat, "Blue", blueScore);
-                    blueScoreText.color = GetSuitColor(Suits.Coins);
+                    int blueScore = score.GetSuitScore(Suits.Skulls);
+                    skullScoreText.text = score.GetSuitScore(Suits.Skulls).ToString();
+                    skullScoreText.color = GetSuitColor(Suits.Skulls);
                 }
                 
-                if (greenScoreText != null)
+                if (coinsScoreText != null)
                 {
-                    int greenScore = score.GetSuitScore(Suits.Crowns);
-                    greenScoreText.text = string.Format(suitScoreFormat, "Green", greenScore);
-                    greenScoreText.color = GetSuitColor(Suits.Crowns);
+                    int greenScore = score.GetSuitScore(Suits.Coins);
+                    coinsScoreText.text = score.GetSuitScore(Suits.Coins).ToString();
+                    coinsScoreText.color = GetSuitColor(Suits.Coins);
                 }
             }
             
             // Dominant suit
-            if (dominantSuitText != null)
-            {
-                Suits? dominant = score.GetDominantSuit();
-                if (dominant.HasValue)
-                {
-                    dominantSuitText.text = string.Format(dominantFormat, dominant.Value);
-                    dominantSuitText.color = GetSuitColor(dominant.Value);
-                }
-                else
-                {
-                    dominantSuitText.text = string.Format(dominantFormat, "Tie");
-                    dominantSuitText.color = Color.white;
-                }
-            }
+            // if (dominantSuitText != null)
+            // {
+            //     Suits? dominant = score.GetDominantSuit();
+            //     if (dominant.HasValue)
+            //     {
+            //         dominantSuitText.text = string.Format(dominantFormat, dominant.Value);
+            //         dominantSuitText.color = GetSuitColor(dominant.Value);
+            //     }
+            //     else
+            //     {
+            //         dominantSuitText.text = string.Format(dominantFormat, "Tie");
+            //         dominantSuitText.color = Color.white;
+            //     }
+            // }
+            if (crystal != null) crystal.setTexture(score.GetDominantSuit());
         }
         
         /// <summary>
