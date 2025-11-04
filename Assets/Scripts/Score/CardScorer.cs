@@ -150,6 +150,7 @@ namespace CardGame.Scoring
         /// </summary>
         private Color GetSuitColor(Suits suit)
         {
+            return Color.black;
             switch (suit)
             {
                 case Suits.Roses:
