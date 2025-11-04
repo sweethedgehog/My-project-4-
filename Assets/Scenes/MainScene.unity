@@ -154,8 +154,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 30.8, y: -240.40477}
-  m_SizeDelta: {x: 53.7921, y: 88.16}
+  m_AnchoredPosition: {x: 32.5228, y: -240.1}
+  m_SizeDelta: {x: 45.6216, y: 77.265}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &19158675
 MonoBehaviour:
@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28c3a72af3dad67428e4ea66166d33da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileScript
+  sprite: {fileID: 0}
 --- !u!114 &19158676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,8 +528,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -28.5, y: -240.40477}
-  m_SizeDelta: {x: 53.7921, y: 88.16}
+  m_AnchoredPosition: {x: -28.6554, y: -240.1}
+  m_SizeDelta: {x: 45.2812, y: 77.265}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &199155546
 MonoBehaviour:
@@ -542,6 +543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28c3a72af3dad67428e4ea66166d33da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileScript
+  sprite: {fileID: 0}
 --- !u!114 &199155547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1472,7 +1474,7 @@ MonoBehaviour:
   roundNumberText: {fileID: 0}
   scoreHistoryText: {fileID: 486951837}
   endRoundButton: {fileID: 1187628346}
-  endButtonText: {fileID: 0}
+  endButtonText: {fileID: 1070931503}
   resultText: {fileID: 0}
   resultDisplayTime: 2
   maxRounds: 6
@@ -1512,8 +1514,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 90.4, y: -240.40477}
-  m_SizeDelta: {x: 53.7921, y: 88.16}
+  m_AnchoredPosition: {x: 92.4815, y: -240.1}
+  m_SizeDelta: {x: 45.339, y: 77.265}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &878925360
 MonoBehaviour:
@@ -1527,6 +1529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28c3a72af3dad67428e4ea66166d33da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileScript
+  sprite: {fileID: 0}
 --- !u!114 &878925361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2208,8 +2211,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 150.5, y: -240.40477}
-  m_SizeDelta: {x: 53.7921, y: 88.16}
+  m_AnchoredPosition: {x: 152.7735, y: -240.1}
+  m_SizeDelta: {x: 45.3391, y: 77.265}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1225949956
 MonoBehaviour:
@@ -2223,6 +2226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28c3a72af3dad67428e4ea66166d33da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileScript
+  sprite: {fileID: 0}
 --- !u!114 &1225949957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2432,8 +2436,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -88.6, y: -240.40477}
-  m_SizeDelta: {x: 53.7921, y: 88.16}
+  m_AnchoredPosition: {x: -88.815, y: -240.1}
+  m_SizeDelta: {x: 45.9621, y: 77.265}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1451841460
 MonoBehaviour:
@@ -2447,6 +2451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28c3a72af3dad67428e4ea66166d33da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileScript
+  sprite: {fileID: 0}
 --- !u!114 &1451841461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3679,8 +3684,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -148.42091, y: -240.40477}
-  m_SizeDelta: {x: 53.7921, y: 88.16}
+  m_AnchoredPosition: {x: -149.11916, y: -240.10217}
+  m_SizeDelta: {x: 46.9834, y: 77.2661}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2020981101
 MonoBehaviour:
@@ -3694,6 +3699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28c3a72af3dad67428e4ea66166d33da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileScript
+  sprite: {fileID: 0}
 --- !u!114 &2020981102
 MonoBehaviour:
   m_ObjectHideFlags: 0
