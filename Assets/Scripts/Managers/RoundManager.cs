@@ -299,7 +299,7 @@ namespace CardGame.Managers
                 // Trigger deck click to draw card
                 UnityEngine.EventSystems.PointerEventData pointerData = 
                     new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
-                deck.OnPointerClick(pointerData);
+                deck.DrawCardOnBoard();
                 
                 // Wait before dealing next card
                 if (i < cardsToDeal - 1) // Don't wait after last card

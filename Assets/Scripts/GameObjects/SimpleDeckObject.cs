@@ -63,7 +63,24 @@ namespace CardGame.GameObjects
         public void OnPointerClick(PointerEventData eventData)
         {
             Debug.Log($"Deck clicked! SpawnDirectlyOnBoard: {spawnDirectlyOnBoard}, TargetBoard: {(targetBoard != null ? targetBoard.name : "NULL")}");
-            DrawCardUnderMouse();
+            // DrawCardUnderMouse();
+        }
+        
+        public void DrawCardOnBoard()
+        {
+            if (deck.IsEmpty())
+            {
+                Debug.Log("Deck is empty!");
+                return;
+            }
+            
+            CardData cardData = deck.Draw();
+            
+            if (cardData != null)
+            {   
+                SpawnCardOnBoard(cardData);
+                UpdateVisual();
+            }
         }
         
         void DrawCardUnderMouse()
