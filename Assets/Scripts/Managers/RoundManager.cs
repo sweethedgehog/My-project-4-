@@ -333,8 +333,9 @@ namespace CardGame.Managers
             // Update suit text
             if (goalSuitText != null)
             {
+                goalSuitText.color = Color.black;
                 goalSuitText.text = RoundTips.replicas[(int)currentGoalSuit - 1, currentRound];
-                goalSuitText.color = GetSuitColor(currentGoalSuit);
+                // goalSuitText.color = GetSuitColor(currentGoalSuit);
             }
             
             // Update goal card image (if using visual card)
@@ -554,13 +555,13 @@ namespace CardGame.Managers
             switch (suit)
             {
                 case Suits.Roses:
-                    return new Color(0.9f, 0.2f, 0.2f); // Red
+                    return new Color(0.92f, 0.11f, 0.14f); 
                 case Suits.Skulls:
-                    return new Color(1f, 0.9f, 0.2f); // Yellow
+                    return new Color(0.95f, 0.84f, 0.40f); 
                 case Suits.Coins:
-                    return new Color(0.2f, 0.5f, 1f); // Blue
+                    return new Color(0.22f, 0.46f, 0.27f); 
                 case Suits.Crowns:
-                    return new Color(0.2f, 0.8f, 0.3f); // Green
+                    return new Color(0.74f, 0.45f, 0.28f); 
                 default:
                     return Color.white;
             }
