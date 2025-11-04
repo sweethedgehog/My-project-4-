@@ -34,4 +34,5 @@ public class TileScript : MonoBehaviour, IPointerClickHandler
     public void changeSuccessSprites(Sprite sprite) => spriteSuccess = sprite;
     public void setIndex(int index) => this.index = index;
     public void OnPointerClick(PointerEventData eventData) => tilesManager.clickOn(index);
+    public void setFailerColor(Color color) => failColor = color;
 }

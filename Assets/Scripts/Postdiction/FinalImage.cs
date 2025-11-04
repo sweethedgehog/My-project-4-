@@ -7,21 +7,23 @@ public class FinalImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 {
     public PostdictionManager postdictionManager;
     public ImageType imageType;
+    public Sprite light;
+    public Sprite dark;
     private Image image;
     private bool selected = false;
     void Start()
     {
         image = GetComponent<Image>();
-        image.color = Color.darkGray;
+        image.sprite = dark;
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        image.color = Color.white;
+        image.sprite = light;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!selected) image.color = Color.darkGray;
+        if (!selected) image.sprite = dark;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -33,6 +35,6 @@ public class FinalImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void clearSelection()
     {
         selected = false;
-        image.color = Color.darkGray;
+        image.sprite = dark;
     }
 }

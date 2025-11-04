@@ -19,6 +19,7 @@ public class TilesManager : MonoBehaviour
     {
         for (int i = 0; i < tiles.Length; i++) tiles[i].setIndex(i);
         bigTile.setIndex(-1);
+        bigTile.setFailerColor(new  Color(1f, 1f, 1f, 0f));
     }
     public void setVisibility(SuccessCodes status)
     {
