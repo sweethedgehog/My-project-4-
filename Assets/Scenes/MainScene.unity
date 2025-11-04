@@ -270,7 +270,7 @@ MonoBehaviour:
   boardColor: {r: 0.2, g: 0.2, b: 0.2, a: 0.5}
   showBoardVisual: 1
   showDebugGizmos: 0
-  neverGlow: 0
+  neverGlow: 1
 --- !u!114 &52902510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,9 +411,9 @@ RectTransform:
   - {fileID: 2024086397}
   - {fileID: 1187628345}
   - {fileID: 1531373611}
-  - {fileID: 1715484305}
-  - {fileID: 2063028248}
   - {fileID: 1684653955}
+  - {fileID: 2063028248}
+  - {fileID: 1715484305}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
