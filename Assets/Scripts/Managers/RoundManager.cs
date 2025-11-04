@@ -25,7 +25,7 @@ namespace CardGame.Managers
         [SerializeField] private SimpleDeckObject deck;
         [SerializeField] private CardBoard handBoard;
         [SerializeField] private CardBoard targetBoard;
-        [SerializeField] private Button startRoundButton;
+        // [SerializeField] private Button startRoundButton;
         
         [Header("Goal Display")]
         [SerializeField] private TextMeshProUGUI goalValueText;
@@ -45,6 +45,8 @@ namespace CardGame.Managers
         [Header("End Round")]
         [SerializeField] private Button endRoundButton;
         [SerializeField] private Sprite postdictionSprite;
+        [SerializeField] private Sprite startSprite;
+        [SerializeField] private Sprite endSprite;
         [SerializeField] private TextMeshProUGUI resultText; // Shows round result
         [SerializeField] private float resultDisplayTime = 2f; // How long to show result
         
@@ -62,20 +64,17 @@ namespace CardGame.Managers
         private bool roundActive = false; // Track if round is in progress
         private bool isRulesOpened = false;
         private RulesPanel rulsePanel;
-        public static bool inGameMenu =  false;
+        public static bool inGameMenu = false;
+        private bool inDealState = true;
         
         void Start()
         {
-            // Setup buttons
-            if (startRoundButton != null)
-            {
-                startRoundButton.onClick.AddListener(StartRound);
-            }
-            
+            inGameMenu = false;
+            Time.timeScale = 1f;
             if (endRoundButton != null)
             {
-                endRoundButton.onClick.AddListener(EndRound);
-                endRoundButton.interactable = false; // Disabled until round starts
+                endRoundButton.onClick.AddListener(listener);
+                // endRoundButton.interactable = false; // Disabled until round starts
             }
             
             // Initialize suit usage counter
@@ -96,6 +95,25 @@ namespace CardGame.Managers
             isRulesOpened = false;
         }
 
+        private void listener()
+        {
+            if (currentRound >= maxRounds && inDealState)
+            {
+                StartPostdiction();
+                return;
+            }
+            Image buttonImage = endRoundButton.GetComponent<Image>();
+            if (inDealState) StartRound();
+            else inDealState = !EndRound();
+            
+            buttonImage.sprite = inDealState ? endSprite : startSprite;
+            inDealState = !inDealState;
+            if (currentRound >= maxRounds && inDealState)
+            {
+                buttonImage.sprite = postdictionSprite;
+            }
+        }
+        
         private void Update()
         {
             if (inGameMenu) return;
@@ -126,16 +144,16 @@ namespace CardGame.Managers
                 return;
             }
             
-            if (currentRound >= maxRounds)
-            {
-                Debug.Log("Game Over! Maximum rounds reached.");
-                if (startRoundButton != null)
-                {
-                    startRoundButton.interactable = false;
-                }
-                ShowGameOver();
-                return;
-            }
+            // if (currentRound >= maxRounds)
+            // {
+            //     Debug.Log("Game Over! Maximum rounds reached.");
+            //     if (startRoundButton != null)
+            //     {
+            //         startRoundButton.interactable = false;
+            //     }
+            //     ShowGameOver();
+            //     return;
+            // }
             
             if (deck == null || targetBoard == null || handBoard == null)
             {
@@ -155,21 +173,21 @@ namespace CardGame.Managers
             UpdateRoundDisplay();
             
             // Enable end round button
-            if (endRoundButton != null)
-            {
-                endRoundButton.interactable = true;
-            }
+            // if (endRoundButton != null)
+            // {
+            //     endRoundButton.interactable = true;
+            // }
         }
         
         /// <summary>
         /// End the current round and calculate score
         /// </summary>
-        public void EndRound()
+        public bool EndRound()
         {
             if (!roundActive)
             {
                 Debug.Log("No active round to end!");
-                return;
+                return false;
             }
             
             // Check if at least one card is on the board
@@ -180,7 +198,7 @@ namespace CardGame.Managers
                 {
                     StartCoroutine(ShowTemporaryMessage("Need at least 1 card!", Color.red));
                 }
-                return;
+                return false;
             }
             
             // Get the scorer from the board
@@ -189,7 +207,7 @@ namespace CardGame.Managers
             if (scorer == null)
             {
                 Debug.LogError("No CardScorer found on board!");
-                return;
+                return false;
             }
             
             // Calculate round score
@@ -209,22 +227,12 @@ namespace CardGame.Managers
             // Disable end round button
             if (endRoundButton != null)
             {
-                if (currentRound < maxRounds - 1) endRoundButton.interactable = false;
+                // if (currentRound < maxRounds - 1) endRoundButton.interactable = false;
             }
             
             UpdateScoreHistoryDisplay();
-            
-            // Check if game is over
-            if (currentRound >= maxRounds)
-            {
-                if (startRoundButton != null)
-                {
-                    endRoundButton.onClick.RemoveAllListeners();
-                    Image buttonImage = endRoundButton.GetComponent<Image>();
-                    buttonImage.sprite = postdictionSprite;
-                    endRoundButton.onClick.AddListener(StartPostdiction);
-                }
-            }
+
+            return true;
         }
 
         private void StartPostdiction() => SceneManager.LoadScene("PostDictionScene", LoadSceneMode.Additive);
@@ -277,10 +285,6 @@ namespace CardGame.Managers
             isDealing = true;
             
             // Disable button during dealing
-            if (startRoundButton != null)
-            {
-                startRoundButton.interactable = false;
-            }
             
             // Calculate how many cards to deal
             int currentCards = handBoard.CardCount + targetBoard.CardCount;
@@ -310,12 +314,6 @@ namespace CardGame.Managers
             }
             
             isDealing = false;
-            
-            // Re-enable button
-            if (startRoundButton != null)
-            {
-                startRoundButton.interactable = true;
-            }
             
             Debug.Log($"Round {currentRound} started! Board now has {targetBoard.CardCount} cards.");
         }
@@ -594,8 +592,8 @@ namespace CardGame.Managers
                 goalValueText.text = "?";
             if (goalSuitText != null)
                 goalSuitText.text = "Press Start";
-            if (endRoundButton != null)
-                endRoundButton.interactable = false;
+            // if (endRoundButton != null)
+            //     endRoundButton.interactable = false;
             
             Debug.Log("Game reset!");
         }
