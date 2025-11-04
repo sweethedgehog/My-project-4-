@@ -10,7 +10,11 @@ public class TilesManager : MonoBehaviour
     public Sprite[] storySprites;
     public TextMeshProUGUI failerText;
     public TextMeshProUGUI successText;
+    public AudioClip audioClipFail;
+    public AudioClip audioClipSuccess;
+    public AudioClip audioClipFullSuccess;
     public bool isActive = true;
+    private AudioSource audioSource;
     private int sumScore = 0;
     private int index = 0;
     public Color succesTextColor;
@@ -19,12 +23,25 @@ public class TilesManager : MonoBehaviour
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         for (int i = 0; i < tiles.Length; i++) tiles[i].setIndex(i);
         bigTile.setIndex(-1);
         bigTile.setFailerColor(new  Color(1f, 1f, 1f, 0f));
     }
     public void setVisibility(SuccessCodes status)
     {
+        switch (status)
+        {
+            case SuccessCodes.Failer:
+                audioSource.PlayOneShot(audioClipFail);
+                break;
+            case SuccessCodes.Patrial:
+                audioSource.PlayOneShot(audioClipSuccess);
+                break;
+            case SuccessCodes.Success:
+                audioSource.PlayOneShot(audioClipFullSuccess);
+                break;
+        }
         statuses[index] = status;
         sumScore += (int)status;
         tiles[index].setVisability(status);

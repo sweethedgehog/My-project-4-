@@ -54,6 +54,9 @@ namespace CardGame.Managers
         [SerializeField] private int maxRounds = 6;
         [SerializeField] private int maxSameSuitOccurrences = 2;
         
+        public AudioClip cardsShuffle;
+        
+        private AudioSource audioSource;
         private int currentRound = 0;
         private List<SuccessCodes> scoreHistory = new List<SuccessCodes>(); // List of scores per round
         private TilesManager tilesManager;
@@ -69,6 +72,7 @@ namespace CardGame.Managers
         
         void Start()
         {
+            audioSource = GetComponent<AudioSource>();
             inGameMenu = false;
             Time.timeScale = 1f;
             if (endRoundButton != null)
@@ -163,6 +167,7 @@ namespace CardGame.Managers
             
             currentRound++;
             roundActive = true;
+            audioSource.PlayOneShot(cardsShuffle);
             
             // Generate random goal
             GenerateGoal();
