@@ -4,6 +4,7 @@
     {
         Success = 2,
         Patrial = 1,
-        Failer = 0
+        Failer = 0,
+        None = -1
     }
 }

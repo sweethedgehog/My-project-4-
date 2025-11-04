@@ -2,8 +2,8 @@ using UnityEngine;
 
 public enum RulesCords
 {
-    Open = 333,
-    closed = 1505
+    Open = 300,
+    closed = 1550
 }
 public class RulesPanel : MonoBehaviour
 {
