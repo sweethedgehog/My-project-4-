@@ -1472,6 +1472,7 @@ MonoBehaviour:
   roundNumberText: {fileID: 0}
   scoreHistoryText: {fileID: 486951837}
   endRoundButton: {fileID: 1187628346}
+  endButtonText: {fileID: 1070931503}
   resultText: {fileID: 0}
   resultDisplayTime: 2
   maxRounds: 6

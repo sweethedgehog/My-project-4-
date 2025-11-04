@@ -8,6 +8,7 @@ using CardGame.Core;
 using CardGame.GameObjects;
 using CardGame.Scoring;
 using DefaultNamespace.Tiles;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
@@ -43,6 +44,7 @@ namespace CardGame.Managers
         
         [Header("End Round")]
         [SerializeField] private Button endRoundButton;
+        [SerializeField] private TextMeshProUGUI endButtonText;
         [SerializeField] private TextMeshProUGUI resultText; // Shows round result
         [SerializeField] private float resultDisplayTime = 2f; // How long to show result
         
@@ -60,6 +62,7 @@ namespace CardGame.Managers
         private bool roundActive = false; // Track if round is in progress
         private bool isRulesOpened = false;
         private RulesPanel rulsePanel;
+        public static bool inGameMenu =  false;
         
         void Start()
         {
@@ -95,7 +98,9 @@ namespace CardGame.Managers
 
         private void Update()
         {
+            if (inGameMenu) return;
             if (isRulesOpened && Input.GetMouseButton(0)) RulesToggle();
+            if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene("GameMenu", LoadSceneMode.Additive);
         }
 
         public void RulesToggle()
@@ -204,7 +209,7 @@ namespace CardGame.Managers
             // Disable end round button
             if (endRoundButton != null)
             {
-                endRoundButton.interactable = false;
+                if (currentRound < maxRounds - 1) endRoundButton.interactable = false;
             }
             
             UpdateScoreHistoryDisplay();
@@ -214,10 +219,14 @@ namespace CardGame.Managers
             {
                 if (startRoundButton != null)
                 {
-                    startRoundButton.interactable = false;
+                    endRoundButton.onClick.RemoveAllListeners();
+                    endButtonText.SetText("Make a Postdict");
+                    endRoundButton.onClick.AddListener(StartPostdiction);
                 }
             }
         }
+
+        private void StartPostdiction() => SceneManager.LoadScene("PostDictionScene", LoadSceneMode.Additive);
         
         /// <summary>
         /// Generate random goal value and suit

@@ -17,7 +17,7 @@ public class CryLogic : MonoBehaviour
     }
     public void setTexture(Suits? suits)
     {
-        // if (suits == null) return;
+        if (sprite == null) return;
         switch (suits)
         {
             case Suits.Coins:

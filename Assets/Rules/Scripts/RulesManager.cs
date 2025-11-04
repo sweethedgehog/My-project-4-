@@ -7,7 +7,12 @@ public class RulesManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape)) 
         {
-            SceneManager.LoadScene("MainMenu");
+            exit();
         }
+    }
+
+    public void exit()
+    { 
+        SceneManager.LoadScene("MainMenu");
     }
 }

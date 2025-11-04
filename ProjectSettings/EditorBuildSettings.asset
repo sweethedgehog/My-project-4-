@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 16eb79d8c08dba94a8f85390b1108c24
   - enabled: 1
-    path: Assets/Scenes/CardsGameplay.unity
-    guid: 67ee9c7ef77f5cb4088f7d11facec645
-  - enabled: 1
     path: Assets/Scenes/Creators.unity
     guid: c5156f957c81e744aaf759da543cc5ba
   - enabled: 1
@@ -20,6 +17,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameMenu.unity
     guid: 74c0901cfe180e74d9c239bb60001d0f
+  - enabled: 1
+    path: Assets/Scenes/MainScene.unity
+    guid: b89a30bff409f4344b7d9fab9e1bc2ab
+  - enabled: 1
+    path: Assets/Scenes/PostdictionScene.unity
+    guid: cfa8d66af5033de41885f0b748da572a
+  - enabled: 1
+    path: Assets/Scenes/Lose.unity
+    guid: 8904907bd054df642aa38366e5ba7f39
+  - enabled: 1
+    path: Assets/Scenes/Win.unity
+    guid: 8ee25c8e3802c1349bcca0b6b4843500
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
