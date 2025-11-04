@@ -262,7 +262,6 @@ MonoBehaviour:
   maxX: 300
   yPosition: 0
   edgeExtension: 100
-  boardHeight: 150
   moveSpeed: 10
   smoothMovement: 1
   boardColor: {r: 0.2, g: 0.2, b: 0.2, a: 0.5}
@@ -476,7 +475,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 613874100764734374, guid: fc6310ee6823ad14bb581df484017be6, type: 3}
-  m_Sprite: {fileID: -210835044580324145, guid: d23c71e4b605ef144bd9edd506eb3a59, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2539,6 +2537,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardGame.GameObjects.SimpleDeckObject
   deckColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
   cardCountText: {fileID: 418452708}
+  emptyDeckSprite: {fileID: 0}
+  fewCardsSprite: {fileID: -316444796795699890, guid: 9de340fcc11f89748b57ad54b5452f24, type: 3}
+  mediumCardsSprite: {fileID: -8441923500095732324, guid: 12411d4a469c064419b72495c209e521, type: 3}
+  manyCardsSprite: {fileID: 412305847452878508, guid: ffdfabac9e4b66e46b7afa2eab8f26d9, type: 3}
   simpleCardPrefab: {fileID: 0}
   parentCanvas: {fileID: 0}
   cardSize: {x: 80, y: 120}
@@ -3009,7 +3011,6 @@ MonoBehaviour:
   maxX: 300
   yPosition: 0
   edgeExtension: 150
-  boardHeight: 200
   moveSpeed: 10
   smoothMovement: 1
   boardColor: {r: 0.2, g: 0.2, b: 0.2, a: 0.5}
