@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CardGame.Cards;
@@ -16,11 +16,8 @@ namespace CardGame.GameObjects
         [SerializeField] private int maxCards = 5;
         [SerializeField] private float minX = -300f;
         [SerializeField] private float maxX = 300f;
-        [SerializeField] private float yPosition = 0f;    
-    
-		[Header("Edge Detection")]
-    	[SerializeField] private float edgeExtension = 100f;
-    	[SerializeField] private float boardHeight = 150f;
+        [SerializeField] private float yPosition = 0f;
+        [SerializeField] private float edgeExtension = 100f;
         
         [Header("Animation")]
         [SerializeField] private float moveSpeed = 10f;
@@ -42,50 +39,9 @@ namespace CardGame.GameObjects
                 rectTransform = gameObject.AddComponent<RectTransform>();
             }
             
-            // Setup visual if needed
             if (showBoardVisual)
             {
                 SetupBoardVisual();
-            }
-        }
-        
-        void OnDrawGizmosSelected()
-        {
-            if (!showDebugGizmos || rectTransform == null) return;
-            
-            // Draw the board detection area
-            Vector3 boardPos = transform.position;
-            
-            // Convert local board coordinates to world space for gizmos
-            float leftEdge = minX - edgeExtension;
-            float rightEdge = maxX + edgeExtension;
-            float topEdge = boardHeight / 2f;
-            float bottomEdge = -boardHeight / 2f;
-            
-            // Draw board rectangle (green)
-            Gizmos.color = Color.green;
-            Vector3[] corners = new Vector3[4];
-            corners[0] = transform.TransformPoint(new Vector3(minX, bottomEdge, 0));
-            corners[1] = transform.TransformPoint(new Vector3(maxX, bottomEdge, 0));
-            corners[2] = transform.TransformPoint(new Vector3(maxX, topEdge, 0));
-            corners[3] = transform.TransformPoint(new Vector3(minX, topEdge, 0));
-            
-            for (int i = 0; i < 4; i++)
-            {
-                Gizmos.DrawLine(corners[i], corners[(i + 1) % 4]);
-            }
-            
-            // Draw extended detection area (yellow)
-            Gizmos.color = Color.yellow;
-            Vector3[] extendedCorners = new Vector3[4];
-            extendedCorners[0] = transform.TransformPoint(new Vector3(leftEdge, bottomEdge, 0));
-            extendedCorners[1] = transform.TransformPoint(new Vector3(rightEdge, bottomEdge, 0));
-            extendedCorners[2] = transform.TransformPoint(new Vector3(rightEdge, topEdge, 0));
-            extendedCorners[3] = transform.TransformPoint(new Vector3(leftEdge, topEdge, 0));
-            
-            for (int i = 0; i < 4; i++)
-            {
-                Gizmos.DrawLine(extendedCorners[i], extendedCorners[(i + 1) % 4]);
             }
         }
         
@@ -97,7 +53,7 @@ namespace CardGame.GameObjects
                 img = gameObject.AddComponent<UnityEngine.UI.Image>();
             }
             img.color = boardColor;
-            img.raycastTarget = false; // Don't block card clicks
+            img.raycastTarget = false;
         }
         
         /// <summary>
@@ -108,21 +64,21 @@ namespace CardGame.GameObjects
             if (card == null) return;
             
             RectTransform cardRect = card.GetComponent<RectTransform>();
-            float cardX = cardRect.anchoredPosition.x;
             
-            // Find the best position to insert the card
+            // Get card position in board's local space
+            Vector2 localCardPos = transform.InverseTransformPoint(cardRect.position);
+            float cardX = localCardPos.x;
+            
             if (cards.Count == 0)
             {
-                // First card - just add it
                 cards.Add(card);
             }
             else
             {
-                // Find insertion point by checking distance to all positions (including beyond edges)
                 int bestIndex = 0;
                 float minDistance = float.MaxValue;
                 
-                // Check distance to each possible position (including edge extensions)
+                // Check all possible insertion positions
                 for (int i = 0; i <= cards.Count; i++)
                 {
                     float targetX = GetInsertionXPosition(i);
@@ -135,64 +91,13 @@ namespace CardGame.GameObjects
                     }
                 }
                 
-                // Insert at the best position
                 cards.Insert(bestIndex, card);
             }
             
-            // Update card's parent
             card.transform.SetParent(transform);
-            
-            // Rearrange all cards
             RebaseAllCards();
             
             Debug.Log($"Card added to board at position {cards.IndexOf(card)}. Total cards: {cards.Count}");
-        }
-        
-        /// <summary>
-        /// Check if a position is within the board's detection area
-        /// Now includes edges and vertical range
-        /// </summary>
-        public bool IsPositionNearBoard(Vector2 position)
-        {
-            // Get board position in local space
-            Vector2 boardCenter = rectTransform.anchoredPosition;
-            
-            // Check horizontal range (with edge extension)
-            float leftEdge = boardCenter.x + minX - edgeExtension;
-            float rightEdge = boardCenter.x + maxX + edgeExtension;
-            
-            // Check vertical range
-            float topEdge = boardCenter.y + boardHeight / 2f;
-            float bottomEdge = boardCenter.y - boardHeight / 2f;
-            
-            bool inHorizontalRange = position.x >= leftEdge && position.x <= rightEdge;
-            bool inVerticalRange = position.y >= bottomEdge && position.y <= topEdge;
-            
-            return inHorizontalRange && inVerticalRange;
-        }
-        
-        /// <summary>
-        /// Get the X position where a card would be if inserted at index
-        /// Used to find the best insertion point
-        /// </summary>
-        private float GetInsertionXPosition(int index)
-        {
-            if (cards.Count == 0)
-            {
-                return (minX + maxX) / 2f;
-            }
-            
-            // Calculate what the X would be with one more card
-            int futureCardCount = cards.Count + 1;
-            
-            float mid = minX + (maxX - minX) / 2f;
-            float offset = mid - minX;
-            float spread = (float)futureCardCount / maxCards;
-            
-            float rangeMin = mid - offset * spread;
-            float rangeMax = mid + offset * spread;
-            
-            return Map(index, 0, futureCardCount - 1, rangeMin, rangeMax);
         }
         
         /// <summary>
@@ -229,21 +134,50 @@ namespace CardGame.GameObjects
         
         /// <summary>
         /// Calculate X position for card at index
+        /// Uses actual board width for adaptive sizing
         /// </summary>
         private float GetCardXPosition(int index)
         {
-            float mid = minX + (maxX - minX) / 2f;
-            float offset = mid - minX;
-            float spread = (float)cards.Count / maxCards;
+            if (cards.Count <= 1)
+            {
+                return 0f;
+            }
             
-            float rangeMin = mid - offset * spread;
-            float rangeMax = mid + offset * spread;
+            float boardWidth = rectTransform.rect.width;
+            float usableWidth = boardWidth * 0.8f;
+            float spreadFactor = Mathf.Min(1f, (float)cards.Count / maxCards);
+            float actualSpread = usableWidth * spreadFactor;
             
-            return Map(index, 0, cards.Count - 1, rangeMin, rangeMax);
+            float leftEdge = -actualSpread / 2f;
+            float rightEdge = actualSpread / 2f;
+            
+            return Map(index, 0, cards.Count - 1, leftEdge, rightEdge);
         }
         
         /// <summary>
-        /// Set target position for a card (with optional smooth movement)
+        /// Get the X position where a card would be if inserted at index
+        /// </summary>
+        private float GetInsertionXPosition(int index)
+        {
+            if (cards.Count == 0)
+            {
+                return 0f;
+            }
+            
+            int futureCardCount = cards.Count + 1;
+            float boardWidth = rectTransform.rect.width;
+            float usableWidth = boardWidth * 0.8f;
+            float spreadFactor = Mathf.Min(1f, (float)futureCardCount / maxCards);
+            float actualSpread = usableWidth * spreadFactor;
+            
+            float leftEdge = -actualSpread / 2f;
+            float rightEdge = actualSpread / 2f;
+            
+            return Map(index, 0, futureCardCount - 1, leftEdge, rightEdge);
+        }
+        
+        /// <summary>
+        /// Set target position for a card
         /// </summary>
         private void SetCardTargetPosition(SimpleCard card, Vector2 targetPos)
         {
@@ -252,7 +186,6 @@ namespace CardGame.GameObjects
             
             if (smoothMovement)
             {
-                // Add smooth movement component if not present
                 SmoothCardMover mover = card.GetComponent<SmoothCardMover>();
                 if (mover == null)
                 {
@@ -262,9 +195,35 @@ namespace CardGame.GameObjects
             }
             else
             {
-                // Instant positioning
                 cardRect.anchoredPosition = targetPos;
             }
+        }
+        
+        /// <summary>
+        /// Check if a position is within the board's detection area
+        /// </summary>
+        public bool IsPositionNearBoard(Vector2 screenPosition)
+        {
+            Vector2 localPos;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                rectTransform,
+                screenPosition,
+                null,
+                out localPos
+            );
+            
+            float boardWidth = rectTransform.rect.width;
+            float boardHeight = rectTransform.rect.height;
+            
+            float leftEdge = -boardWidth / 2f - edgeExtension;
+            float rightEdge = boardWidth / 2f + edgeExtension;
+            float topEdge = boardHeight / 2f + boardHeight * 0.2f;
+            float bottomEdge = -boardHeight / 2f - boardHeight * 0.2f;
+            
+            bool inHorizontalRange = localPos.x >= leftEdge && localPos.x <= rightEdge;
+            bool inVerticalRange = localPos.y >= bottomEdge && localPos.y <= topEdge;
+            
+            return inHorizontalRange && inVerticalRange;
         }
         
         /// <summary>
@@ -296,7 +255,7 @@ namespace CardGame.GameObjects
         }
         
         /// <summary>
-        /// Manually reorder a card (for shuffling)
+        /// Manually reorder a card
         /// </summary>
         public void MoveCard(SimpleCard card, int newIndex)
         {
@@ -331,6 +290,43 @@ namespace CardGame.GameObjects
                 return null;
             return cards[index];
         }
+        
+        void OnDrawGizmosSelected()
+        {
+            if (!showDebugGizmos || rectTransform == null) return;
+            
+            float boardWidth = rectTransform.rect.width;
+            float boardHeight = rectTransform.rect.height;
+            
+            float leftEdge = -boardWidth / 2f - edgeExtension;
+            float rightEdge = boardWidth / 2f + edgeExtension;
+            float topEdge = boardHeight / 2f + boardHeight * 0.2f;
+            float bottomEdge = -boardHeight / 2f - boardHeight * 0.2f;
+            
+            Gizmos.color = Color.green;
+            Vector3[] corners = new Vector3[4];
+            corners[0] = transform.TransformPoint(new Vector3(-boardWidth / 2f, bottomEdge + boardHeight * 0.2f, 0));
+            corners[1] = transform.TransformPoint(new Vector3(boardWidth / 2f, bottomEdge + boardHeight * 0.2f, 0));
+            corners[2] = transform.TransformPoint(new Vector3(boardWidth / 2f, topEdge - boardHeight * 0.2f, 0));
+            corners[3] = transform.TransformPoint(new Vector3(-boardWidth / 2f, topEdge - boardHeight * 0.2f, 0));
+            
+            for (int i = 0; i < 4; i++)
+            {
+                Gizmos.DrawLine(corners[i], corners[(i + 1) % 4]);
+            }
+            
+            Gizmos.color = Color.yellow;
+            Vector3[] extendedCorners = new Vector3[4];
+            extendedCorners[0] = transform.TransformPoint(new Vector3(leftEdge, bottomEdge, 0));
+            extendedCorners[1] = transform.TransformPoint(new Vector3(rightEdge, bottomEdge, 0));
+            extendedCorners[2] = transform.TransformPoint(new Vector3(rightEdge, topEdge, 0));
+            extendedCorners[3] = transform.TransformPoint(new Vector3(leftEdge, topEdge, 0));
+            
+            for (int i = 0; i < 4; i++)
+            {
+                Gizmos.DrawLine(extendedCorners[i], extendedCorners[(i + 1) % 4]);
+            }
+        }
     }
     
     /// <summary>
@@ -359,12 +355,10 @@ namespace CardGame.GameObjects
         {
             if (!isMoving) return;
             
-            // Smoothly move towards target
             Vector2 currentPos = rectTransform.anchoredPosition;
             Vector2 newPos = Vector2.Lerp(currentPos, targetPosition, Time.deltaTime * speed);
             rectTransform.anchoredPosition = newPos;
             
-            // Stop when close enough
             if (Vector2.Distance(newPos, targetPosition) < 0.1f)
             {
                 rectTransform.anchoredPosition = targetPosition;
