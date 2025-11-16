@@ -275,7 +275,7 @@ namespace CardGame.GameObjects
 			}
 			else
           	{
-				deckImage.sprite = null;
+				deckImage.color = new Color(0, 0, 0, 0);
 			}
             
             if (cardCountText != null)
