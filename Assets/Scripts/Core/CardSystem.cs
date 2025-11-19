@@ -114,7 +114,6 @@ namespace CardGame.Core
 				if (multiplier > 1)
 				{
 					card.TurnOnGlow();
-                    Debug.Log("make him see");
 				}
 				else
 				{

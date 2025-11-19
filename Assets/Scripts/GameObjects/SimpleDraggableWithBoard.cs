@@ -18,7 +18,6 @@ namespace CardGame.GameObjects
         private SimpleCard simpleCard;
         private CardBoard currentBoard;
         private CardBoard hoverBoard;
-        private Transform originalParent;
         private bool isDragging = false;
         private Vector2 offset;
         
@@ -67,11 +66,11 @@ namespace CardGame.GameObjects
             isDragging = true;
             canvasGroup.blocksRaycasts = false;
             
-            // Remember original parent
-            originalParent = transform.parent;
-            
-            // Store current SCREEN position before parent change
-            Vector3 worldPos = rectTransform.position;
+            SmoothCardMover mover = GetComponent<SmoothCardMover>();
+            if (mover != null)
+            {
+                mover.Stop();  
+            }
             
             // Remove from current board if on one
             currentBoard = GetComponentInParent<CardBoard>();
@@ -83,9 +82,6 @@ namespace CardGame.GameObjects
             // Move to canvas root for free dragging
             transform.SetParent(canvas.transform);
             transform.SetAsLastSibling();
-            
-            // Restore the world position after parent change
-            rectTransform.position = worldPos;
             
             // Recalculate offset based on current position
             Vector2 mousePos;
@@ -101,8 +97,7 @@ namespace CardGame.GameObjects
         
         public void OnDrag(PointerEventData eventData)
         {
-            if (!isDragging) return;
-            
+   
             Vector2 mousePos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 canvas.transform as RectTransform,
@@ -110,6 +105,7 @@ namespace CardGame.GameObjects
                 canvas.worldCamera,
                 out mousePos
             );
+            Debug.Log(mousePos);
             
             rectTransform.anchoredPosition = mousePos + offset;
             

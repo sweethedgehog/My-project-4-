@@ -356,6 +356,11 @@ namespace CardGame.GameObjects
             speed = moveSpeed;
             isMoving = true;
         }
+
+        public void Stop()
+        {
+            isMoving = false;
+        }
         
         void Update()
         {
