@@ -23,7 +23,7 @@ namespace CardGame.Cards
         [Header("UI References")]
         public Image cardBackground;
         public Text valueText;
-        private GameObject overlay;
+        public GameObject overlay;
         
         void Awake()
         {
@@ -93,7 +93,8 @@ namespace CardGame.Cards
                     return Color.white;
             }
         }
-        
+
+        public CardData GetCardData() => new CardData(suit, cardValue);
         // Get properties
         public Suits GetSuit() => suit;
         public int GetValue() => cardValue;

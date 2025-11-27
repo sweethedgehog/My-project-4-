@@ -106,6 +106,13 @@ namespace CardGame.GameObjects
                 UpdateVisual();
             }
         }
+
+        public void ShuffleCardIntoDeck(CardData cardData)
+        {
+            deck.PutCardIntoDeck(cardData);
+            deck.Shuffle();
+            UpdateVisual();
+        }
         
         void SpawnCardOnBoard(CardData cardData)
         {

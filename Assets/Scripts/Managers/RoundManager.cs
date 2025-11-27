@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
+using CardGame.Cards;
 using CardGame.Core;
 using CardGame.GameObjects;
 using CardGame.Scoring;
@@ -44,6 +45,8 @@ namespace CardGame.Managers
         
         [Header("End Round")]
         [SerializeField] private Button endRoundButton;
+        [SerializeField] private Button rerollSuitButton;
+        [SerializeField] private Button rerollCardsButton;
         [SerializeField] private Sprite postdictionSprite;
         [SerializeField] private Sprite startSprite;
         [SerializeField] private Sprite endSprite;
@@ -81,6 +84,8 @@ namespace CardGame.Managers
                 // endRoundButton.interactable = false; // Disabled until round starts
             }
             
+            rerollSuitButton.onClick.AddListener(RerollSuitGoal);
+            rerollCardsButton.onClick.AddListener(RerollCards);
             // Initialize suit usage counter
             foreach (Suits suit in System.Enum.GetValues(typeof(Suits)))
             {
@@ -242,17 +247,28 @@ namespace CardGame.Managers
 
         private void StartPostdiction() => SceneManager.LoadScene("PostDictionScene", LoadSceneMode.Additive);
         
-        /// <summary>
-        /// Generate random goal value and suit
-        /// Ensures no suit appears more than maxSameSuitOccurrences times
-        /// </summary>
         private void GenerateGoal()
         {
             // Random value between min and max (inclusive)
             currentGoalValue = Random.Range(minGoalValue, maxGoalValue + 1);
             
             // Get available suits (those that haven't reached the limit)
-            List<Suits> availableSuits = new List<Suits>();
+            RollNewSuitGoal();
+            
+            // Update display
+            UpdateGoalDisplay();
+        }
+
+		private void RerollSuitGoal()
+		{
+			suitUsageCount[currentGoalSuit]--;
+			RollNewSuitGoal();
+            UpdateGoalDisplay();
+		}       
+
+		private void RollNewSuitGoal()
+		{
+			List<Suits> availableSuits = new List<Suits>();
             foreach (Suits suit in System.Enum.GetValues(typeof(Suits)))
             {
                 if (suitUsageCount[suit] < maxSameSuitOccurrences)
@@ -264,7 +280,6 @@ namespace CardGame.Managers
             if (availableSuits.Count == 0)
             {
                 Debug.LogWarning("All suits have reached max usage! Resetting suit counters.");
-                // Reset if somehow all suits are exhausted (shouldn't happen with proper limits)
                 foreach (Suits suit in System.Enum.GetValues(typeof(Suits)))
                 {
                     suitUsageCount[suit] = 0;
@@ -275,17 +290,32 @@ namespace CardGame.Managers
             // Random suit from available ones
             currentGoalSuit = availableSuits[Random.Range(0, availableSuits.Count)];
             suitUsageCount[currentGoalSuit]++;
+		}
+
+        private void RerollCards()
+        {
+            StartCoroutine(GetAnotherSetOfCards());
+        }
+
+        private IEnumerator GetAnotherSetOfCards()
+        {
+            List<SimpleCard> currentCards = new List<SimpleCard>();
+            currentCards.AddRange(handBoard.GetCards());
+            currentCards.AddRange(targetBoard.GetCards());
+    
+            foreach (SimpleCard card in currentCards)
+            {
+                deck.ShuffleCardIntoDeck(card.GetCardData());
+                Destroy(card.gameObject);
+                yield return new WaitForSeconds(dealDelay);
+            }
+            handBoard.ClearBoard();
+            targetBoard.ClearBoard();
             
-            Debug.Log($"Round {currentRound} Goal: {currentGoalSuit} - Value {currentGoalValue} (Suit usage: {suitUsageCount[currentGoalSuit]}/{maxSameSuitOccurrences})");
-            
-            // Update display
-            UpdateGoalDisplay();
+            yield return StartCoroutine(DealCardsToBoard());
         }
         
-        /// <summary>
-        /// Deal cards from deck to board
-        /// </summary>
-        private IEnumerator DealCardsToBoard()
+		private IEnumerator DealCardsToBoard()
         {
             isDealing = true;
             
@@ -293,9 +323,7 @@ namespace CardGame.Managers
             
             // Calculate how many cards to deal
             int currentCards = handBoard.CardCount + targetBoard.CardCount;
-            int cardsToDeal = Mathf.Max(0, cardsPerRound - currentCards);
-            
-            Debug.Log($"Board has {currentCards} cards. Dealing {cardsToDeal} more cards.");
+            int cardsToDeal = cardsPerRound - currentCards;
             
             // Deal cards one by one with delay
             for (int i = 0; i < cardsToDeal; i++)
@@ -307,12 +335,10 @@ namespace CardGame.Managers
                 }
                 
                 // Trigger deck click to draw card
-                UnityEngine.EventSystems.PointerEventData pointerData = 
-                    new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
                 deck.DrawCardOnBoard();
                 
                 // Wait before dealing next card
-                if (i < cardsToDeal - 1) // Don't wait after last card
+                if (i < cardsToDeal - 1)
                 {
                     yield return new WaitForSeconds(dealDelay);
                 }

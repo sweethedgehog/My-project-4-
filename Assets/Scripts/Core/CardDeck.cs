@@ -71,6 +71,11 @@ namespace CardGame.Core
             
             Debug.Log("Deck shuffled");
         }
+
+        public void PutCardIntoDeck(CardData card)
+        {
+            deck.Add(card);
+        }
         
         public CardData Draw()
         {

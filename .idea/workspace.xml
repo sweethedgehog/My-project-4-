@@ -6,12 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="0256149a-2497-4659-b2d6-196da940d533" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Objects/Card.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Objects/Card.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/CardSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/CardSystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameObjects/CardBoard.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameObjects/CardBoard.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Cards/SimpleCard.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Cards/SimpleCard.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/CardDeck.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/CardDeck.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameObjects/SimpleDeckObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameObjects/SimpleDeckObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameObjects/SimpleDraggableWithBoard.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameObjects/SimpleDraggableWithBoard.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Score/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Score/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/RoundManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/RoundManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,8 +25,11 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/f36f3fb494b94715ac58523f0373e13110400/d4/de5acd51/02000017pdb22.il" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3209c419f8514dc7af6f7bbce69cabc61f7200/01/aa05975e/Color.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3209c419f8514dc7af6f7bbce69cabc61f7200/68/f5a789a9/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3209c419f8514dc7af6f7bbce69cabc61f7200/cb/9226e886/Transform.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bed9669261d44da0a59448ecde2b1a5c46ae00/aa/17553aaa/List`1.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Cards/SimpleCard.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Core/CardData.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Core/CardDeck.cs" root0="SKIP_HIGHLIGHTING" />
@@ -49,27 +51,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Attach to Unity Editor.Attach to Unity Editor.executor&quot;: &quot;Debug&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.23769633&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/2&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Attach to Unity Editor.Attach to Unity Editor.executor": "Debug",
+    "Attach to Unity Player.Unity.exe (AssetImportWorker0).executor": "Debug",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "XThreadsFramesViewSplitterKey": "0.23769633",
+    "git-widget-placeholder": "feature/2",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager">
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="13224">
+}]]></component>
+  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="12988">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="13224" />
+      <option name="pid" value="12988" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
         <list>
@@ -82,6 +85,21 @@
       <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
+    <configuration name="Unity.exe (AssetImportWorker0)" type="UnityPlayer" factoryName="UnityAttachToPlayer" temporary="true">
+      <option name="host" value="127.0.0.1" />
+      <option name="pid" value="12836" />
+      <option name="playerId" value="EditorHelper(Unity.exe-AssetImportWorker0-My-project-4-)" />
+      <option name="playerInstanceId" value="My-project-4-" />
+      <option name="port" value="56836" />
+      <option name="projectName" value="My-project-4-" />
+      <option name="roleName" value="AssetImportWorker0" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Attach to Unity Player.Unity.exe (AssetImportWorker0)" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -92,6 +110,7 @@
       <updated>1763333827413</updated>
       <workItem from="1763333830068" duration="7335000" />
       <workItem from="1763537205882" duration="2571000" />
+      <workItem from="1764195321793" duration="6154000" />
     </task>
     <servers />
   </component>
@@ -102,6 +121,17 @@
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityProjectDiscoverer">
     <option name="unityProjectFolder" value="true" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
