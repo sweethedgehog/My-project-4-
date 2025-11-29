@@ -261,19 +261,6 @@ namespace CardGame.GameObjects
         }
         
         /// <summary>
-        /// Manually reorder a card
-        /// </summary>
-        public void MoveCard(SimpleCard card, int newIndex)
-        {
-            if (!cards.Contains(card)) return;
-            
-            cards.Remove(card);
-            newIndex = Mathf.Clamp(newIndex, 0, cards.Count);
-            cards.Insert(newIndex, card);
-            RebaseAllCards();
-        }
-        
-        /// <summary>
         /// Swap two cards on the board
         /// </summary>
         public void SwapCards(int index1, int index2)
@@ -295,43 +282,6 @@ namespace CardGame.GameObjects
             if (index < 0 || index >= cards.Count)
                 return null;
             return cards[index];
-        }
-        
-        void OnDrawGizmosSelected()
-        {
-            if (!showDebugGizmos || rectTransform == null) return;
-            
-            float boardWidth = rectTransform.rect.width;
-            float boardHeight = rectTransform.rect.height;
-            
-            float leftEdge = -boardWidth / 2f - edgeExtension;
-            float rightEdge = boardWidth / 2f + edgeExtension;
-            float topEdge = boardHeight / 2f + boardHeight * 0.2f;
-            float bottomEdge = -boardHeight / 2f - boardHeight * 0.2f;
-            
-            Gizmos.color = Color.green;
-            Vector3[] corners = new Vector3[4];
-            corners[0] = transform.TransformPoint(new Vector3(-boardWidth / 2f, bottomEdge + boardHeight * 0.2f, 0));
-            corners[1] = transform.TransformPoint(new Vector3(boardWidth / 2f, bottomEdge + boardHeight * 0.2f, 0));
-            corners[2] = transform.TransformPoint(new Vector3(boardWidth / 2f, topEdge - boardHeight * 0.2f, 0));
-            corners[3] = transform.TransformPoint(new Vector3(-boardWidth / 2f, topEdge - boardHeight * 0.2f, 0));
-            
-            for (int i = 0; i < 4; i++)
-            {
-                Gizmos.DrawLine(corners[i], corners[(i + 1) % 4]);
-            }
-            
-            Gizmos.color = Color.yellow;
-            Vector3[] extendedCorners = new Vector3[4];
-            extendedCorners[0] = transform.TransformPoint(new Vector3(leftEdge, bottomEdge, 0));
-            extendedCorners[1] = transform.TransformPoint(new Vector3(rightEdge, bottomEdge, 0));
-            extendedCorners[2] = transform.TransformPoint(new Vector3(rightEdge, topEdge, 0));
-            extendedCorners[3] = transform.TransformPoint(new Vector3(leftEdge, topEdge, 0));
-            
-            for (int i = 0; i < 4; i++)
-            {
-                Gizmos.DrawLine(extendedCorners[i], extendedCorners[(i + 1) % 4]);
-            }
         }
     }
     

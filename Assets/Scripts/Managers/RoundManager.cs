@@ -41,7 +41,8 @@ namespace CardGame.Managers
         
         [Header("Round Info")]
         [SerializeField] private TextMeshProUGUI roundNumberText; // Optional: show current round
-        [SerializeField] private TextMeshProUGUI scoreHistoryText; // Shows score list: "1, 0.5, 1"
+        [SerializeField] private TextMeshProUGUI scoreHistoryText;
+        [SerializeField] private TextMeshProUGUI availabilityText; 
         
         [Header("End Round")]
         [SerializeField] private Button endRoundButton;
@@ -153,17 +154,6 @@ namespace CardGame.Managers
                 return;
             }
             
-            // if (currentRound >= maxRounds)
-            // {
-            //     Debug.Log("Game Over! Maximum rounds reached.");
-            //     if (startRoundButton != null)
-            //     {
-            //         startRoundButton.interactable = false;
-            //     }
-            //     ShowGameOver();
-            //     return;
-            // }
-            
             if (deck == null || targetBoard == null || handBoard == null)
             {
                 Debug.LogError("Deck or Board not assigned!");
@@ -181,12 +171,30 @@ namespace CardGame.Managers
             StartCoroutine(DealCardsToBoard());
             
             UpdateRoundDisplay();
+        }
+
+        private void CheckAvailability()
+        {
+            List<SimpleCard> currentCards = GetActiveCards();
+            List<CardData> cardsData = new List<CardData>();
+            foreach (var card in currentCards)
+            {
+                cardsData.Add(card.GetCardData());
+            }
             
-            // Enable end round button
-            // if (endRoundButton != null)
-            // {
-            //     endRoundButton.interactable = true;
-            // }
+            int result = CardCombinations.AllOrderedSubsets(cardsData, currentGoalValue, currentGoalSuit);
+            if (result == 2)
+            {
+                availabilityText.text = "Full";
+            }
+            if (result == 1)
+            {
+                availabilityText.text = "Only value";
+            }
+            if (result == 0)
+            {
+                availabilityText.text = "Nothing Here";
+            }
         }
         
         /// <summary>
@@ -297,11 +305,17 @@ namespace CardGame.Managers
             StartCoroutine(GetAnotherSetOfCards());
         }
 
+        private List<SimpleCard> GetActiveCards()
+        {
+            List<SimpleCard> result = new List<SimpleCard>();
+            result.AddRange(handBoard.GetCards());
+            result.AddRange(targetBoard.GetCards());
+            return result;
+        }
+        
         private IEnumerator GetAnotherSetOfCards()
         {
-            List<SimpleCard> currentCards = new List<SimpleCard>();
-            currentCards.AddRange(handBoard.GetCards());
-            currentCards.AddRange(targetBoard.GetCards());
+            List<SimpleCard> currentCards = GetActiveCards();
     
             foreach (SimpleCard card in currentCards)
             {
@@ -347,6 +361,7 @@ namespace CardGame.Managers
             isDealing = false;
             
             Debug.Log($"Round {currentRound} started! Board now has {targetBoard.CardCount} cards.");
+            CheckAvailability();
         }
         
         /// <summary>
@@ -373,6 +388,8 @@ namespace CardGame.Managers
             {
                 goalCardImage.color = GetSuitColor(currentGoalSuit);
             }
+
+            CheckAvailability();
         }
         
         /// <summary>

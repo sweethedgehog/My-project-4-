@@ -206,4 +206,116 @@ namespace CardGame.Core
         }
 
     }
+    
+    public static class CardCombinations
+    {
+        /// <summary>
+        /// Generate all ordered subsets of a collection and check for goal match.
+        /// Returns: 0 (no match), 1 (score match only), or 2 (perfect match with suit)
+        /// </summary>
+        public static int AllOrderedSubsets(List<CardData> cards, int goalValue, Suits goalSuit)
+        {
+            int n = cards.Count;
+            int maxScore = 0;
+
+            // For each possible subset size (0 to n)
+            for (int size = 0; size <= n; size++)
+            {
+                // Get all combinations of that size
+                foreach (var combo in GetCombinations(cards, size))
+                {
+                    // Early skip: if sum of values * 2 < goal, skip
+                    int sumValues = combo.Sum(x => x.cardValue);
+                    if (sumValues * 2 < goalValue)
+                        continue;
+
+                    // Get all permutations of this combination
+                    foreach (var perm in GetPermutations(combo))
+                    {
+                        CardLayout layout = new CardLayout();
+                        foreach (var card in perm)
+                        {
+                            SimpleCard layoutCard = new SimpleCard();
+                            layoutCard.SetCardData(card);
+                            layout.AddCard(layoutCard);
+                        }
+
+                        Score score = layout.GetScore();
+                        
+                        if (score.GetFullScore() == goalValue)
+                        {
+                            maxScore = 1;
+                            
+                            Suits? dominantSuit = score.GetDominantSuit();
+                            if (dominantSuit.HasValue && dominantSuit.Value == goalSuit)
+                            {
+                                return 2; // Perfect match!
+                            }
+                        }
+                    }
+                }
+            }
+
+            return maxScore;
+        }
+
+        /// <summary>
+        /// Generate all combinations of a specific size from a list
+        /// </summary>
+        private static IEnumerable<List<T>> GetCombinations<T>(List<T> list, int size)
+        {
+            if (size == 0)
+            {
+                yield return new List<T>();
+                yield break;
+            }
+
+            if (list.Count == 0)
+                yield break;
+
+            // Include first element
+            T first = list[0];
+            List<T> rest = list.Skip(1).ToList();
+
+            foreach (var combo in GetCombinations(rest, size - 1))
+            {
+                List<T> newCombo = new List<T> { first };
+                newCombo.AddRange(combo);
+                yield return newCombo;
+            }
+
+            // Exclude first element
+            foreach (var combo in GetCombinations(rest, size))
+            {
+                yield return combo;
+            }
+        }
+
+        /// <summary>
+        /// Generate all permutations of a list
+        /// </summary>
+        private static IEnumerable<List<T>> GetPermutations<T>(List<T> list)
+        {
+            if (list.Count <= 1)
+            {
+                yield return new List<T>(list);
+                yield break;
+            }
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                T current = list[i];
+                List<T> remaining = new List<T>(list);
+                remaining.RemoveAt(i);
+
+                foreach (var perm in GetPermutations(remaining))
+                {
+                    List<T> result = new List<T> { current };
+                    result.AddRange(perm);
+                    yield return result;
+                }
+            }
+        }
+    }
+
 }

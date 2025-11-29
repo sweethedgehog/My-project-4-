@@ -25,6 +25,8 @@ namespace CardGame.Cards
         public Text valueText;
         public GameObject overlay;
         
+        private bool glowable = false;
+        
         void Awake()
         {
             // Auto-find components if not assigned
@@ -34,12 +36,18 @@ namespace CardGame.Cards
             if (valueText == null)
                 valueText = GetComponentInChildren<Text>();
         }
-        
-        public void Initialize(CardData cardData)
+
+        public void SetCardData(CardData cardData)
         {
             suit = cardData.suit;
             cardValue = cardData.cardValue;
+        }
+        
+        public void Initialize(CardData cardData)
+        {
+            SetCardData(cardData);
             UpdateVisual();
+            glowable = true;
             overlay = transform.Find("Overlay").gameObject;
             TurnOffGlow();
         }
@@ -69,28 +77,17 @@ namespace CardGame.Cards
         
         public void TurnOffGlow()
         {
-            overlay.SetActive(false);
+            if (glowable)
+            {
+                overlay.SetActive(false);
+            }
         }
     
         public void TurnOnGlow()
         {
-            overlay.SetActive(true);
-        }
-
-        Color GetSuitColor(Suits suit)
-        {
-            switch (suit)
+            if (glowable)
             {
-                case Suits.Roses:
-                    return new Color(0.9f, 0.2f, 0.2f); // Bright red
-                case Suits.Skulls:
-                    return new Color(1f, 0.9f, 0.2f); // Bright yellow
-                case Suits.Coins:
-                    return new Color(0.2f, 0.5f, 1f); // Bright blue
-                case Suits.Crowns:
-                    return new Color(0.2f, 0.8f, 0.3f); // Bright green
-                default:
-                    return Color.white;
+                overlay.SetActive(true);
             }
         }
 
