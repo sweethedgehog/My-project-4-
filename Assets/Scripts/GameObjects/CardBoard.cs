@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CardGame.Cards;
+using CardGame.Scoring;
+using CardGame.Core;
+
 
 namespace CardGame.GameObjects
 {
@@ -26,9 +29,8 @@ namespace CardGame.GameObjects
         [Header("Visual Feedback")]
         [SerializeField] private Color boardColor = new Color(0.2f, 0.2f, 0.2f, 0.5f);
         [SerializeField] private bool showBoardVisual = true;
-        [SerializeField] private bool showDebugGizmos = false;
-        
         private List<SimpleCard> cards = new List<SimpleCard>();
+        public CardScorer scorer;
         private RectTransform rectTransform;
         public bool neverGlow;
         
@@ -56,10 +58,36 @@ namespace CardGame.GameObjects
             img.color = boardColor;
             img.raycastTarget = false;
         }
-        
-        /// <summary>
-        /// Add a card to the board, automatically positioning it
-        /// </summary>
+
+        private void UpdateScore()
+        {
+            if (scorer == null) return;
+            
+            CardLayout cardLayout = new CardLayout();
+            foreach (SimpleCard simpleCard in cards)
+            {
+                cardLayout.AddCard(simpleCard);
+            }
+            
+            // Calculate score using CardLayout
+            Score score = cardLayout.GetScore();
+
+            int i = 0;
+            foreach (bool card_mltiplier in score.GetMultipliers())
+            {
+                if (card_mltiplier)
+                {
+                    cards[i].TurnOnGlow();
+                }
+                else
+                {
+                    cards[i].TurnOffGlow();
+                }
+                i++;
+            }
+            
+            scorer.UpdateScore(score);
+        }
         public void AddCard(SimpleCard card)
         {
             if (card == null) return;
@@ -104,6 +132,7 @@ namespace CardGame.GameObjects
             RebaseAllCards();
             
             Debug.Log($"Card added to board at position {cards.IndexOf(card)}. Total cards: {cards.Count}");
+            UpdateScore();
         }
         
         /// <summary>
@@ -116,6 +145,8 @@ namespace CardGame.GameObjects
                 RebaseAllCards();
                 Debug.Log($"Card removed from board. Remaining cards: {cards.Count}");
             }
+            card.TurnOffGlow();
+            UpdateScore();
         }
         
         /// <summary>
@@ -136,6 +167,8 @@ namespace CardGame.GameObjects
                 Vector2 targetPos = new Vector2(GetCardXPosition(i), yPosition);
                 SetCardTargetPosition(cards[i], targetPos);
             }
+
+            UpdateScore();
         }
         
         /// <summary>
@@ -272,6 +305,7 @@ namespace CardGame.GameObjects
             cards[index1] = cards[index2];
             cards[index2] = temp;
             RebaseAllCards();
+            UpdateScore();
         }
         
         /// <summary>

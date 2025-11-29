@@ -9,11 +9,6 @@ using UnityEngine.Serialization;
 
 namespace CardGame.Scoring
 {
-    /// <summary>
-    /// Displays score for cards on a CardBoard
-    /// Automatically updates when cards are added/removed/reordered
-    /// Must be a child of CardBoard
-    /// </summary>
     public class CardScorer : MonoBehaviour
     {
         [Header("References")]
@@ -31,61 +26,11 @@ namespace CardGame.Scoring
         [SerializeField] private string dominantFormat = "Dominant: {0}";
         [SerializeField] private bool showBreakdown = true;
         
-        private CardBoard parentBoard;
-        private CardLayout cardLayout;
-        
-        void Awake()
+        public void UpdateScore(Score score)
         {
-            // Get parent CardBoard
-            parentBoard = GetComponentInParent<CardBoard>();
-            if (parentBoard == null)
-            {
-                Debug.LogError("CardScorer must be a child of CardBoard!");
-            }
-            
-            cardLayout = new CardLayout();
-        }
-        
-        void Start()
-        {
-            // Initial score calculation
-            UpdateScore();
-        }
-        
-        void Update()
-        {
-            // Update score every frame (you can optimize this with events if needed)
-            UpdateScore();
-        }
-        
-        /// <summary>
-        /// Main function that calculates and displays score
-        /// This is your "function_1"
-        /// </summary>
-        public void UpdateScore()
-        {
-            if (parentBoard == null) return;
-            
-            // Get current cards from board
-            List<SimpleCard> boardCards = parentBoard.GetCards();
-            
-            // Convert SimpleCards to Card objects for scoring
-            cardLayout.Clear();
-            foreach (SimpleCard simpleCard in boardCards)
-            {
-                cardLayout.AddCard(simpleCard);
-            }
-            
-            // Calculate score using CardLayout
-            Score score = cardLayout.GetScore();
-            
-            // Display results
             DisplayScore(score);
         }
-        
-        /// <summary>
-        /// Display score on UI
-        /// </summary>
+
         private void DisplayScore(Score score)
         {
             // Total score
@@ -126,27 +71,9 @@ namespace CardGame.Scoring
                 }
             }
             
-            // Dominant suit
-            // if (dominantSuitText != null)
-            // {
-            //     Suits? dominant = score.GetDominantSuit();
-            //     if (dominant.HasValue)
-            //     {
-            //         dominantSuitText.text = string.Format(dominantFormat, dominant.Value);
-            //         dominantSuitText.color = GetSuitColor(dominant.Value);
-            //     }
-            //     else
-            //     {
-            //         dominantSuitText.text = string.Format(dominantFormat, "Tie");
-            //         dominantSuitText.color = Color.white;
-            //     }
-            // }
             if (crystal != null) crystal.setTexture(score.GetDominantSuit());
         }
         
-        /// <summary>
-        /// Get color for a suit
-        /// </summary>
         private Color GetSuitColor(Suits suit)
         {
             return Color.black;
@@ -163,14 +90,6 @@ namespace CardGame.Scoring
                 default:
                     return Color.white;
             }
-        }
-        
-        /// <summary>
-        /// Force an immediate score update (call this if needed)
-        /// </summary>
-        public void ForceUpdate()
-        {
-            UpdateScore();
         }
     }
 }

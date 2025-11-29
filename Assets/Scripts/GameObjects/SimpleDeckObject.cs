@@ -30,8 +30,8 @@ namespace CardGame.GameObjects
         [SerializeField] private Vector2 cardSize = new Vector2(80, 120);
         
         [Header("Target Board")]
-        [SerializeField] private CardBoard targetBoard; // Assign the CardBoard to spawn cards on
-        [SerializeField] private bool spawnDirectlyOnBoard = true; // If true, cards go straight to board
+        [SerializeField] private CardBoard targetBoard;
+        [SerializeField] private bool spawnDirectlyOnBoard = true;
         
         private CardDeck deck;
         private Image deckImage;

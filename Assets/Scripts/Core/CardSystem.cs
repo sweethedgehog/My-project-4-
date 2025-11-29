@@ -22,6 +22,7 @@ namespace CardGame.Core
     public class Score
     {
         private Dictionary<Suits, int> suitScores;
+        private List<bool> multipliers = new List<bool>();
 
         public Score()
         {
@@ -69,6 +70,16 @@ namespace CardGame.Core
             return suitScores[suit];
         }
 
+        public void AddMultiplier(bool multiplier)
+        {
+            multipliers.Add(multiplier);
+        }
+        
+        public List<bool> GetMultipliers()
+        {
+            return multipliers;
+        }
+
         // Debug helper
         public string GetScoreBreakdown()
         {
@@ -112,12 +123,12 @@ namespace CardGame.Core
                 SimpleCard card = cards[cardNum];
                 int multiplier = getMultiplier[card.suit](cardNum);
 				if (multiplier > 1)
-				{
-					card.TurnOnGlow();
+                {
+                    result.AddMultiplier(true);
 				}
 				else
 				{
-					card.TurnOffGlow();
+                    result.AddMultiplier(false);
 				}	
                 result.AddScore(card.cardValue * multiplier, card.suit);
 				
