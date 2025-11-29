@@ -6,12 +6,24 @@
   <component name="ChangeListManager">
     <list default="true" id="0256149a-2497-4659-b2d6-196da940d533" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/CardSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/CardSystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameObjects/CardBoard.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameObjects/CardBoard.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameObjects/ScorerObject.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameObjects/ScorerObject.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameObjects/SimpleDeckObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameObjects/SimpleDeckObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Score/CardScorer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Score/CardScorer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Creators.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Creators/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Creators/Scripts/CreatorsManager.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Creators/Scripts/CreatorsManager.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Menu.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Menu/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Menu/Scripts/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Menu/Scripts/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Menu/Scripts/.idea/indexLayout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Menu/Scripts/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Menu/Scripts/GameMenuManager.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Menu/Scripts/GameMenuManager.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Menu.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Menu/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Menu/Scripts/MenuManager.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Menu/Scripts/MenuManager.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +44,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3209c419f8514dc7af6f7bbce69cabc61f7200/68/f5a789a9/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3209c419f8514dc7af6f7bbce69cabc61f7200/cb/9226e886/Transform.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bed9669261d44da0a59448ecde2b1a5c46ae00/aa/17553aaa/List`1.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Menu/Scripts/MenuManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Rules/Scripts/RulesManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Cards/SimpleCard.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Core/CardData.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Core/CardDeck.cs" root0="SKIP_HIGHLIGHTING" />
@@ -116,7 +128,7 @@
       <workItem from="1764195321793" duration="6533000" />
       <workItem from="1764262571342" duration="8798000" />
       <workItem from="1764273570280" duration="3183000" />
-      <workItem from="1764423845375" duration="7568000" />
+      <workItem from="1764423845375" duration="8761000" />
     </task>
     <servers />
   </component>
