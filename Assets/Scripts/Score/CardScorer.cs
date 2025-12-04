@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CardGame.Core;
 using CardGame.Cards;
 using CardGame.GameObjects;
+using CardGame.Managers;
 using TMPro;
 using UnityEngine.Serialization;
 
@@ -25,9 +26,31 @@ namespace CardGame.Scoring
         [SerializeField] private string suitScoreFormat = "{0}: {1}";
         [SerializeField] private string dominantFormat = "Dominant: {0}";
         [SerializeField] private bool showBreakdown = true;
+        public AudioManager audioManager;
+        private Suits goalSuit;
+        private bool suitGoalComplete = false;
+
+        public void SetSuitGoal(Suits suit)
+        {
+            goalSuit = suit;
+        }
         
         public void UpdateScore(Score score)
         {
+            Suits? dominantSuit = score.GetDominantSuit();
+            if (dominantSuit == goalSuit && goalSuit != null)
+            {
+                if (suitGoalComplete == false)
+                {
+                    audioManager.ActivateSuitSound(goalSuit);
+                    suitGoalComplete = true;
+                }
+            }
+            else
+            {
+                suitGoalComplete = false;
+            }
+
             DisplayScore(score);
         }
 
@@ -46,50 +69,28 @@ namespace CardGame.Scoring
                 {
                     int redScore = score.GetSuitScore(Suits.Roses);
                     roseScoreText.text = score.GetSuitScore(Suits.Roses).ToString();
-                    roseScoreText.color = GetSuitColor(Suits.Roses);
                 }
                 
                 if (crownScoreText != null)
                 {
                     int yellowScore = score.GetSuitScore(Suits.Crowns);
                     crownScoreText.text = score.GetSuitScore(Suits.Crowns).ToString();
-                    crownScoreText.color = GetSuitColor(Suits.Crowns);
                 }
                 
                 if (skullScoreText != null)
                 {
                     int blueScore = score.GetSuitScore(Suits.Skulls);
                     skullScoreText.text = score.GetSuitScore(Suits.Skulls).ToString();
-                    skullScoreText.color = GetSuitColor(Suits.Skulls);
                 }
                 
                 if (coinsScoreText != null)
                 {
                     int greenScore = score.GetSuitScore(Suits.Coins);
                     coinsScoreText.text = score.GetSuitScore(Suits.Coins).ToString();
-                    coinsScoreText.color = GetSuitColor(Suits.Coins);
                 }
             }
             
             if (crystal != null) crystal.setTexture(score.GetDominantSuit());
-        }
-        
-        private Color GetSuitColor(Suits suit)
-        {
-            return Color.black;
-            switch (suit)
-            {
-                case Suits.Roses:
-                    return new Color(0.9f, 0.2f, 0.2f);
-                case Suits.Skulls:
-                    return new Color(1f, 0.9f, 0.2f);
-                case Suits.Coins:
-                    return new Color(0.2f, 0.5f, 1f);
-                case Suits.Crowns:
-                    return new Color(0.2f, 0.8f, 0.3f);
-                default:
-                    return Color.white;
-            }
         }
     }
 }

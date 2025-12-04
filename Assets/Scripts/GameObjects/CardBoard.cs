@@ -47,6 +47,11 @@ namespace CardGame.GameObjects
                 SetupBoardVisual();
             }
         }
+
+        public void SetGoalSuit(Suits suit)
+        {
+            scorer.SetSuitGoal(suit);
+        }
         
         void SetupBoardVisual()
         {

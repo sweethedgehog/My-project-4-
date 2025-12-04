@@ -26,7 +26,6 @@ namespace CardGame.Managers
         [SerializeField] private SimpleDeckObject deck;
         [SerializeField] private CardBoard handBoard;
         [SerializeField] private CardBoard targetBoard;
-        // [SerializeField] private Button startRoundButton;
         
         [Header("Goal Display")]
         [SerializeField] private TextMeshProUGUI goalValueText;
@@ -101,7 +100,7 @@ namespace CardGame.Managers
                 resultText.gameObject.SetActive(false);
             }
             tilesManager = GameObject.Find("Tiles Panel").GetComponent<TilesManager>();
-            rulsePanel = GameObject.Find("Rules Panel").GetComponentInChildren<RulesPanel>();
+            rulsePanel = GameObject.Find("RulesPanel").GetComponentInChildren<RulesPanel>();
             isRulesOpened = false;
         }
 
@@ -388,7 +387,8 @@ namespace CardGame.Managers
             {
                 goalCardImage.color = GetSuitColor(currentGoalSuit);
             }
-
+            
+            targetBoard.SetGoalSuit(currentGoalSuit);
             CheckAvailability();
         }
         
