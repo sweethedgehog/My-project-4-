@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6956184857636050704}
   - component: {fileID: 1450231693693154871}
   - component: {fileID: 1882150726418877401}
+  - component: {fileID: 335222527899097504}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -127,6 +128,7 @@ MonoBehaviour:
   - {fileID: -5185680815138586352, guid: 0f68ea0947337cd4596edcf4aac9ca7d, type: 3}
   cardBackground: {fileID: 1509088152524472813}
   valueText: {fileID: 0}
+  overlay: {fileID: 0}
 --- !u!225 &1450231693693154871
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -153,6 +155,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardGame.GameObjects.SimpleDraggableWithBoard
   hoverDetectionDistance: 200
   showDebugInfo: 0
+--- !u!114 &335222527899097504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7288336276837508695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b097934d76444913b295e28401cea1b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardGame.UI.CardSound
+  cardHoverEnterSound: {fileID: 8300000, guid: a637d3c591f645a4fb5f5a389497b47d, type: 3}
+  cardHoverLoopSound: {fileID: 8300000, guid: 16411b1a7c1a2bb4fb083931bca1baf3, type: 3}
+  cardClickSound: {fileID: 8300000, guid: c8665b3fd5eb2fc42baa32a3583dd577, type: 3}
+  cardPickupSound: {fileID: 0}
+  cardDragLoopSound: {fileID: 8300000, guid: 0e3f76d82cf68e34ea30d11ff71d2cc9, type: 3}
+  cardDropSound: {fileID: 8300000, guid: 6b9c4691a32ea7248990e0b6e111f45d, type: 3}
+  clickVolume: 0.7
+  hoverEnterVolume: 0.662
+  hoverLoopVolume: 0.794
+  dragVolume: 0.71
+  dropVolume: 0.7
 --- !u!1001 &1601179715077242382
 PrefabInstance:
   m_ObjectHideFlags: 0

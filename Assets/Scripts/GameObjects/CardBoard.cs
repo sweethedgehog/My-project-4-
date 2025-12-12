@@ -4,6 +4,7 @@ using UnityEngine;
 using CardGame.Cards;
 using CardGame.Scoring;
 using CardGame.Core;
+using CardGame.UI;
 
 
 namespace CardGame.GameObjects
@@ -29,6 +30,11 @@ namespace CardGame.GameObjects
         [Header("Visual Feedback")]
         [SerializeField] private Color boardColor = new Color(0.2f, 0.2f, 0.2f, 0.5f);
         [SerializeField] private bool showBoardVisual = true;
+        
+        [Header("Interaction Control")]
+        public bool freeze = false;
+        [SerializeField] private float frozenAlpha = 0.6f; // Transparency when frozen
+        
         private List<SimpleCard> cards = new List<SimpleCard>();
         public CardScorer scorer;
         private RectTransform rectTransform;
@@ -48,9 +54,9 @@ namespace CardGame.GameObjects
             }
         }
 
-        public void SetGoalSuit(Suits suit)
+        public void SetGoal(Suits suit, int value)
         {
-            scorer.SetSuitGoal(suit);
+            scorer.SetGoal(suit, value);
         }
         
         void SetupBoardVisual()
@@ -62,6 +68,59 @@ namespace CardGame.GameObjects
             }
             img.color = boardColor;
             img.raycastTarget = false;
+        }
+
+        /// <summary>
+        /// Set freeze state and update card interactability
+        /// </summary>
+        public void SetFreeze(bool frozen)
+        {
+            if (freeze == frozen) return; // No change needed
+            
+            freeze = frozen;
+            UpdateCardInteractability();
+            
+            Debug.Log($"Board {gameObject.name} freeze state: {freeze}");
+        }
+        
+        /// <summary>
+        /// Update interactability of all cards on this board
+        /// </summary>
+        private void UpdateCardInteractability()
+        {
+            foreach (SimpleCard card in cards)
+            {
+                if (card != null)
+                {
+                    SetCardInteractable(card, !freeze);
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Set whether a single card is interactable
+        /// </summary>
+        private void SetCardInteractable(SimpleCard card, bool interactable)
+        {
+            // Use CanvasGroup for interaction control
+            CanvasGroup canvasGroup = card.GetComponent<CanvasGroup>();
+            if (canvasGroup == null)
+            {
+                canvasGroup = card.gameObject.AddComponent<CanvasGroup>();
+            }
+    
+            canvasGroup.interactable = interactable;
+            canvasGroup.blocksRaycasts = interactable;
+            canvasGroup.alpha = interactable ? 1f : frozenAlpha;
+            
+        }
+        
+        /// <summary>
+        /// Check if this board accepts interactions
+        /// </summary>
+        public bool IsInteractable()
+        {
+            return !freeze;
         }
 
         private void UpdateScore()
@@ -93,8 +152,15 @@ namespace CardGame.GameObjects
             
             scorer.UpdateScore(score);
         }
+        
         public void AddCard(SimpleCard card)
         {
+            if (freeze)
+            {
+                Debug.Log($"Board {gameObject.name} is frozen - cannot add cards");
+                return;
+            }
+            
             if (card == null) return;
 
             if (neverGlow)
@@ -134,6 +200,10 @@ namespace CardGame.GameObjects
             }
             
             card.transform.SetParent(transform);
+            
+            // Set interactability for newly added card
+            SetCardInteractable(card, !freeze);
+            
             RebaseAllCards();
             
             Debug.Log($"Card added to board at position {cards.IndexOf(card)}. Total cards: {cards.Count}");
@@ -145,6 +215,12 @@ namespace CardGame.GameObjects
         /// </summary>
         public void RemoveCard(SimpleCard card)
         {
+            if (freeze)
+            {
+                Debug.Log($"Board {gameObject.name} is frozen - cannot remove cards");
+                return;
+            }
+            
             if (cards.Remove(card))
             {
                 RebaseAllCards();
@@ -248,6 +324,9 @@ namespace CardGame.GameObjects
         /// </summary>
         public bool IsPositionNearBoard(Vector2 screenPosition)
         {
+            // Don't accept drops if frozen
+            if (freeze) return false;
+            
             Vector2 localPos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 rectTransform,
@@ -303,6 +382,12 @@ namespace CardGame.GameObjects
         /// </summary>
         public void SwapCards(int index1, int index2)
         {
+            if (freeze)
+            {
+                Debug.Log($"Board {gameObject.name} is frozen - cannot swap cards");
+                return;
+            }
+            
             if (index1 < 0 || index1 >= cards.Count || index2 < 0 || index2 >= cards.Count)
                 return;
             

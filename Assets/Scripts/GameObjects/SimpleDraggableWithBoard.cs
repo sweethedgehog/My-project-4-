@@ -62,6 +62,12 @@ namespace CardGame.GameObjects
         
         public void OnBeginDrag(PointerEventData eventData)
         {
+            if (!simpleCard.CanInteract())
+            {
+                Debug.Log("Card is on a frozen board - cannot drag");
+                return;
+            }
+            
             Debug.Log("Begin drag");
             isDragging = true;
             canvasGroup.blocksRaycasts = false;
@@ -97,6 +103,7 @@ namespace CardGame.GameObjects
         
         public void OnDrag(PointerEventData eventData)
         {
+            if (!isDragging) return;
    
             Vector2 mousePos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -115,6 +122,8 @@ namespace CardGame.GameObjects
         
         public void OnEndDrag(PointerEventData eventData)
         {
+            if (!isDragging) return;
+            
             Debug.Log("End drag");
             isDragging = false;
             canvasGroup.blocksRaycasts = true;

@@ -405,8 +405,6 @@ MonoBehaviour:
   smoothMovement: 1
   boardColor: {r: 0.2, g: 0.2, b: 0.2, a: 0.5}
   showBoardVisual: 1
-  freeze: 0
-  frozenAlpha: 0.6
   scorer: {fileID: 0}
   neverGlow: 1
 --- !u!114 &52902510
@@ -4041,8 +4039,6 @@ MonoBehaviour:
   smoothMovement: 1
   boardColor: {r: 0.2, g: 0.2, b: 0.2, a: 0.5}
   showBoardVisual: 1
-  freeze: 0
-  frozenAlpha: 0.6
   scorer: {fileID: 1823294909}
   neverGlow: 0
 --- !u!114 &1681956490
@@ -4809,13 +4805,6 @@ MonoBehaviour:
   suitScoreFormat: '{0}: {1}'
   dominantFormat: '{0}'
   showBreakdown: 1
-  valueGoalCompleteSound: {fileID: 8300000, guid: 2fc98ac756b4d564fbb583de407175d7, type: 3}
-  roseSuitCompleteSound: {fileID: 8300000, guid: 59293006cd2e7c547a26b7fce0362a62, type: 3}
-  crownSuitCompleteSound: {fileID: 8300000, guid: 59293006cd2e7c547a26b7fce0362a62, type: 3}
-  skullSuitCompleteSound: {fileID: 8300000, guid: 59293006cd2e7c547a26b7fce0362a62, type: 3}
-  coinSuitCompleteSound: {fileID: 8300000, guid: 59293006cd2e7c547a26b7fce0362a62, type: 3}
-  soundVolume: 0.7
-  dualGoalDelay: 0.5
   audioManager: {fileID: 1485040255}
 --- !u!114 &1823294910
 MonoBehaviour:

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using CardGame.Core;
 using System.Collections.Generic;
+using CardGame.GameObjects;
 
 namespace CardGame.Cards
 {
@@ -95,5 +96,14 @@ namespace CardGame.Cards
         // Get properties
         public Suits GetSuit() => suit;
         public int GetValue() => cardValue;
+        public bool CanInteract()
+        {
+            CardBoard board = GetComponentInParent<CardBoard>();
+            if (board != null)
+            {
+                return board.IsInteractable();
+            }
+            return true;
+        }
     }
 }

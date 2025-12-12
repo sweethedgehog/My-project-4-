@@ -8,6 +8,7 @@ using CardGame.Cards;
 using CardGame.Core;
 using CardGame.GameObjects;
 using CardGame.Scoring;
+using CardGame.UI;
 using DefaultNamespace.Tiles;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -69,7 +70,7 @@ namespace CardGame.Managers
         private bool isDealing = false;
         private bool roundActive = false; // Track if round is in progress
         private bool isRulesOpened = false;
-        private RulesPanel rulsePanel;
+		private RulesPanel rulesPanel;  // Fixed from 'rulsePanel'
         public static bool inGameMenu = false;
         private bool inDealState = true;
         
@@ -99,8 +100,8 @@ namespace CardGame.Managers
             {
                 resultText.gameObject.SetActive(false);
             }
-            tilesManager = GameObject.Find("Tiles Panel").GetComponent<TilesManager>();
-            rulsePanel = GameObject.Find("RulesPanel").GetComponentInChildren<RulesPanel>();
+			tilesManager = GameObject.Find("Tiles Panel").GetComponent<TilesManager>();
+            rulesPanel = GameObject.Find("RulesPanel").GetComponent<RulesPanel>();  // Fixed from GetComponentInChildren and rulsePanel
             isRulesOpened = false;
         }
 
@@ -133,7 +134,9 @@ namespace CardGame.Managers
         public void RulesToggle()
         {
             isRulesOpened = !isRulesOpened;
-            rulsePanel.moveTo(isRulesOpened ? RulesCords.Open : RulesCords.closed);
+            rulesPanel.Toggle();  // Use the new Toggle() method instead
+            // OR use: rulesPanel.MoveTo(isRulesOpened ? RulesCords.Open : RulesCords.Closed);
+            // Note: RulesCords.closed is now RulesCords.Closed (capital C)
         }
         
         /// <summary>
@@ -146,6 +149,8 @@ namespace CardGame.Managers
                 Debug.Log("Already dealing cards!");
                 return;
             }
+            
+            handBoard.SetFreeze(false);
             
             if (roundActive)
             {
@@ -206,6 +211,8 @@ namespace CardGame.Managers
                 Debug.Log("No active round to end!");
                 return false;
             }
+            
+            handBoard.SetFreeze(true);
             
             // Check if at least one card is on the board
             if (targetBoard.CardCount == 0)
@@ -388,7 +395,7 @@ namespace CardGame.Managers
                 goalCardImage.color = GetSuitColor(currentGoalSuit);
             }
             
-            targetBoard.SetGoalSuit(currentGoalSuit);
+            targetBoard.SetGoal(currentGoalSuit, currentGoalValue);
             CheckAvailability();
         }
         
