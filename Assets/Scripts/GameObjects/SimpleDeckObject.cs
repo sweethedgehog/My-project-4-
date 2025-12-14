@@ -114,7 +114,7 @@ namespace CardGame.GameObjects
             UpdateVisual();
         }
         
-        void SpawnCardOnBoard(CardData cardData)
+        public void SpawnCardOnBoard(CardData cardData)
         {
             if (targetBoard == null)
             {

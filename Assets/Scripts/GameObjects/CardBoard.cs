@@ -79,6 +79,7 @@ namespace CardGame.GameObjects
             
             freeze = frozen;
             UpdateCardInteractability();
+            RebaseAllCards();
             
             Debug.Log($"Board {gameObject.name} freeze state: {freeze}");
         }
