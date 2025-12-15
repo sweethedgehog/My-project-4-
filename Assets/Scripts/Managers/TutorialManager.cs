@@ -50,9 +50,6 @@ namespace CardGame.Managers
         [SerializeField] public GameObject highlight_Picture;
         [SerializeField] public GameObject highlight_Hint;
         
-        [Header("Tutorial Cards - Pre-created")]
-        [SerializeField] public List<GameObject> tutorialCards; // Add 5 cards: Coin-1, Coin-3, Skull-1, Rose-1, Crown-2
-        
         [Header("Game References")]
         [SerializeField] private SimpleDeckObject deck;
         [SerializeField] private CardBoard handBoard;
@@ -84,9 +81,6 @@ namespace CardGame.Managers
             {
                 audioSource = gameObject.AddComponent<AudioSource>();
             }
-            
-            // Hide tutorial cards initially
-            HideTutorialCards();
             
             // Hide all UI elements initially
             HideAllBubbles();
@@ -196,8 +190,11 @@ namespace CardGame.Managers
             HideAllBubbles();
             HideAllHighlights();
             
-            // Show pre-created tutorial cards
-            ShowTutorialCards();
+            // Spawn tutorial cards using deck
+            
+            handBoard.SetFreeze(false);
+            SpawnTutorialCards();
+            handBoard.SetFreeze(true);
             
             ShowHighlight(highlight_HandBoard);
             ShowBubble(bubble3_DealCards);
@@ -500,41 +497,29 @@ namespace CardGame.Managers
         }
         
         /// <summary>
-        /// Show pre-created tutorial cards (activate them)
+        /// Spawn tutorial cards using deck.SpawnCardOnBoard
         /// </summary>
-        private void ShowTutorialCards()
+        private void SpawnTutorialCards()
         {
-            // Activate all tutorial cards
-            foreach (GameObject cardObj in tutorialCards)
-            {
-                if (cardObj != null)
-                {
-                    cardObj.SetActive(true);
-                    
-                    // Store reference to Coin-3 for step 9 highlighting
-                    SimpleCard card = cardObj.GetComponent<SimpleCard>();
-                    if (card != null && card.GetSuit() == Suits.Coins && card.GetValue() == 3)
-                    {
-                        coinCard3 = card;
-                    }
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Hide all tutorial cards initially
-        /// </summary>
-        private void HideTutorialCards()
-        {
-            foreach (GameObject cardObj in tutorialCards)
-            {
-                if (cardObj != null)
-                {
-                    SimpleCard card = cardObj.GetComponent<SimpleCard>();
-                    handBoard.AddCard(card);
-                    cardObj.SetActive(false);
-                }
-            }
+            // Card 1: Coin-1
+            CardData card1 = new CardData(Suits.Coins, 1);
+            deck.SpawnCardOnBoard(card1);
+            
+            // Card 2: Coin-3 (the one we'll ask player to place in step 9)
+            CardData card2 = new CardData(Suits.Coins, 3);
+            deck.SpawnCardOnBoard(card2);
+            
+            // Card 3: Skull-1
+            CardData card3 = new CardData(Suits.Skulls, 1);
+            deck.SpawnCardOnBoard(card3);
+            
+            // Card 4: Rose-1
+            CardData card4 = new CardData(Suits.Roses, 1);
+            deck.SpawnCardOnBoard(card4);
+            
+            // Card 5: Crown-2
+            CardData card5 = new CardData(Suits.Crowns, 2);
+            deck.SpawnCardOnBoard(card5);
         }
         
         /// <summary>
