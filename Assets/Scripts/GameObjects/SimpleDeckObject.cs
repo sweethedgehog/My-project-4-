@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using CardGame.Core;
 using CardGame.Cards;
+using System.Collections.Generic;
 
 namespace CardGame.GameObjects
 {
@@ -66,9 +67,15 @@ namespace CardGame.GameObjects
             // DrawCardUnderMouse();
         }
 
+        public List<CardData> PickCardsInDeck(int cardNum)
+        {
+            return deck.PickCards(cardNum);
+        }
+        
         public CardData PickCard()
         {
-            return deck.Draw();
+            CardData pickedCard = deck.Draw();
+            return pickedCard;
         }
         
         public void DrawCardOnBoard()
@@ -119,15 +126,19 @@ namespace CardGame.GameObjects
             UpdateVisual();
         }
         
-        public void SpawnCardOnBoard(CardData cardData)
+        public void SpawnCardOnBoard(CardData cardData, bool fromDeck = false)
         {
             if (targetBoard == null)
             {
                 Debug.LogWarning("Target board is not assigned! Spawning under mouse instead.");
                 SpawnCardAtMouse(cardData);
-                return;
+                UpdateVisual();
             }
-            
+
+            if (fromDeck)
+            {
+                deck.Remove(cardData);
+            }
             // Create card - spawn it under the board's transform temporarily
             GameObject cardObj;
             

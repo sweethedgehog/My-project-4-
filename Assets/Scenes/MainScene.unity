@@ -1912,6 +1912,7 @@ MonoBehaviour:
   deck: {fileID: 1505598447}
   handBoard: {fileID: 52902509}
   targetBoard: {fileID: 1681956489}
+  onlyPossibleSetsMode: 1
   goalValueText: {fileID: 436565769}
   goalSuitText: {fileID: 1271769915}
   goalCardImage: {fileID: 0}

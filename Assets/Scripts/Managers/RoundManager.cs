@@ -15,6 +15,8 @@ using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
 using Random = UnityEngine.Random;
+using System.Linq;
+
 
 namespace CardGame.Managers
 {
@@ -27,7 +29,7 @@ namespace CardGame.Managers
         [SerializeField] private SimpleDeckObject deck;
         [SerializeField] private CardBoard handBoard;
         [SerializeField] private CardBoard targetBoard;
-        [SerializeField] private bool onlyPossibleSetsRegime = false;
+        [SerializeField] private bool onlyPossibleSetsMode = false;
         
         [Header("Goal Display")]
         [SerializeField] private TextMeshProUGUI goalValueText;
@@ -347,7 +349,7 @@ namespace CardGame.Managers
 
             foreach (CardData cardData in SetOfCards)
             {
-                deck.SpawnCardOnBoard(cardData);
+                deck.SpawnCardOnBoard(cardData, true);
                 yield return new WaitForSeconds(dealDelay);
             }
             
@@ -363,18 +365,45 @@ namespace CardGame.Managers
             int currentCards = handBoard.CardCount + targetBoard.CardCount;
             int cardsToDeal = cardsPerRound - currentCards;
 
-            List<CardData> newSetOfCards = new List<CardData>();
-            for (int i = 0; i < cardsToDeal; i++)
+            List<CardData> newSetOfCards = GetNewSetOfCards(cardsToDeal);
+            if (onlyPossibleSetsMode)
             {
-                if (deck.IsDeckEmpty())
-                {
-                    Debug.Log("Deck is empty! Cannot deal more cards.");
-                    break;
-                }
-                newSetOfCards.Add(deck.PickCard());
+                newSetOfCards = GetPossibleSetOfCards(cardsToDeal);
             }
             
             yield return StartCoroutine(DrawCardsToBoard(newSetOfCards));
+        }
+
+        private void ReturnCards(List<CardData> SetOfCards)
+        {
+            foreach (CardData cardData in SetOfCards)
+            {
+                deck.ShuffleCardIntoDeck(cardData);
+            }
+        }
+        
+        private List<CardData> GetPossibleSetOfCards(int cardsNum)
+        {
+            List<CardData> newSetOfCards = GetNewSetOfCards(cardsNum);;
+            List<CardData> currentCardSet = handBoard.GetCardsData();
+            for (int j = 0; j < 5; j++)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    newSetOfCards = GetNewSetOfCards(cardsNum);
+                    if (CheckAvailability(newSetOfCards.Concat(currentCardSet).ToList()) == 2)
+                    {
+                        return newSetOfCards;
+                    }
+                }
+                RerollSuitGoal();
+            }
+            return newSetOfCards;
+        }
+        
+        private List<CardData> GetNewSetOfCards(int cardsNum)
+        {
+            return deck.PickCardsInDeck(cardsNum);
         }
         
         /// <summary>

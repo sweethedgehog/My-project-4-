@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 
 namespace CardGame.Core
@@ -92,15 +93,20 @@ namespace CardGame.Core
             return drawnCard;
         }
         
-        public CardData Peek()
+        public List<CardData> PickCards(int CardNum = 1)
         {
+            Shuffle();
             if (deck.Count == 0)
             {
                 Debug.LogWarning("Cannot peek at empty deck!");
                 return null;
             }
-            
-            return deck[deck.Count - 1];
+            return deck.Skip(deck.Count - CardNum).ToList();
+        }
+
+        public void Remove(CardData cardData)
+        {
+            deck.Remove(cardData);
         }
         
         public void Reset()
