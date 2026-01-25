@@ -27,6 +27,7 @@ namespace CardGame.Managers
         [SerializeField] private SimpleDeckObject deck;
         [SerializeField] private CardBoard handBoard;
         [SerializeField] private CardBoard targetBoard;
+        [SerializeField] private bool onlyPossibleSetsRegime = false;
         
         [Header("Goal Display")]
         [SerializeField] private TextMeshProUGUI goalValueText;
@@ -177,7 +178,13 @@ namespace CardGame.Managers
             UpdateRoundDisplay();
         }
 
-        private void CheckAvailability()
+
+        private int CheckAvailability(List<CardData> cardSet)
+        {
+            return CardCombinations.AllOrderedSubsets(cardSet, currentGoalValue, currentGoalSuit);
+        }
+        
+        private void UpdateAvailabilityField()
         {
             List<SimpleCard> currentCards = GetActiveCards();
             List<CardData> cardsData = new List<CardData>();
@@ -186,7 +193,7 @@ namespace CardGame.Managers
                 cardsData.Add(card.GetCardData());
             }
             
-            int result = CardCombinations.AllOrderedSubsets(cardsData, currentGoalValue, currentGoalSuit);
+            int result = CheckAvailability(cardsData);
             if (result == 2)
             {
                 availabilityText.text = "Full";
@@ -334,18 +341,29 @@ namespace CardGame.Managers
             
             yield return StartCoroutine(DealCardsToBoard());
         }
-        
-		private IEnumerator DealCardsToBoard()
+        private IEnumerator DrawCardsToBoard(List<CardData> SetOfCards)
         {
             isDealing = true;
+
+            foreach (CardData cardData in SetOfCards)
+            {
+                deck.SpawnCardOnBoard(cardData);
+                yield return new WaitForSeconds(dealDelay);
+            }
             
-            // Disable button during dealing
+            isDealing = false;
             
+            Debug.Log($"Round {currentRound} started! Board now has {targetBoard.CardCount} cards.");
+            UpdateAvailabilityField();
+        }
+
+        private IEnumerator DealCardsToBoard()
+        {
             // Calculate how many cards to deal
             int currentCards = handBoard.CardCount + targetBoard.CardCount;
             int cardsToDeal = cardsPerRound - currentCards;
-            
-            // Deal cards one by one with delay
+
+            List<CardData> newSetOfCards = new List<CardData>();
             for (int i = 0; i < cardsToDeal; i++)
             {
                 if (deck.IsDeckEmpty())
@@ -353,21 +371,10 @@ namespace CardGame.Managers
                     Debug.Log("Deck is empty! Cannot deal more cards.");
                     break;
                 }
-                
-                // Trigger deck click to draw card
-                deck.DrawCardOnBoard();
-                
-                // Wait before dealing next card
-                if (i < cardsToDeal - 1)
-                {
-                    yield return new WaitForSeconds(dealDelay);
-                }
+                newSetOfCards.Add(deck.PickCard());
             }
             
-            isDealing = false;
-            
-            Debug.Log($"Round {currentRound} started! Board now has {targetBoard.CardCount} cards.");
-            CheckAvailability();
+            yield return StartCoroutine(DrawCardsToBoard(newSetOfCards));
         }
         
         /// <summary>
@@ -396,7 +403,7 @@ namespace CardGame.Managers
             }
             
             targetBoard.SetGoal(currentGoalSuit, currentGoalValue);
-            CheckAvailability();
+            UpdateAvailabilityField();
         }
         
         /// <summary>

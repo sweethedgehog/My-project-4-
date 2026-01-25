@@ -65,6 +65,11 @@ namespace CardGame.GameObjects
             Debug.Log($"Deck clicked! SpawnDirectlyOnBoard: {spawnDirectlyOnBoard}, TargetBoard: {(targetBoard != null ? targetBoard.name : "NULL")}");
             // DrawCardUnderMouse();
         }
+
+        public CardData PickCard()
+        {
+            return deck.Draw();
+        }
         
         public void DrawCardOnBoard()
         {
