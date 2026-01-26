@@ -138,6 +138,7 @@ namespace CardGame.GameObjects
             if (fromDeck)
             {
                 deck.Remove(cardData);
+                UpdateVisual();
             }
             // Create card - spawn it under the board's transform temporarily
             GameObject cardObj;
