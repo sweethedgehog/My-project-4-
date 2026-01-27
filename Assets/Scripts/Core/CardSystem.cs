@@ -95,7 +95,7 @@ namespace CardGame.Core
 
     public class CardLayout
     {
-        public List<SimpleCard> cards;
+        private List<CardData> cards;
 
         private delegate int MultiplierFunc(int cardNum);
 
@@ -103,7 +103,7 @@ namespace CardGame.Core
 
         public CardLayout()
         {
-            cards = new List<SimpleCard>();
+            cards = new List<CardData>();
 
             getMultiplier = new Dictionary<Suits, MultiplierFunc>
             {
@@ -120,18 +120,17 @@ namespace CardGame.Core
 
             for (int cardNum = 0; cardNum < cards.Count; cardNum++)
             {
-                SimpleCard card = cards[cardNum];
+                CardData card = cards[cardNum];
                 int multiplier = getMultiplier[card.suit](cardNum);
-				if (multiplier > 1)
+                if (multiplier > 1)
                 {
                     result.AddMultiplier(true);
-				}
-				else
-				{
+                }
+                else
+                {
                     result.AddMultiplier(false);
-				}	
+                }
                 result.AddScore(card.cardValue * multiplier, card.suit);
-				
             }
 
             return result;
@@ -143,9 +142,16 @@ namespace CardGame.Core
             cards.Clear();
         }
 
-        public void AddCard(SimpleCard card)
+        // Add card using CardData directly
+        public void AddCard(CardData card)
         {
             cards.Add(card);
+        }
+
+        // Overload for SimpleCard - extracts CardData
+        public void AddCard(SimpleCard card)
+        {
+            cards.Add(card.GetCardData());
         }
 
         public int CardCount()
@@ -172,21 +178,14 @@ namespace CardGame.Core
             return false;
         }
 
-        private bool IsBordered(int cardNum, Suits suit)
+        private bool IsBordered(int cardNum)
         {
-            if (cardNum == 0 || cardNum == cards.Count - 1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return cardNum == 0 || cardNum == cards.Count - 1;
         }
 
         private int GetRedMultiplier(int cardNum)
         {
-            if (IsBordered(cardNum, Suits.Roses))
+            if (IsBordered(cardNum))
                 return 1;
             else
                 return 2;
@@ -202,7 +201,7 @@ namespace CardGame.Core
 
         private int GetYellowMultiplier(int cardNum)
         {
-            if (IsBordered(cardNum, Suits.Skulls))
+            if (IsBordered(cardNum))
                 return 2;
             else
                 return 1;
@@ -246,9 +245,7 @@ namespace CardGame.Core
                         CardLayout layout = new CardLayout();
                         foreach (var card in perm)
                         {
-                            SimpleCard layoutCard = new SimpleCard();
-                            layoutCard.SetCardData(card);
-                            layout.AddCard(layoutCard);
+                            layout.AddCard(card);
                         }
 
                         Score score = layout.GetScore();

@@ -133,6 +133,7 @@ namespace CardGame.GameObjects
                 Debug.LogWarning("Target board is not assigned! Spawning under mouse instead.");
                 SpawnCardAtMouse(cardData);
                 UpdateVisual();
+                return;
             }
 
             if (fromDeck)
