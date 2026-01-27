@@ -66,14 +66,14 @@ namespace CardGame.Managers
         private AudioSource audioSource;
         private int currentRound = 0;
         private List<SuccessCodes> scoreHistory = new List<SuccessCodes>(); // List of scores per round
-        private TilesManager tilesManager;
+        [SerializeField] private TilesManager tilesManager;
         private Dictionary<Suits, int> suitUsageCount = new Dictionary<Suits, int>(); // Track suit usage
         private int currentGoalValue;
         private Suits currentGoalSuit;
         private bool isDealing = false;
         private bool roundActive = false; // Track if round is in progress
         private bool isRulesOpened = false;
-		private RulesPanel rulesPanel;  // Fixed from 'rulsePanel'
+        [SerializeField] private RulesPanel rulesPanel;
         public static bool inGameMenu = false;
         private bool inDealState = true;
         
@@ -103,8 +103,6 @@ namespace CardGame.Managers
             {
                 resultText.gameObject.SetActive(false);
             }
-			tilesManager = GameObject.Find("Tiles Panel").GetComponent<TilesManager>();
-            rulesPanel = GameObject.Find("RulesPanel").GetComponent<RulesPanel>();  // Fixed from GetComponentInChildren and rulsePanel
             isRulesOpened = false;
         }
 
@@ -136,10 +134,9 @@ namespace CardGame.Managers
 
         public void RulesToggle()
         {
+            if (rulesPanel == null) return;
             isRulesOpened = !isRulesOpened;
-            rulesPanel.Toggle();  // Use the new Toggle() method instead
-            // OR use: rulesPanel.MoveTo(isRulesOpened ? RulesCords.Open : RulesCords.Closed);
-            // Note: RulesCords.closed is now RulesCords.Closed (capital C)
+            rulesPanel.Toggle();
         }
         
         /// <summary>
@@ -246,7 +243,7 @@ namespace CardGame.Managers
             // Calculate round score
             SuccessCodes roundScore = CalculateRoundScore(scorer);
             scoreHistory.Add(roundScore);
-            if (tilesManager.isActive) tilesManager.setVisibility(roundScore);
+            if (tilesManager != null && tilesManager.isActive) tilesManager.setVisibility(roundScore);
             
             // Show result
             StartCoroutine(ShowRoundResult(roundScore));

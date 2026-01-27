@@ -1934,6 +1934,8 @@ MonoBehaviour:
   maxRounds: 6
   maxSameSuitOccurrences: 2
   cardsShuffle: {fileID: 8300000, guid: 0baaeb9c43ef5d54a9d7b31d9876a31b, type: 3}
+  tilesManager: {fileID: 1531373612}
+  rulesPanel: {fileID: 1715484306}
 --- !u!82 &780156731
 AudioSource:
   m_ObjectHideFlags: 0
