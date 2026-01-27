@@ -340,11 +340,11 @@ namespace CardGame.Managers
             
             yield return StartCoroutine(DealCardsToBoard());
         }
-        private IEnumerator DrawCardsToBoard(List<CardData> SetOfCards)
+        private IEnumerator DrawCardsToBoard(List<CardData> cardsToDraw)
         {
             isDealing = true;
 
-            foreach (CardData cardData in SetOfCards)
+            foreach (CardData cardData in cardsToDraw)
             {
                 deck.SpawnCardOnBoard(cardData, true);
                 yield return new WaitForSeconds(dealDelay);
@@ -371,9 +371,9 @@ namespace CardGame.Managers
             yield return StartCoroutine(DrawCardsToBoard(newSetOfCards));
         }
 
-        private void ReturnCards(List<CardData> SetOfCards)
+        private void ReturnCards(List<CardData> cardsToReturn)
         {
-            foreach (CardData cardData in SetOfCards)
+            foreach (CardData cardData in cardsToReturn)
             {
                 deck.ShuffleCardIntoDeck(cardData);
             }
@@ -381,7 +381,7 @@ namespace CardGame.Managers
         
         private List<CardData> GetPossibleSetOfCards(int cardsNum)
         {
-            List<CardData> newSetOfCards = GetNewSetOfCards(cardsNum);;
+            List<CardData> newSetOfCards = GetNewSetOfCards(cardsNum);
             List<CardData> currentCardSet = handBoard.GetCardsData();
             for (int j = 0; j < 5; j++)
             {

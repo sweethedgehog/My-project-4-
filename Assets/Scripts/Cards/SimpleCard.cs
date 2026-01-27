@@ -55,25 +55,25 @@ namespace CardGame.Cards
         
         void UpdateVisual()
         {
-            List<Sprite> card_set = new List<Sprite> {} ;
+            List<Sprite> cardSet = new List<Sprite> {} ;
             
             switch (suit)
             {
                 case Suits.Roses:
-                    card_set = RoseSprites;
+                    cardSet = RoseSprites;
                     break;
                 case Suits.Skulls:
-                    card_set = SkullSprites;
+                    cardSet = SkullSprites;
                     break;
                 case Suits.Coins:
-                    card_set = CoinSprites;
+                    cardSet = CoinSprites;
                     break;
                 case Suits.Crowns:
-                    card_set = CrownSprites;
+                    cardSet = CrownSprites;
                     break;
             }
             
-            cardBackground.sprite = card_set[cardValue - 1];
+            cardBackground.sprite = cardSet[cardValue - 1];
         }
         
         public void TurnOffGlow()

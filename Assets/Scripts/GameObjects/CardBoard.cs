@@ -139,9 +139,9 @@ namespace CardGame.GameObjects
             Score score = cardLayout.GetScore();
 
             int i = 0;
-            foreach (bool card_mltiplier in score.GetMultipliers())
+            foreach (bool hasMultiplier in score.GetMultipliers())
             {
-                if (card_mltiplier)
+                if (hasMultiplier)
                 {
                     cards[i].TurnOnGlow();
                 }
