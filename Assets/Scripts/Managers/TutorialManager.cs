@@ -60,7 +60,12 @@ namespace CardGame.Managers
         [SerializeField] private Button endTurnButton;
         [SerializeField] private GameObject pictureDisplay;
         [SerializeField] private GameObject hintDisplay;
-        
+
+        [Header("Goal Display")]
+        [SerializeField] private GameObject goalDisplay;
+        [SerializeField] private TMPro.TextMeshProUGUI goalValueText;
+        [SerializeField] private TMPro.TextMeshProUGUI goalSuitText;
+
         [Header("Tutorial Settings")]
         [SerializeField] private int tutorialGoalValue = 5;
         [SerializeField] private Suits tutorialGoalSuit = Suits.Coins;
@@ -72,7 +77,13 @@ namespace CardGame.Managers
         private bool waitingForInput = false;
         private bool stepInProgress = false;
         private AudioSource audioSource;
-        private SimpleCard coinCard3; // Reference to Coin-3 card for step 9 highlighting
+
+        // References to tutorial cards (stored when spawned)
+        private SimpleCard tutorialCard_Coin1;
+        private SimpleCard tutorialCard_Coin3;
+        private SimpleCard tutorialCard_Skull1;
+        private SimpleCard tutorialCard_Rose1;
+        private SimpleCard tutorialCard_Crown2;
         
         void Start()
         {
@@ -181,7 +192,7 @@ namespace CardGame.Managers
             HideAllBubbles();
             ShowHighlight(highlight_Deck);
             ShowBubble(bubble2_PointToDeck);
-            yield return WaitForPlayerClick();
+            yield return WaitForDeckClick();
         }
         
         private IEnumerator Step3_DealCards()
@@ -216,28 +227,47 @@ namespace CardGame.Managers
             currentStep = 5;
             HideAllBubbles();
             HideAllHighlights();
-            
+
             // Unfreeze boards to allow card placement
             handBoard.SetFreeze(false);
             targetBoard.SetFreeze(false);
-            
+
+            // Also unfreeze the board where cards actually are (might be different from handBoard)
+            UnfreezeCardParentBoard(tutorialCard_Coin1);
+
+            // Freeze all cards except the first one (Coin-1)
+            FreezeAllCardsExcept(tutorialCard_Coin1);
+
             ShowHighlight(highlight_FirstCard);
             ShowBubble(bubble5_PromptPlaceCard);
-            yield return WaitForPlayerClick();
+
+            // Wait until card is no longer on its original board
+            CardBoard originalBoard = tutorialCard_Coin1.GetComponentInParent<CardBoard>();
+            while (originalBoard != null && originalBoard.HasCard(tutorialCard_Coin1))
+            {
+                yield return null;
+            }
+
+            // Hide bubble when card starts moving
+            HideAllBubbles();
+            HideAllHighlights();
         }
-        
+
         private IEnumerator Step6_WaitForCardPlacement()
         {
             currentStep = 6;
-            HideAllBubbles();
-            HideAllHighlights();
-            
-            // Wait until player places a card
+
+            // Wait until player places the card on target board
             while (targetBoard.CardCount == 0)
             {
                 yield return null;
             }
-            
+
+            // Keep cards frozen - will unfreeze specific card in Step 9
+
+            // Show goal display now (before Step 7 highlights it)
+            ShowGoalDisplay();
+
             ShowHighlight(highlight_CrystalBall);
             ShowBubble(bubble6_CardPlacement);
             yield return WaitForPlayerClick();
@@ -248,6 +278,8 @@ namespace CardGame.Managers
             currentStep = 7;
             HideAllBubbles();
             HideAllHighlights();
+
+            // Goal display is already visible from Step 6
             ShowHighlight(highlight_CurrentScore);
             ShowBubble(bubble7_ExplainGoalNumber);
             yield return WaitForPlayerClick();
@@ -268,27 +300,45 @@ namespace CardGame.Managers
             currentStep = 9;
             HideAllBubbles();
             HideAllHighlights();
+
+            // Unfreeze the board where the card is
+            UnfreezeCardParentBoard(tutorialCard_Coin3);
+
+            // Freeze all cards except Coin-3
+            FreezeAllCardsExcept(tutorialCard_Coin3);
+
             ShowHighlight(highlight_CoinCard3);
             ShowBubble(bubble9_PromptSpecificCard);
-            yield return WaitForPlayerClick();
+
+            // Wait until card is no longer on its original board
+            CardBoard originalBoard = tutorialCard_Coin3.GetComponentInParent<CardBoard>();
+            while (originalBoard != null && originalBoard.HasCard(tutorialCard_Coin3))
+            {
+                yield return null;
+            }
+
+            // Hide bubble when card starts moving
+            HideAllBubbles();
+            HideAllHighlights();
         }
-        
+
         private IEnumerator Step10_ExplainMultiplier()
         {
             currentStep = 10;
-            HideAllBubbles();
-            HideAllHighlights();
-            
+
             // Wait for player to place the coin card
             int initialCount = targetBoard.CardCount;
             while (targetBoard.CardCount <= initialCount)
             {
                 yield return null;
             }
-            
+
+            // Unfreeze all cards after placement
+            UnfreezeAllCards();
+
             // Small delay to let glow effect show
             yield return new WaitForSeconds(0.5f);
-            
+
             ShowBubble(bubble10_ExplainMultiplier);
             yield return WaitForPlayerClick();
         }
@@ -327,26 +377,30 @@ namespace CardGame.Managers
             currentStep = 14;
             HideAllBubbles();
             HideAllHighlights();
-            
+
             // Show the end turn button
             if (endTurnButton != null)
             {
                 endTurnButton.gameObject.SetActive(true);
             }
-            
+
             // Wait for correct spread
             while (!IsSpreadCorrect())
             {
                 yield return new WaitForSeconds(0.5f);
             }
-            
-            // Highlight button when spread is correct
+
+            // Goal reached - freeze all cards
+            FreezeAllCards();
+
+            // Show bubble and highlight button together
             ShowHighlight(highlight_EndTurnButton);
-            
+            ShowBubble(bubble14_WaitForCorrectSpread);
+
             // Wait for player to click button
             bool buttonClicked = false;
             endTurnButton.onClick.AddListener(() => buttonClicked = true);
-            
+
             while (!buttonClicked)
             {
                 yield return null;
@@ -442,6 +496,12 @@ namespace CardGame.Managers
             if (highlight != null)
             {
                 highlight.SetActive(true);
+
+                // Disable raycast on all images so highlight doesn't block card interaction
+                foreach (var image in highlight.GetComponentsInChildren<UnityEngine.UI.Image>(true))
+                {
+                    image.raycastTarget = false;
+                }
             }
         }
         
@@ -474,9 +534,42 @@ namespace CardGame.Managers
         {
             waitingForInput = true;
             stepInProgress = false;
-            
+
             while (waitingForInput)
             {
+                yield return null;
+            }
+        }
+
+        /// <summary>
+        /// Wait for player to click specifically on the deck
+        /// </summary>
+        private IEnumerator WaitForDeckClick()
+        {
+            while (true)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    // Check if click is on the deck using raycast
+                    UnityEngine.EventSystems.PointerEventData pointerData =
+                        new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
+                        {
+                            position = Input.mousePosition
+                        };
+
+                    List<UnityEngine.EventSystems.RaycastResult> results = new List<UnityEngine.EventSystems.RaycastResult>();
+                    UnityEngine.EventSystems.EventSystem.current.RaycastAll(pointerData, results);
+
+                    foreach (var result in results)
+                    {
+                        // Check if clicked object is the deck or a child of deck
+                        if (deck != null && (result.gameObject == deck.gameObject ||
+                            result.gameObject.transform.IsChildOf(deck.transform)))
+                        {
+                            yield break; // Exit coroutine - deck was clicked
+                        }
+                    }
+                }
                 yield return null;
             }
         }
@@ -494,34 +587,133 @@ namespace CardGame.Managers
             if (pictureDisplay != null) pictureDisplay.SetActive(false);
             if (hintDisplay != null) hintDisplay.SetActive(false);
             if (endTurnButton != null) endTurnButton.gameObject.SetActive(false);
+            if (goalDisplay != null) goalDisplay.SetActive(false);
+        }
+
+        /// <summary>
+        /// Show goal display and set the tutorial goal values
+        /// </summary>
+        private void ShowGoalDisplay()
+        {
+            if (goalDisplay != null)
+            {
+                goalDisplay.SetActive(true);
+            }
+
+            if (goalValueText != null)
+            {
+                goalValueText.text = tutorialGoalValue.ToString();
+            }
+
+            if (goalSuitText != null)
+            {
+                goalSuitText.text = tutorialGoalSuit.ToString();
+            }
         }
         
         /// <summary>
         /// Spawn tutorial cards using deck.SpawnCardOnBoard
+        /// Stores references to cards for later use in tutorial steps
         /// </summary>
         private void SpawnTutorialCards()
         {
-            // Card 1: Coin-1
-            CardData card1 = new CardData(Suits.Coins, 1);
-            deck.SpawnCardOnBoard(card1);
-            
+            // Card 1: Coin-1 (first card to place in step 5)
+            tutorialCard_Coin1 = deck.SpawnCardOnBoard(new CardData(Suits.Coins, 1));
+
             // Card 2: Coin-3 (the one we'll ask player to place in step 9)
-            CardData card2 = new CardData(Suits.Coins, 3);
-            deck.SpawnCardOnBoard(card2);
-            
+            tutorialCard_Coin3 = deck.SpawnCardOnBoard(new CardData(Suits.Coins, 3));
+
             // Card 3: Skull-1
-            CardData card3 = new CardData(Suits.Skulls, 1);
-            deck.SpawnCardOnBoard(card3);
-            
+            tutorialCard_Skull1 = deck.SpawnCardOnBoard(new CardData(Suits.Skulls, 1));
+
             // Card 4: Rose-1
-            CardData card4 = new CardData(Suits.Roses, 1);
-            deck.SpawnCardOnBoard(card4);
-            
+            tutorialCard_Rose1 = deck.SpawnCardOnBoard(new CardData(Suits.Roses, 1));
+
             // Card 5: Crown-2
-            CardData card5 = new CardData(Suits.Crowns, 2);
-            deck.SpawnCardOnBoard(card5);
+            tutorialCard_Crown2 = deck.SpawnCardOnBoard(new CardData(Suits.Crowns, 2));
         }
-        
+
+        /// <summary>
+        /// Freeze all tutorial cards except the specified one
+        /// Uses stored card references directly
+        /// </summary>
+        private void FreezeAllCardsExcept(SimpleCard allowedCard)
+        {
+            SimpleCard[] allTutorialCards = {
+                tutorialCard_Coin1,
+                tutorialCard_Coin3,
+                tutorialCard_Skull1,
+                tutorialCard_Rose1,
+                tutorialCard_Crown2
+            };
+
+            foreach (SimpleCard card in allTutorialCards)
+            {
+                if (card != null)
+                {
+                    card.SetIndividualFreeze(card != allowedCard);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Unfreeze all tutorial cards
+        /// </summary>
+        private void UnfreezeAllCards()
+        {
+            SimpleCard[] allTutorialCards = {
+                tutorialCard_Coin1,
+                tutorialCard_Coin3,
+                tutorialCard_Skull1,
+                tutorialCard_Rose1,
+                tutorialCard_Crown2
+            };
+
+            foreach (SimpleCard card in allTutorialCards)
+            {
+                if (card != null)
+                {
+                    card.SetIndividualFreeze(false);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Freeze all tutorial cards
+        /// </summary>
+        private void FreezeAllCards()
+        {
+            SimpleCard[] allTutorialCards = {
+                tutorialCard_Coin1,
+                tutorialCard_Coin3,
+                tutorialCard_Skull1,
+                tutorialCard_Rose1,
+                tutorialCard_Crown2
+            };
+
+            foreach (SimpleCard card in allTutorialCards)
+            {
+                if (card != null)
+                {
+                    card.SetIndividualFreeze(true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Unfreeze the parent board of a card (in case it's different from handBoard/targetBoard)
+        /// </summary>
+        private void UnfreezeCardParentBoard(SimpleCard card)
+        {
+            if (card == null) return;
+
+            CardBoard parentBoard = card.GetComponentInParent<CardBoard>();
+            if (parentBoard != null)
+            {
+                parentBoard.SetFreeze(false);
+            }
+        }
+
         /// <summary>
         /// Check if the current spread is correct for tutorial
         /// For tutorial: need exactly value 5 with Coins as dominant suit
@@ -552,16 +744,22 @@ namespace CardGame.Managers
         {
             HideAllHighlights();
             HideAllBubbles();
-            
+
             if (tutorialCompleteSound != null && audioSource != null)
             {
                 audioSource.PlayOneShot(tutorialCompleteSound);
             }
-            
+
             Debug.Log("Tutorial complete! Player is ready to play.");
-            
-            // Here you can load the main game scene or show completion UI
-            // SceneManager.LoadScene("MainGame");
+
+            // Wait for final click then return to main menu
+            StartCoroutine(WaitAndReturnToMenu());
+        }
+
+        private IEnumerator WaitAndReturnToMenu()
+        {
+            yield return WaitForPlayerClick();
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         }
     }
 }

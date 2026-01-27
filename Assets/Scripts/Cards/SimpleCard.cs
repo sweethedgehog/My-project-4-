@@ -96,8 +96,13 @@ namespace CardGame.Cards
         // Get properties
         public Suits GetSuit() => suit;
         public int GetValue() => cardValue;
+
+        private bool individualFreeze = false;
+
         public bool CanInteract()
         {
+            if (individualFreeze) return false;
+
             CardBoard board = GetComponentInParent<CardBoard>();
             if (board != null)
             {
@@ -105,5 +110,30 @@ namespace CardGame.Cards
             }
             return true;
         }
+
+        /// <summary>
+        /// Freeze or unfreeze this specific card (independent of board state)
+        /// </summary>
+        public void SetIndividualFreeze(bool frozen)
+        {
+            individualFreeze = frozen;
+
+            CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
+            if (canvasGroup == null)
+            {
+                canvasGroup = gameObject.AddComponent<CanvasGroup>();
+            }
+
+            canvasGroup.interactable = !frozen;
+            canvasGroup.blocksRaycasts = !frozen;
+
+            // Darken the card when frozen (no transparency)
+            if (cardBackground != null)
+            {
+                cardBackground.color = frozen ? new Color(0.5f, 0.5f, 0.5f, 1f) : Color.white;
+            }
+        }
+
+        public bool IsIndividuallyFrozen() => individualFreeze;
     }
 }

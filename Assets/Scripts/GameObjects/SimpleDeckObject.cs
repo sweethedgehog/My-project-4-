@@ -126,14 +126,14 @@ namespace CardGame.GameObjects
             UpdateVisual();
         }
         
-        public void SpawnCardOnBoard(CardData cardData, bool fromDeck = false)
+        public SimpleCard SpawnCardOnBoard(CardData cardData, bool fromDeck = false)
         {
             if (targetBoard == null)
             {
                 Debug.LogWarning("Target board is not assigned! Spawning under mouse instead.");
                 SpawnCardAtMouse(cardData);
                 UpdateVisual();
-                return;
+                return null;
             }
 
             if (fromDeck)
@@ -143,43 +143,45 @@ namespace CardGame.GameObjects
             }
             // Create card - spawn it under the board's transform temporarily
             GameObject cardObj;
-            
+
             if (simpleCardPrefab != null)
             {
                 cardObj = Instantiate(simpleCardPrefab, targetBoard.transform);
             }
             else
             {
-				Debug.Log("createSimpleCard");
+                Debug.Log("createSimpleCard");
                 cardObj = CreateSimpleCard();
                 cardObj.transform.SetParent(targetBoard.transform);
             }
-            
+
             // Set initial position at board center (will be repositioned by AddCard)
             RectTransform cardRect = cardObj.GetComponent<RectTransform>();
             if (cardRect != null)
             {
                 cardRect.anchoredPosition = Vector2.zero;
             }
-            
+
             // Initialize card
             SimpleCard simpleCard = cardObj.GetComponent<SimpleCard>();
             if (simpleCard != null)
             {
                 simpleCard.Initialize(cardData);
             }
-            
+
             // Make draggable with board support
             SimpleDraggableWithBoard draggable = cardObj.GetComponent<SimpleDraggableWithBoard>();
             if (draggable == null)
             {
                 draggable = cardObj.AddComponent<SimpleDraggableWithBoard>();
             }
-            
+
             // Add directly to target board - this will position it correctly
             targetBoard.AddCard(simpleCard);
-            
+
             Debug.Log($"Drew: {cardData.suit} - Value {cardData.cardValue} → Added to {targetBoard.name} (Remaining: {deck.RemainingCards})");
+
+            return simpleCard;
         }
         
         void SpawnCardAtMouse(CardData cardData)

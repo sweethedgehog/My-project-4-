@@ -3027,7 +3027,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &436565768
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3067,7 +3067,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 14
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3d67daf697984e743977af5c0aed5f24, type: 2}
   m_sharedMaterial: {fileID: -9213576566228972854, guid: 3d67daf697984e743977af5c0aed5f24, type: 2}
@@ -3076,7 +3076,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4281150765
   m_fontColor: {r: 0.17610055, g: 0.17610055, b: 0.17610055, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -3621,6 +3621,9 @@ MonoBehaviour:
   endTurnButton: {fileID: 1187628346}
   pictureDisplay: {fileID: 2020981099}
   hintDisplay: {fileID: 1271769913}
+  goalDisplay: {fileID: 436565767}
+  goalValueText: {fileID: 0}
+  goalSuitText: {fileID: 0}
   tutorialGoalValue: 16
   tutorialGoalSuit: 1
   tutorialCompleteSound: {fileID: 0}
