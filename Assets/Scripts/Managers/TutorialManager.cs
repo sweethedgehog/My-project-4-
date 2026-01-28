@@ -7,6 +7,7 @@ using CardGame.Cards;
 using CardGame.Core;
 using CardGame.GameObjects;
 using CardGame.Scoring;
+using CardGame.UI;
 
 namespace CardGame.Managers
 {
@@ -60,6 +61,8 @@ namespace CardGame.Managers
         [SerializeField] private Button endTurnButton;
         [SerializeField] private GameObject pictureDisplay;
         [SerializeField] private GameObject hintDisplay;
+        [SerializeField] private RulesPanel rulesPanel;
+        [SerializeField] private Button rulesButton;
 
         [Header("Goal Display")]
         [SerializeField] private GameObject goalDisplay;
@@ -348,9 +351,28 @@ namespace CardGame.Managers
             currentStep = 11;
             HideAllBubbles();
             HideAllHighlights();
+
+            // Enable rules button for this step
+            if (rulesButton != null) rulesButton.interactable = true;
+
             ShowHighlight(highlight_RulesScroll);
             ShowBubble(bubble11_ReferToRules);
-            yield return WaitForPlayerClick();
+
+            // Wait for player to open the rules panel
+            while (rulesPanel == null || rulesPanel.CurrentTarget != RulesCords.Open)
+            {
+                yield return null;
+            }
+
+            // Hide bubble while player reads rules
+            HideAllBubbles();
+            HideAllHighlights();
+
+            // Wait for player to close the rules panel
+            while (rulesPanel.CurrentTarget != RulesCords.Closed || rulesPanel.IsMoving)
+            {
+                yield return null;
+            }
         }
         
         private IEnumerator Step12_ExplainDominantSuit()
@@ -588,6 +610,7 @@ namespace CardGame.Managers
             if (hintDisplay != null) hintDisplay.SetActive(false);
             if (endTurnButton != null) endTurnButton.gameObject.SetActive(false);
             if (goalDisplay != null) goalDisplay.SetActive(false);
+            if (rulesButton != null) rulesButton.interactable = false;
         }
 
         /// <summary>
@@ -760,6 +783,15 @@ namespace CardGame.Managers
         {
             yield return WaitForPlayerClick();
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        }
+
+        /// <summary>
+        /// Toggle the rules panel open/closed. Called by the Rules button.
+        /// </summary>
+        public void RulesToggle()
+        {
+            if (rulesPanel == null) return;
+            rulesPanel.Toggle();
         }
     }
 }

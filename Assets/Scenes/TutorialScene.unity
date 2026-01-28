@@ -3621,6 +3621,8 @@ MonoBehaviour:
   endTurnButton: {fileID: 1187628346}
   pictureDisplay: {fileID: 2020981099}
   hintDisplay: {fileID: 1271769913}
+  rulesPanel: {fileID: 1715484306}
+  rulesButton: {fileID: 0}
   goalDisplay: {fileID: 436565767}
   goalValueText: {fileID: 0}
   goalSuitText: {fileID: 0}
@@ -8741,8 +8743,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CardGame.Managers.RoundManager, Assembly-CSharp
+      - m_Target: {fileID: 649073193}
+        m_TargetAssemblyTypeName: CardGame.Managers.TutorialManager, Assembly-CSharp
         m_MethodName: RulesToggle
         m_Mode: 1
         m_Arguments:
