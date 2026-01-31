@@ -22,12 +22,18 @@ namespace CardGame.UI
         private float localY;
         private Vector2 targetPos;
         private bool isMoving = false;
+        private bool isLocked = false;
         
         /// <summary>
         /// Is the panel currently moving?
         /// </summary>
         public bool IsMoving => isMoving;
-        
+
+        /// <summary>
+        /// Is the panel locked (cannot be opened)?
+        /// </summary>
+        public bool IsLocked => isLocked;
+
         /// <summary>
         /// Current target position state
         /// </summary>
@@ -76,14 +82,28 @@ namespace CardGame.UI
         /// </summary>
         public void MoveTo(RulesCords targetState)
         {
+            // If locked, only allow closing, not opening
+            if (isLocked && targetState == RulesCords.Open)
+            {
+                return;
+            }
+
             CurrentTarget = targetState;
             targetPos = new Vector2((float)targetState, localY);
-            
+
             // Notify sound component
             if (panelSound != null)
             {
                 panelSound.PlaySoundForState(targetState);
             }
+        }
+
+        /// <summary>
+        /// Set whether the panel is locked (cannot be opened)
+        /// </summary>
+        public void SetLocked(bool locked)
+        {
+            isLocked = locked;
         }
         
         /// <summary>

@@ -29,6 +29,7 @@ namespace CardGame.Managers
         [SerializeField] public GameObject bubble9_PromptSpecificCard;
         [SerializeField] public GameObject bubble10_ExplainMultiplier;
         [SerializeField] public GameObject bubble11_ReferToRules;
+        [SerializeField] public GameObject bubble11b_RulesScrollOpened;
         [SerializeField] public GameObject bubble12_ExplainDominantSuit;
         [SerializeField] public GameObject bubble13_ExplainGoal;
         [SerializeField] public GameObject bubble14_WaitForCorrectSpread;
@@ -80,6 +81,7 @@ namespace CardGame.Managers
         private bool waitingForInput = false;
         private bool stepInProgress = false;
         private AudioSource audioSource;
+        private bool isRulesOpened = false;
 
         // References to tutorial cards (stored when spawned)
         private SimpleCard tutorialCard_Coin1;
@@ -111,6 +113,12 @@ namespace CardGame.Managers
         
         void Update()
         {
+            // Close rules panel when clicking anywhere while it's open
+            if (isRulesOpened && Input.GetMouseButton(0))
+            {
+                RulesToggle();
+            }
+
             // Allow player to click anywhere to continue when waiting for input
             if (waitingForInput && Input.GetMouseButtonDown(0))
             {
@@ -352,8 +360,9 @@ namespace CardGame.Managers
             HideAllBubbles();
             HideAllHighlights();
 
-            // Enable rules button for this step
+            // Enable rules button and unlock the scroll for this step
             if (rulesButton != null) rulesButton.interactable = true;
+            if (rulesPanel != null) rulesPanel.SetLocked(false);
 
             ShowHighlight(highlight_RulesScroll);
             ShowBubble(bubble11_ReferToRules);
@@ -364,15 +373,18 @@ namespace CardGame.Managers
                 yield return null;
             }
 
-            // Hide bubble while player reads rules
+            // Show bubble when scroll opens for the first time
             HideAllBubbles();
             HideAllHighlights();
+            ShowBubble(bubble11b_RulesScrollOpened);
 
             // Wait for player to close the rules panel
             while (rulesPanel.CurrentTarget != RulesCords.Closed || rulesPanel.IsMoving)
             {
                 yield return null;
             }
+
+            HideBubble(bubble11b_RulesScrollOpened);
         }
         
         private IEnumerator Step12_ExplainDominantSuit()
@@ -392,12 +404,14 @@ namespace CardGame.Managers
             HideAllHighlights();
             ShowBubble(bubble13_ExplainGoal);
             yield return WaitForPlayerClick();
+
+            // Keep bubble visible - it will stay until goal is reached in Step 14
         }
-        
+
         private IEnumerator Step14_WaitForCorrectSpread()
         {
             currentStep = 14;
-            HideAllBubbles();
+            // Don't hide bubble13 - keep it visible until goal is reached
             HideAllHighlights();
 
             // Show the end turn button
@@ -406,13 +420,14 @@ namespace CardGame.Managers
                 endTurnButton.gameObject.SetActive(true);
             }
 
-            // Wait for correct spread
+            // Wait for correct spread (bubble13_ExplainGoal stays visible)
             while (!IsSpreadCorrect())
             {
                 yield return new WaitForSeconds(0.5f);
             }
 
-            // Goal reached - freeze all cards
+            // Goal reached - now hide the goal bubble and freeze all cards
+            HideBubble(bubble13_ExplainGoal);
             FreezeAllCards();
 
             // Show bubble and highlight button together
@@ -505,6 +520,7 @@ namespace CardGame.Managers
             HideBubble(bubble9_PromptSpecificCard);
             HideBubble(bubble10_ExplainMultiplier);
             HideBubble(bubble11_ReferToRules);
+            HideBubble(bubble11b_RulesScrollOpened);
             HideBubble(bubble12_ExplainDominantSuit);
             HideBubble(bubble13_ExplainGoal);
             HideBubble(bubble14_WaitForCorrectSpread);
@@ -611,6 +627,7 @@ namespace CardGame.Managers
             if (endTurnButton != null) endTurnButton.gameObject.SetActive(false);
             if (goalDisplay != null) goalDisplay.SetActive(false);
             if (rulesButton != null) rulesButton.interactable = false;
+            if (rulesPanel != null) rulesPanel.SetLocked(true);
         }
 
         /// <summary>
@@ -791,6 +808,7 @@ namespace CardGame.Managers
         public void RulesToggle()
         {
             if (rulesPanel == null) return;
+            isRulesOpened = !isRulesOpened;
             rulesPanel.Toggle();
         }
     }
