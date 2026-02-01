@@ -43,12 +43,10 @@ namespace CardGame.Managers
         [SerializeField] private TextMeshProUGUI resultText;
 
         [Header("UI - Buttons")]
+        [SerializeField] private Button startRoundButton;
         [SerializeField] private Button endRoundButton;
         [SerializeField] private Button rerollSuitButton;
         [SerializeField] private Button rerollCardsButton;
-        [SerializeField] private Sprite postdictionSprite;
-        [SerializeField] private Sprite startSprite;
-        [SerializeField] private Sprite endSprite;
 
         [Header("Cat Animation")]
         [SerializeField] private CatAnimationController catAnimationController;
@@ -96,24 +94,25 @@ namespace CardGame.Managers
             audioSource = GetComponent<AudioSource>();
             inGameMenu = false;
             Time.timeScale = 1f;
+
+            if (startRoundButton != null)
+                startRoundButton.onClick.AddListener(OnStartButtonClicked);
             if (endRoundButton != null)
-            {
-                endRoundButton.onClick.AddListener(OnMainButtonClicked);
-            }
-            
+                endRoundButton.onClick.AddListener(OnEndButtonClicked);
             if (rerollSuitButton != null)
                 rerollSuitButton.onClick.AddListener(RerollSuitGoal);
             if (rerollCardsButton != null)
                 rerollCardsButton.onClick.AddListener(RerollCards);
-            // Initialize suit usage counter
+
             foreach (Suits suit in System.Enum.GetValues(typeof(Suits)))
             {
                 suitUsageCount[suit] = 0;
             }
-            
+
             UpdateRoundDisplay();
             UpdateScoreHistoryDisplay();
-            
+            UpdateButtonStates();
+
             if (resultText != null)
             {
                 resultText.gameObject.SetActive(false);
@@ -121,33 +120,19 @@ namespace CardGame.Managers
             isRulesOpened = false;
         }
 
-        private void OnMainButtonClicked()
+        private void OnStartButtonClicked()
         {
-            if (currentRound >= maxRounds && isWaitingToDeal)
+            if (currentRound >= maxRounds)
             {
                 StartPostdiction();
                 return;
             }
+            StartRound();
+        }
 
-            Image buttonImage = endRoundButton.GetComponent<Image>();
-
-            if (isWaitingToDeal)
-            {
-                StartRound();
-            }
-            else
-            {
-                bool roundEnded = EndRound();
-                if (!roundEnded) return;
-            }
-
-            isWaitingToDeal = !isWaitingToDeal;
-            buttonImage.sprite = isWaitingToDeal ? startSprite : endSprite;
-
-            if (currentRound >= maxRounds && isWaitingToDeal)
-            {
-                buttonImage.sprite = postdictionSprite;
-            }
+        private void OnEndButtonClicked()
+        {
+            EndRound();
         }
         
         private void Update()
@@ -155,6 +140,23 @@ namespace CardGame.Managers
             if (inGameMenu) return;
             if (isRulesOpened && Input.GetMouseButton(0)) RulesToggle();
             if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene("GameMenu", LoadSceneMode.Additive);
+
+            // Continuously update end button state based on card count (user can drag cards)
+            if (!isWaitingToDeal && endRoundButton != null)
+            {
+                endRoundButton.interactable = targetBoard.CardCount > 0;
+            }
+        }
+
+        private void UpdateButtonStates()
+        {
+            // Start button: active only between rounds
+            if (startRoundButton != null)
+                startRoundButton.interactable = isWaitingToDeal;
+
+            // End button: active during round AND when targetBoard has cards
+            if (endRoundButton != null)
+                endRoundButton.interactable = !isWaitingToDeal && targetBoard.CardCount > 0;
         }
 
         public void RulesToggle()
@@ -174,32 +176,46 @@ namespace CardGame.Managers
                 Debug.Log("Already dealing cards!");
                 return;
             }
-            
-            handBoard.SetFreeze(false);
-            
+
             if (isRoundActive)
             {
                 Debug.Log("Round already in progress! End current round first.");
                 return;
             }
-            
+
             if (deck == null || targetBoard == null || handBoard == null)
             {
                 Debug.LogError("Deck or Board not assigned!");
                 return;
             }
-            
+
+            // Clear cards from previous round
+            ClearPreviousRoundCards();
+
+            // Unfreeze both boards for the new round
+            handBoard.SetFreeze(false);
+            targetBoard.SetFreeze(false);
+
             currentRound++;
             isRoundActive = true;
+            isWaitingToDeal = false;
             audioSource.PlayOneShot(cardsShuffle);
-            
-            // Generate random goal
+
             GenerateGoal();
-            
-            // Deal cards to board
             StartCoroutine(DealCardsToBoard());
-            
+
             UpdateRoundDisplay();
+            UpdateButtonStates();
+        }
+
+        private void ClearPreviousRoundCards()
+        {
+            var targetCards = targetBoard.GetCards();
+            foreach (var card in targetCards)
+            {
+                if (card != null) Destroy(card.gameObject);
+            }
+            targetBoard.ClearBoard();
         }
 
 
@@ -210,13 +226,15 @@ namespace CardGame.Managers
         
         private void UpdateAvailabilityField()
         {
+            if (availabilityText == null) return;
+
             List<SimpleCard> currentCards = GetActiveCards();
             List<CardData> cardsData = new List<CardData>();
             foreach (var card in currentCards)
             {
                 cardsData.Add(card.GetCardData());
             }
-            
+
             int result = CheckAvailability(cardsData);
             switch (result)
             {
@@ -242,9 +260,7 @@ namespace CardGame.Managers
                 Debug.Log("No active round to end!");
                 return false;
             }
-            
-            handBoard.SetFreeze(true);
-            
+
             // Check if at least one card is on the board
             if (targetBoard.CardCount == 0)
             {
@@ -255,22 +271,25 @@ namespace CardGame.Managers
                 }
                 return false;
             }
-            
+
+            // Freeze both boards - cards stay visible but can't be moved
+            handBoard.SetFreeze(true);
+            targetBoard.SetFreeze(true);
+
             // Calculate round score
             SuccessCodes roundScore = CalculateRoundScore();
             scoreHistory.Add(roundScore);
             if (tilesManager != null && tilesManager.isActive) tilesManager.setVisibility(roundScore);
-            
+
             // Show result
             StartCoroutine(ShowRoundResult(roundScore));
-            
-            // Clear the board
-            ClearBoard();
-            
-            // Mark round as inactive
+
+            // Mark round as inactive, ready for next round
             isRoundActive = false;
-            
+            isWaitingToDeal = true;
+
             UpdateScoreHistoryDisplay();
+            UpdateButtonStates();
 
             return true;
         }

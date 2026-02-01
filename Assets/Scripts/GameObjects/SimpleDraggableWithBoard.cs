@@ -46,8 +46,6 @@ namespace CardGame.GameObjects
         
         public void OnPointerDown(PointerEventData eventData)
         {
-            Debug.Log("Card clicked!");
-            
             Vector2 clickPos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 canvas.transform as RectTransform,
@@ -64,11 +62,9 @@ namespace CardGame.GameObjects
         {
             if (!simpleCard.CanInteract())
             {
-                Debug.Log("Card is on a frozen board - cannot drag");
                 return;
             }
             
-            Debug.Log("Begin drag");
             isDragging = true;
             canvasGroup.blocksRaycasts = false;
             
@@ -112,8 +108,7 @@ namespace CardGame.GameObjects
                 canvas.worldCamera,
                 out mousePos
             );
-            Debug.Log(mousePos);
-            
+
             rectTransform.anchoredPosition = mousePos + offset;
             
             // Check if hovering over a board
@@ -124,7 +119,6 @@ namespace CardGame.GameObjects
         {
             if (!isDragging) return;
             
-            Debug.Log("End drag");
             isDragging = false;
             canvasGroup.blocksRaycasts = true;
             
@@ -134,18 +128,13 @@ namespace CardGame.GameObjects
             if (targetBoard != null)
             {
                 targetBoard.AddCard(simpleCard);
-                Debug.Log($"Card added to board: {targetBoard.name}");
             }
             else
             {
-                // No board found - must return to original board or find any board
-                Debug.Log("Card not dropped on any board - returning to source");
-                
-                // Try to return to original board
+                // No board found - return to original board or find any board
                 if (currentBoard != null)
                 {
                     currentBoard.AddCard(simpleCard);
-                    Debug.Log($"Card returned to original board: {currentBoard.name}");
                 }
                 else
                 {
@@ -154,12 +143,9 @@ namespace CardGame.GameObjects
                     if (allBoards.Length > 0)
                     {
                         allBoards[0].AddCard(simpleCard);
-                        Debug.Log($"Card placed on default board: {allBoards[0].name}");
                     }
                     else
                     {
-                        Debug.LogError("No boards available! Card is lost!");
-                        // Destroy card as last resort
                         Destroy(gameObject);
                     }
                 }
