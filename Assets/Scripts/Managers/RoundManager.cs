@@ -418,7 +418,8 @@ namespace CardGame.Managers
             if (goalSuitText != null)
             {
                 goalSuitText.color = Color.black;
-                goalSuitText.text = RoundTips.replicas[(int)currentGoalSuit - 1, currentRound];
+                goalSuitText.text = RoundTips.replica[currentRound];
+                //goalSuitText.text = RoundTips.replicas[(int)currentGoalSuit - 1, currentRound];
                 // goalSuitText.color = GetSuitColor(currentGoalSuit);
             }
             

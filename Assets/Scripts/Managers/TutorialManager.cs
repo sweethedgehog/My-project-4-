@@ -8,6 +8,7 @@ using CardGame.Core;
 using CardGame.GameObjects;
 using CardGame.Scoring;
 using CardGame.UI;
+using UnityEngine.SceneManagement;
 
 namespace CardGame.Managers
 {
@@ -91,6 +92,8 @@ namespace CardGame.Managers
         private SimpleCard tutorialCard_Skull1;
         private SimpleCard tutorialCard_Rose1;
         private SimpleCard tutorialCard_Crown2;
+
+
         
         void Start()
         {
@@ -480,8 +483,8 @@ namespace CardGame.Managers
             ShowBubble(bubble16_ShowHint);
             yield return WaitForPlayerClick();
         }
-        
-        private IEnumerator Step17_FinalAdvice()
+
+         private IEnumerator Step17_FinalAdvice()
         {
             currentStep = 17;
             HideAllBubbles();
@@ -780,10 +783,15 @@ namespace CardGame.Managers
             // Check if matches tutorial goal
             return totalValue == tutorialGoalValue && dominantSuit == tutorialGoalSuit;
         }
-        
+
         /// <summary>
         /// Complete the tutorial
         /// </summary>
+        /// 
+        public void LoadLevel(string levelIndex)
+        {
+            SceneManager.LoadScene(levelIndex);
+        }
         private void CompleteTutorial()
         {
             HideAllHighlights();
