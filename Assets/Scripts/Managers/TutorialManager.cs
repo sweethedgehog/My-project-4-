@@ -73,6 +73,7 @@ namespace CardGame.Managers
         [Header("Tutorial Settings")]
         [SerializeField] private int tutorialGoalValue = 5;
         [SerializeField] private Suits tutorialGoalSuit = Suits.Coins;
+        [SerializeField] private float bubbleSkipDelay = 0.5f;
         
         [Header("Audio")]
         [SerializeField] private AudioClip tutorialCompleteSound;
@@ -82,6 +83,7 @@ namespace CardGame.Managers
         private bool stepInProgress = false;
         private AudioSource audioSource;
         private bool isRulesOpened = false;
+        private float bubbleShowTime;
 
         // References to tutorial cards (stored when spawned)
         private SimpleCard tutorialCard_Coin1;
@@ -120,7 +122,8 @@ namespace CardGame.Managers
             }
 
             // Allow player to click anywhere to continue when waiting for input
-            if (waitingForInput && Input.GetMouseButtonDown(0))
+            // Only allow skip after bubbleSkipDelay has passed since bubble appeared
+            if (waitingForInput && Input.GetMouseButtonDown(0) && Time.time - bubbleShowTime >= bubbleSkipDelay)
             {
                 ContinueTutorial();
             }
@@ -496,6 +499,7 @@ namespace CardGame.Managers
             if (bubble != null)
             {
                 bubble.SetActive(true);
+                bubbleShowTime = Time.time;
             }
         }
         
