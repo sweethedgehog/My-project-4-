@@ -47,6 +47,10 @@ namespace CardGame.Managers
         [SerializeField] private TextMeshProUGUI scoreHistoryText;
         [SerializeField] private TextMeshProUGUI availabilityText; 
         
+        [Header("Cat Animation")]
+        [SerializeField] private CatAnimationController catAnimationController;
+        [SerializeField] private float catTalkDuration = 3f;
+
         [Header("End Round")]
         [SerializeField] private Button endRoundButton;
         [SerializeField] private Button rerollSuitButton;
@@ -414,14 +418,8 @@ namespace CardGame.Managers
                 goalValueText.text = currentGoalValue.ToString();
             }
             
-            // Update suit text
-            if (goalSuitText != null)
-            {
-                goalSuitText.color = Color.black;
-                goalSuitText.text = RoundTips.replica[currentRound];
-                //goalSuitText.text = RoundTips.replicas[(int)currentGoalSuit - 1, currentRound];
-                // goalSuitText.color = GetSuitColor(currentGoalSuit);
-            }
+            // Update suit text (cat replica) and trigger cat talk animation
+            SetCatReplica(RoundTips.replica[currentRound]);
             
             // Update goal card image (if using visual card)
             if (goalCardImage != null)
@@ -635,6 +633,23 @@ namespace CardGame.Managers
         }
         
         /// <summary>
+        /// Sets the cat's replica text and triggers talk animation
+        /// </summary>
+        private void SetCatReplica(string text)
+        {
+            if (goalSuitText != null)
+            {
+                goalSuitText.color = Color.black;
+                goalSuitText.text = text;
+            }
+
+            if (catAnimationController != null)
+            {
+                catAnimationController.CatTalkForDuration(catTalkDuration);
+            }
+        }
+
+        /// <summary>
         /// Get color for a suit
         /// </summary>
         private Color GetSuitColor(Suits suit)
@@ -680,6 +695,8 @@ namespace CardGame.Managers
                 goalValueText.text = "?";
             if (goalSuitText != null)
                 goalSuitText.text = "Press Start";
+            if (catAnimationController != null)
+                catAnimationController.CatIdle();
             // if (endRoundButton != null)
             //     endRoundButton.interactable = false;
             
