@@ -1,21 +1,19 @@
 ﻿using System;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using TMPro;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
 using CardGame.Cards;
 using CardGame.Core;
 using CardGame.GameObjects;
 using CardGame.Scoring;
 using CardGame.UI;
 using DefaultNamespace.Tiles;
-using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
 using Random = UnityEngine.Random;
-using System.Linq;
 
 
 namespace CardGame.Managers
@@ -29,58 +27,70 @@ namespace CardGame.Managers
         [SerializeField] private SimpleDeckObject deck;
         [SerializeField] private CardBoard handBoard;
         [SerializeField] private CardBoard targetBoard;
+        [SerializeField] private TilesManager tilesManager;
+        [SerializeField] private RulesPanel rulesPanel;
         [SerializeField] private bool onlyPossibleSetsMode = false;
-        
-        [Header("Goal Display")]
+
+        [Header("UI - Goal Display")]
         [SerializeField] private TextMeshProUGUI goalValueText;
         [SerializeField] private TextMeshProUGUI goalSuitText;
-        [SerializeField] private Image goalCardImage; // Optional: visual card display
-        
-        [Header("Round Settings")]
-        [SerializeField] private int minGoalValue = 8;
-        [SerializeField] private int maxGoalValue = 14;
-        [SerializeField] private int cardsPerRound = 5;
-        [SerializeField] private float dealDelay = 0.3f; // Delay between dealing cards
-        
-        [Header("Round Info")]
-        [SerializeField] private TextMeshProUGUI roundNumberText; // Optional: show current round
-        [SerializeField] private TextMeshProUGUI scoreHistoryText;
-        [SerializeField] private TextMeshProUGUI availabilityText; 
-        
-        [Header("Cat Animation")]
-        [SerializeField] private CatAnimationController catAnimationController;
-        [SerializeField] private float catTalkDuration = 3f;
+        [SerializeField] private Image goalCardImage;
 
-        [Header("End Round")]
+        [Header("UI - Round Info")]
+        [SerializeField] private TextMeshProUGUI roundNumberText;
+        [SerializeField] private TextMeshProUGUI scoreHistoryText;
+        [SerializeField] private TextMeshProUGUI availabilityText;
+        [SerializeField] private TextMeshProUGUI resultText;
+
+        [Header("UI - Buttons")]
         [SerializeField] private Button endRoundButton;
         [SerializeField] private Button rerollSuitButton;
         [SerializeField] private Button rerollCardsButton;
         [SerializeField] private Sprite postdictionSprite;
         [SerializeField] private Sprite startSprite;
         [SerializeField] private Sprite endSprite;
-        [SerializeField] private TextMeshProUGUI resultText; // Shows round result
-        [SerializeField] private float resultDisplayTime = 2f; // How long to show result
-        
+
+        [Header("Cat Animation")]
+        [SerializeField] private CatAnimationController catAnimationController;
+        [SerializeField] private float catTalkDuration = 3f;
+
+        [Header("Round Settings")]
+        [SerializeField] private int minGoalValue = 8;
+        [SerializeField] private int maxGoalValue = 14;
+        [SerializeField] private int cardsPerRound = 5;
+        [SerializeField] private float dealDelay = 0.3f;
+        [SerializeField] private float resultDisplayTime = 2f;
+
         [Header("Game Rules")]
         [SerializeField] private int maxRounds = 6;
         [SerializeField] private int maxSameSuitOccurrences = 2;
-        
-        public AudioClip cardsShuffle;
-        
+
+        [Header("Audio")]
+        [SerializeField] private AudioClip cardsShuffle;
+
+        // Runtime state
         private AudioSource audioSource;
         private int currentRound = 0;
-        private List<SuccessCodes> scoreHistory = new List<SuccessCodes>(); // List of scores per round
-        [SerializeField] private TilesManager tilesManager;
-        private Dictionary<Suits, int> suitUsageCount = new Dictionary<Suits, int>(); // Track suit usage
         private int currentGoalValue;
         private Suits currentGoalSuit;
+        private List<SuccessCodes> scoreHistory = new List<SuccessCodes>();
+        private Dictionary<Suits, int> suitUsageCount = new Dictionary<Suits, int>();
         private bool isDealing = false;
-        private bool roundActive = false; // Track if round is in progress
+        private bool isRoundActive = false;
         private bool isRulesOpened = false;
-        [SerializeField] private RulesPanel rulesPanel;
+        private bool isWaitingToDeal = true;
+
         public static bool inGameMenu = false;
-        private bool inDealState = true;
-        
+
+        // Availability check result codes
+        private const int AVAILABILITY_FULL_MATCH = 2;
+        private const int AVAILABILITY_VALUE_ONLY = 1;
+        private const int AVAILABILITY_NO_MATCH = 0;
+
+        // Retry limits for card set generation
+        private const int MAX_CARD_REROLL_ATTEMPTS = 5;
+        private const int MAX_SUIT_REROLL_ATTEMPTS = 5;
+
         void Start()
         {
             audioSource = GetComponent<AudioSource>();
@@ -88,12 +98,13 @@ namespace CardGame.Managers
             Time.timeScale = 1f;
             if (endRoundButton != null)
             {
-                endRoundButton.onClick.AddListener(listener);
-                // endRoundButton.interactable = false; // Disabled until round starts
+                endRoundButton.onClick.AddListener(OnMainButtonClicked);
             }
             
-            rerollSuitButton.onClick.AddListener(RerollSuitGoal);
-            rerollCardsButton.onClick.AddListener(RerollCards);
+            if (rerollSuitButton != null)
+                rerollSuitButton.onClick.AddListener(RerollSuitGoal);
+            if (rerollCardsButton != null)
+                rerollCardsButton.onClick.AddListener(RerollCards);
             // Initialize suit usage counter
             foreach (Suits suit in System.Enum.GetValues(typeof(Suits)))
             {
@@ -110,20 +121,30 @@ namespace CardGame.Managers
             isRulesOpened = false;
         }
 
-        private void listener()
+        private void OnMainButtonClicked()
         {
-            if (currentRound >= maxRounds && inDealState)
+            if (currentRound >= maxRounds && isWaitingToDeal)
             {
                 StartPostdiction();
                 return;
             }
+
             Image buttonImage = endRoundButton.GetComponent<Image>();
-            if (inDealState) StartRound();
-            else inDealState = !EndRound();
-            
-            buttonImage.sprite = inDealState ? endSprite : startSprite;
-            inDealState = !inDealState;
-            if (currentRound >= maxRounds && inDealState)
+
+            if (isWaitingToDeal)
+            {
+                StartRound();
+            }
+            else
+            {
+                bool roundEnded = EndRound();
+                if (!roundEnded) return;
+            }
+
+            isWaitingToDeal = !isWaitingToDeal;
+            buttonImage.sprite = isWaitingToDeal ? startSprite : endSprite;
+
+            if (currentRound >= maxRounds && isWaitingToDeal)
             {
                 buttonImage.sprite = postdictionSprite;
             }
@@ -156,7 +177,7 @@ namespace CardGame.Managers
             
             handBoard.SetFreeze(false);
             
-            if (roundActive)
+            if (isRoundActive)
             {
                 Debug.Log("Round already in progress! End current round first.");
                 return;
@@ -169,7 +190,7 @@ namespace CardGame.Managers
             }
             
             currentRound++;
-            roundActive = true;
+            isRoundActive = true;
             audioSource.PlayOneShot(cardsShuffle);
             
             // Generate random goal
@@ -197,17 +218,17 @@ namespace CardGame.Managers
             }
             
             int result = CheckAvailability(cardsData);
-            if (result == 2)
+            switch (result)
             {
-                availabilityText.text = "Full";
-            }
-            if (result == 1)
-            {
-                availabilityText.text = "Only value";
-            }
-            if (result == 0)
-            {
-                availabilityText.text = "Nothing Here";
+                case AVAILABILITY_FULL_MATCH:
+                    availabilityText.text = "Full";
+                    break;
+                case AVAILABILITY_VALUE_ONLY:
+                    availabilityText.text = "Only value";
+                    break;
+                case AVAILABILITY_NO_MATCH:
+                    availabilityText.text = "Nothing Here";
+                    break;
             }
         }
         
@@ -216,7 +237,7 @@ namespace CardGame.Managers
         /// </summary>
         public bool EndRound()
         {
-            if (!roundActive)
+            if (!isRoundActive)
             {
                 Debug.Log("No active round to end!");
                 return false;
@@ -235,17 +256,8 @@ namespace CardGame.Managers
                 return false;
             }
             
-            // Get the scorer from the board
-            CardScorer scorer = targetBoard.GetComponentInChildren<CardScorer>();
-            
-            if (scorer == null)
-            {
-                Debug.LogError("No CardScorer found on board!");
-                return false;
-            }
-            
             // Calculate round score
-            SuccessCodes roundScore = CalculateRoundScore(scorer);
+            SuccessCodes roundScore = CalculateRoundScore();
             scoreHistory.Add(roundScore);
             if (tilesManager != null && tilesManager.isActive) tilesManager.setVisibility(roundScore);
             
@@ -256,13 +268,7 @@ namespace CardGame.Managers
             ClearBoard();
             
             // Mark round as inactive
-            roundActive = false;
-            
-            // Disable end round button
-            if (endRoundButton != null)
-            {
-                // if (currentRound < maxRounds - 1) endRoundButton.interactable = false;
-            }
+            isRoundActive = false;
             
             UpdateScoreHistoryDisplay();
 
@@ -283,16 +289,16 @@ namespace CardGame.Managers
             UpdateGoalDisplay();
         }
 
-		private void RerollSuitGoal()
-		{
-			suitUsageCount[currentGoalSuit]--;
-			RollNewSuitGoal();
+        private void RerollSuitGoal()
+        {
+            suitUsageCount[currentGoalSuit]--;
+            RollNewSuitGoal();
             UpdateGoalDisplay();
-		}       
+        }
 
-		private void RollNewSuitGoal()
-		{
-			List<Suits> availableSuits = new List<Suits>();
+        private void RollNewSuitGoal()
+        {
+            List<Suits> availableSuits = new List<Suits>();
             foreach (Suits suit in System.Enum.GetValues(typeof(Suits)))
             {
                 if (suitUsageCount[suit] < maxSameSuitOccurrences)
@@ -300,7 +306,7 @@ namespace CardGame.Managers
                     availableSuits.Add(suit);
                 }
             }
-            
+
             if (availableSuits.Count == 0)
             {
                 Debug.LogWarning("All suits have reached max usage! Resetting suit counters.");
@@ -310,11 +316,10 @@ namespace CardGame.Managers
                     availableSuits.Add(suit);
                 }
             }
-            
-            // Random suit from available ones
+
             currentGoalSuit = availableSuits[Random.Range(0, availableSuits.Count)];
             suitUsageCount[currentGoalSuit]++;
-		}
+        }
 
         private void RerollCards()
         {
@@ -375,30 +380,24 @@ namespace CardGame.Managers
             yield return StartCoroutine(DrawCardsToBoard(newSetOfCards));
         }
 
-        private void ReturnCards(List<CardData> cardsToReturn)
-        {
-            foreach (CardData cardData in cardsToReturn)
-            {
-                deck.ShuffleCardIntoDeck(cardData);
-            }
-        }
-        
         private List<CardData> GetPossibleSetOfCards(int cardsNum)
         {
             List<CardData> newSetOfCards = GetNewSetOfCards(cardsNum);
             List<CardData> currentCardSet = handBoard.GetCardsData();
-            for (int j = 0; j < 5; j++)
+
+            for (int suitAttempt = 0; suitAttempt < MAX_SUIT_REROLL_ATTEMPTS; suitAttempt++)
             {
-                for (int i = 0; i < 5; i++)
+                for (int cardAttempt = 0; cardAttempt < MAX_CARD_REROLL_ATTEMPTS; cardAttempt++)
                 {
                     newSetOfCards = GetNewSetOfCards(cardsNum);
-                    if (CheckAvailability(newSetOfCards.Concat(currentCardSet).ToList()) == 2)
+                    if (CheckAvailability(newSetOfCards.Concat(currentCardSet).ToList()) == AVAILABILITY_FULL_MATCH)
                     {
                         return newSetOfCards;
                     }
                 }
                 RerollSuitGoal();
             }
+
             return newSetOfCards;
         }
         
@@ -433,13 +432,10 @@ namespace CardGame.Managers
         
         /// <summary>
         /// Calculate score based on goal matching
-        /// Returns 0, 0.5, or 1.0
         /// </summary>
-        private SuccessCodes CalculateRoundScore(CardScorer scorer)
+        private SuccessCodes CalculateRoundScore()
         {
-            // Need to get the score from the scorer
-            // We'll need to expose a method to get the current score
-            Score currentScore = GetScoreFromScorer(scorer);
+            Score currentScore = CalculateScoreFromBoard();
             
             int achievedScore = currentScore.GetFullScore();
             Suits? dominantSuit = currentScore.GetDominantSuit();
@@ -470,21 +466,16 @@ namespace CardGame.Managers
             }
         }
         
-        /// <summary>
-        /// Get Score object from CardScorer
-        /// This is a helper that uses reflection to get the private score
-        /// </summary>
-        private Score GetScoreFromScorer(CardScorer scorer)
+        private Score CalculateScoreFromBoard()
         {
-            // We need to calculate the score by getting cards from board
             var cards = targetBoard.GetCards();
-            
+
             CardLayout layout = new CardLayout();
             foreach (var simpleCard in cards)
             {
                 layout.AddCard(simpleCard);
             }
-            
+
             return layout.GetScore();
         }
         
@@ -562,28 +553,6 @@ namespace CardGame.Managers
                 
                 resultText.gameObject.SetActive(false);
             }
-        }
-        
-        /// <summary>
-        /// Show game over screen
-        /// </summary>
-        private void ShowGameOver()
-        {
-            float totalScore = 0f;
-            foreach (SuccessCodes score in scoreHistory)
-            {
-                totalScore += (float)score / 2;
-            }
-            
-            if (resultText != null)
-            {
-                resultText.gameObject.SetActive(true);
-                resultText.text = $"GAME OVER!\n\nFinal Score: {totalScore:F1}/{maxRounds}\n\n{GetScoreHistoryString()}";
-                resultText.color = Color.white;
-                resultText.fontSize = 36;
-            }
-            
-            Debug.Log($"Game Over! Final Score: {totalScore}/{maxRounds}");
         }
         
         /// <summary>
@@ -684,7 +653,7 @@ namespace CardGame.Managers
             currentRound = 0;
             scoreHistory = new List<SuccessCodes> {};
             currentGoalValue = 0;
-            roundActive = false;
+            isRoundActive = false;
             
             ClearBoard();
             
@@ -697,9 +666,7 @@ namespace CardGame.Managers
                 goalSuitText.text = "Press Start";
             if (catAnimationController != null)
                 catAnimationController.CatIdle();
-            // if (endRoundButton != null)
-            //     endRoundButton.interactable = false;
-            
+
             Debug.Log("Game reset!");
         }
     }
