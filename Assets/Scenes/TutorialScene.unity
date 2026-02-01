@@ -3987,6 +3987,7 @@ MonoBehaviour:
   goalSuitText: {fileID: 0}
   tutorialGoalValue: 16
   tutorialGoalSuit: 1
+  bubbleSkipDelay: 1
   tutorialCompleteSound: {fileID: 0}
 --- !u!1 &650235910
 GameObject:
@@ -10055,9 +10056,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1144481733}
   - {fileID: 1541792155}
   - {fileID: 70179694}
-  - {fileID: 1144481733}
   m_Father: {fileID: 1829038716}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

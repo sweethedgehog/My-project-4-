@@ -186,10 +186,8 @@ namespace CardGame.Managers
             yield return Step16_ShowHint();
             
             // Step 17: Final advice
+            // Bubble stays on screen with buttons - they handle navigation via LoadLevel()
             yield return Step17_FinalAdvice();
-            
-            // Tutorial complete
-            CompleteTutorial();
         }
         
         // ====================================================================
@@ -384,13 +382,19 @@ namespace CardGame.Managers
             HideAllHighlights();
             ShowBubble(bubble11b_RulesScrollOpened);
 
-            // Wait for player to close the rules panel
-            while (rulesPanel.CurrentTarget != RulesCords.Closed || rulesPanel.IsMoving)
+            // Wait for player to start closing the rules panel (hide bubble immediately)
+            while (rulesPanel.CurrentTarget != RulesCords.Closed)
             {
                 yield return null;
             }
 
             HideBubble(bubble11b_RulesScrollOpened);
+
+            // Wait for panel to finish closing before continuing
+            while (rulesPanel.IsMoving)
+            {
+                yield return null;
+            }
         }
         
         private IEnumerator Step12_ExplainDominantSuit()
@@ -484,13 +488,14 @@ namespace CardGame.Managers
             yield return WaitForPlayerClick();
         }
 
-         private IEnumerator Step17_FinalAdvice()
+        private IEnumerator Step17_FinalAdvice()
         {
             currentStep = 17;
             HideAllBubbles();
             HideAllHighlights();
             ShowBubble(bubble17_FinalAdvice);
-            yield return WaitForPlayerClick();
+            // Bubble stays on screen - buttons on the bubble will handle navigation via LoadLevel()
+            yield break;
         }
         
         // ====================================================================
