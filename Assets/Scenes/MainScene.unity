@@ -1585,6 +1585,7 @@ GameObject:
   - component: {fileID: 650745554}
   - component: {fileID: 650745556}
   - component: {fileID: 650745555}
+  - component: {fileID: 650745557}
   m_Layer: 5
   m_Name: Ball
   m_TagString: Untagged
@@ -1649,6 +1650,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 650745553}
   m_CullTransparentMesh: 1
+--- !u!114 &650745557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650745553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d842ddd49dc6b4449a193b1e7acc2230, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardGame.UI.BallSpriteByGoalSuit
+  roundManager: {fileID: 780156730}
+  coinsSprite: {fileID: 21300000, guid: a3627142246dedf44b65e9051bba93ac, type: 3}
+  crownsSprite: {fileID: 21300000, guid: fbff80b5eb8644d4c86e12b62c976af0, type: 3}
+  skullsSprite: {fileID: 21300000, guid: ea96b65289f6d1549b036f53e93726cb, type: 3}
+  rosesSprite: {fileID: 21300000, guid: c9e94945d699c6d46884b4b5b254ca08, type: 3}
 --- !u!1 &673096946
 GameObject:
   m_ObjectHideFlags: 0
