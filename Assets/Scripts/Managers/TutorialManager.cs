@@ -669,20 +669,22 @@ namespace CardGame.Managers
         /// </summary>
         private void SpawnTutorialCards()
         {
-            // Card 1: Coin-1 (first card to place in step 5)
-            tutorialCard_Coin1 = deck.SpawnCardOnBoard(new CardData(Suits.Coins, 1));
+            // Cards spawned left-to-right: 3co, 1r, 2cr, 1s, 1co
 
-            // Card 2: Coin-3 (the one we'll ask player to place in step 9)
+            // Card 1 (leftmost): Coin-3 (the one we'll ask player to place in step 9)
             tutorialCard_Coin3 = deck.SpawnCardOnBoard(new CardData(Suits.Coins, 3));
 
-            // Card 3: Skull-1
-            tutorialCard_Skull1 = deck.SpawnCardOnBoard(new CardData(Suits.Skulls, 1));
-
-            // Card 4: Rose-1
+            // Card 2: Rose-1
             tutorialCard_Rose1 = deck.SpawnCardOnBoard(new CardData(Suits.Roses, 1));
 
-            // Card 5: Crown-2
+            // Card 3: Crown-2
             tutorialCard_Crown2 = deck.SpawnCardOnBoard(new CardData(Suits.Crowns, 2));
+
+            // Card 4: Skull-1
+            tutorialCard_Skull1 = deck.SpawnCardOnBoard(new CardData(Suits.Skulls, 1));
+
+            // Card 5 (rightmost): Coin-1 (first card to place in step 5)
+            tutorialCard_Coin1 = deck.SpawnCardOnBoard(new CardData(Suits.Coins, 1));
         }
 
         /// <summary>

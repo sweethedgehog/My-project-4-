@@ -176,8 +176,8 @@ namespace CardGame.GameObjects
                 draggable = cardObj.AddComponent<SimpleDraggableWithBoard>();
             }
 
-            // Add directly to target board - this will position it correctly
-            targetBoard.AddCard(simpleCard);
+            // Append to rightmost position for consistent left-to-right ordering
+            targetBoard.AppendCard(simpleCard);
 
             Debug.Log($"Drew: {cardData.suit} - Value {cardData.cardValue} → Added to {targetBoard.name} (Remaining: {deck.RemainingCards})");
 

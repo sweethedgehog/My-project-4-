@@ -158,6 +158,17 @@ namespace CardGame.GameObjects
 
         public void AddCard(SimpleCard card)
         {
+            AddCardAtPosition(card, -1); // -1 means auto-detect position based on card location
+        }
+
+        /// <summary>
+        /// Add a card at a specific index (left-to-right order)
+        /// Use index -1 for position-based insertion (drag-drop behavior)
+        /// Use index >= 0 to insert at specific position (0 = leftmost)
+        /// Use index >= cards.Count to append at rightmost position
+        /// </summary>
+        public void AddCardAtPosition(SimpleCard card, int index)
+        {
             if (freeze)
             {
                 Debug.Log($"Board {gameObject.name} is frozen - cannot add cards");
@@ -171,35 +182,43 @@ namespace CardGame.GameObjects
                 card.TurnOffGlow();
             }
 
-            RectTransform cardRect = card.GetComponent<RectTransform>();
-
-            // Get card position in board's local space
-            Vector2 localCardPos = transform.InverseTransformPoint(cardRect.position);
-            float cardX = localCardPos.x;
-
-            if (cards.Count == 0)
+            if (index < 0)
             {
-                cards.Add(card);
+                // Auto-detect position based on card's current location (original drag-drop behavior)
+                RectTransform cardRect = card.GetComponent<RectTransform>();
+                Vector2 localCardPos = transform.InverseTransformPoint(cardRect.position);
+                float cardX = localCardPos.x;
+
+                if (cards.Count == 0)
+                {
+                    cards.Add(card);
+                }
+                else
+                {
+                    int bestIndex = 0;
+                    float minDistance = float.MaxValue;
+
+                    // Check all possible insertion positions
+                    for (int i = 0; i <= cards.Count; i++)
+                    {
+                        float targetX = GetInsertionXPosition(i);
+                        float distance = Mathf.Abs(cardX - targetX);
+
+                        if (distance < minDistance)
+                        {
+                            minDistance = distance;
+                            bestIndex = i;
+                        }
+                    }
+
+                    cards.Insert(bestIndex, card);
+                }
             }
             else
             {
-                int bestIndex = 0;
-                float minDistance = float.MaxValue;
-
-                // Check all possible insertion positions
-                for (int i = 0; i <= cards.Count; i++)
-                {
-                    float targetX = GetInsertionXPosition(i);
-                    float distance = Mathf.Abs(cardX - targetX);
-
-                    if (distance < minDistance)
-                    {
-                        minDistance = distance;
-                        bestIndex = i;
-                    }
-                }
-
-                cards.Insert(bestIndex, card);
+                // Insert at specific index (for programmatic spawning)
+                int insertIndex = Mathf.Clamp(index, 0, cards.Count);
+                cards.Insert(insertIndex, card);
             }
 
             card.transform.SetParent(transform);
@@ -211,6 +230,15 @@ namespace CardGame.GameObjects
 
             Debug.Log($"Card added to board at position {cards.IndexOf(card)}. Total cards: {cards.Count}");
             UpdateScore();
+        }
+
+        /// <summary>
+        /// Append a card to the rightmost position (left-to-right order)
+        /// Use this for programmatic card spawning to ensure consistent ordering
+        /// </summary>
+        public void AppendCard(SimpleCard card)
+        {
+            AddCardAtPosition(card, cards.Count);
         }
 
         /// <summary>
