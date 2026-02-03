@@ -841,10 +841,10 @@ RectTransform:
   - {fileID: 2024086397}
   - {fileID: 1531373611}
   - {fileID: 1684653955}
+  - {fileID: 1187628345}
   - {fileID: 1715484305}
   - {fileID: 1829038716}
   - {fileID: 1778623907}
-  - {fileID: 1187628345}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
