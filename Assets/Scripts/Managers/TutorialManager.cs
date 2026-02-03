@@ -70,6 +70,8 @@ namespace CardGame.Managers
         [SerializeField] private GameObject goalDisplay;
         [SerializeField] private TMPro.TextMeshProUGUI goalValueText;
         [SerializeField] private TMPro.TextMeshProUGUI goalSuitText;
+        [SerializeField] private Image ballImage;
+        [SerializeField] private Sprite coinBallSprite;
 
         [Header("Tutorial Settings")]
         [SerializeField] private int tutorialGoalValue = 5;
@@ -660,6 +662,12 @@ namespace CardGame.Managers
             if (goalSuitText != null)
             {
                 goalSuitText.text = tutorialGoalSuit.ToString();
+            }
+
+            // Change ball to coin sprite (tutorial goal is always Coins)
+            if (ballImage != null && coinBallSprite != null)
+            {
+                ballImage.sprite = coinBallSprite;
             }
         }
         

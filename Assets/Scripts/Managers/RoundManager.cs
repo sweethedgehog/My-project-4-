@@ -47,6 +47,7 @@ namespace CardGame.Managers
         [SerializeField] private Button endRoundButton;
         [SerializeField] private Button rerollSuitButton;
         [SerializeField] private Button rerollCardsButton;
+        [SerializeField] private Sprite makePredictionSprite;
 
         [Header("Cat Animation")]
         [SerializeField] private CatAnimationController catAnimationController;
@@ -77,6 +78,7 @@ namespace CardGame.Managers
         private bool isRoundActive = false;
         private bool isRulesOpened = false;
         private bool isWaitingToDeal = true;
+        private bool isReadyForPrediction = false;
 
         public static bool inGameMenu = false;
 
@@ -132,6 +134,11 @@ namespace CardGame.Managers
 
         private void OnEndButtonClicked()
         {
+            if (isReadyForPrediction)
+            {
+                StartPostdiction();
+                return;
+            }
             EndRound();
         }
         
@@ -150,13 +157,22 @@ namespace CardGame.Managers
 
         private void UpdateButtonStates()
         {
-            // Start button: active only between rounds
+            // Start button: active only between rounds (hidden after last round)
             if (startRoundButton != null)
-                startRoundButton.interactable = isWaitingToDeal;
+            {
+                startRoundButton.interactable = isWaitingToDeal && !isReadyForPrediction;
+                startRoundButton.gameObject.SetActive(!isReadyForPrediction);
+            }
 
             // End button: active during round AND when targetBoard has cards
+            // (or always active when ready for prediction)
             if (endRoundButton != null)
-                endRoundButton.interactable = !isWaitingToDeal && targetBoard.CardCount > 0;
+            {
+                if (isReadyForPrediction)
+                    endRoundButton.interactable = true;
+                else
+                    endRoundButton.interactable = !isWaitingToDeal && targetBoard.CardCount > 0;
+            }
         }
 
         public void RulesToggle()
@@ -528,13 +544,28 @@ namespace CardGame.Managers
                 
                 resultText.text = resultMessage;
                 resultText.color = resultColor;
-                
+
                 yield return new WaitForSeconds(resultDisplayTime);
-                
+
                 resultText.gameObject.SetActive(false);
             }
+
+            // After last round, change button to "make prediction"
+            if (currentRound >= maxRounds)
+            {
+                isReadyForPrediction = true;
+                if (endRoundButton != null && makePredictionSprite != null)
+                {
+                    Image buttonImage = endRoundButton.GetComponent<Image>();
+                    if (buttonImage != null)
+                    {
+                        buttonImage.sprite = makePredictionSprite;
+                    }
+                }
+                UpdateButtonStates();
+            }
         }
-        
+
         /// <summary>
         /// Clear all cards from the board
         /// </summary>

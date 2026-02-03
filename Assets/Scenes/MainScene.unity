@@ -1744,6 +1744,7 @@ MonoBehaviour:
   endRoundButton: {fileID: 1187628346}
   rerollSuitButton: {fileID: 0}
   rerollCardsButton: {fileID: 0}
+  makePredictionSprite: {fileID: -3678151726762832826, guid: de25b2b411291b64aa871966c51d95dd, type: 3}
   catAnimationController: {fileID: 2063028252}
   catTalkDuration: 3
   minGoalValue: 8

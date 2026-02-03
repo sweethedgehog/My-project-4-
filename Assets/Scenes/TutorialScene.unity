@@ -3710,6 +3710,8 @@ MonoBehaviour:
   goalDisplay: {fileID: 436565767}
   goalValueText: {fileID: 0}
   goalSuitText: {fileID: 0}
+  ballImage: {fileID: 1054062346}
+  coinBallSprite: {fileID: 21300000, guid: a3627142246dedf44b65e9051bba93ac, type: 3}
   tutorialGoalValue: 16
   tutorialGoalSuit: 1
   bubbleSkipDelay: 1

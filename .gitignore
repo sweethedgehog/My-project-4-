@@ -75,3 +75,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 Assets/Scripts/Core/.idea/workspace.xml
 Assets/Scripts/Score/.idea/workspace.xml
+
+# TextMesh Pro fallback font (changes frequently)
+*Fallback.asset
