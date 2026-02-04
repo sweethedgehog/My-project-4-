@@ -97,6 +97,12 @@ namespace CardGame.Managers
             inGameMenu = false;
             Time.timeScale = 1f;
 
+            // Start gameplay music
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayGameplayMusic();
+            }
+
             if (startRoundButton != null)
                 startRoundButton.onClick.AddListener(OnStartButtonClicked);
             if (endRoundButton != null)
