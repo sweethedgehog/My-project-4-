@@ -32,6 +32,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Win.unity
     guid: 8ee25c8e3802c1349bcca0b6b4843500
+  - enabled: 1
+    path: Assets/Scenes/EndingScenes/BadgerEndingScene.unity
+    guid: 14d849d5576d8a147bbf4b7da19301d5
+  - enabled: 1
+    path: Assets/Scenes/EndingScenes/RabbitEndingScene.unity
+    guid: fdd39b7184b56be4d90774ab2cc3cd0e
+  - enabled: 1
+    path: Assets/Scenes/EndingScenes/CatEndingScene.unity
+    guid: adc7931388e77c346be42d40bcb4abab
+  - enabled: 1
+    path: Assets/Scenes/EndingScenes/SquirrelEndingScene.unity
+    guid: b78330ee42d2e4b46a7d6948d5a2e58b
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

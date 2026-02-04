@@ -220,7 +220,7 @@ namespace CardGame.Managers
 
             currentRound++;
             isRoundActive = true;
-            isWaitingToDeal = false;
+            SetIsWaitingToDeal(false);
             if (AudioManager.Instance != null)
                 AudioManager.Instance.PlayCardShuffle(cardsShuffle);
 
@@ -309,12 +309,18 @@ namespace CardGame.Managers
 
             // Mark round as inactive, ready for next round
             isRoundActive = false;
-            isWaitingToDeal = true;
+            SetIsWaitingToDeal(true);
 
             UpdateScoreHistoryDisplay();
             UpdateButtonStates();
 
             return true;
+        }
+
+        private void SetIsWaitingToDeal(bool value)
+        {
+            isWaitingToDeal = value;
+            startRoundButton.image.enabled = value;
         }
 
         private void StartPostdiction() => SceneManager.LoadScene("PostDictionScene", LoadSceneMode.Additive);
