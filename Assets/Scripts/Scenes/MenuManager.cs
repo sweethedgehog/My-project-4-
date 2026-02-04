@@ -12,6 +12,7 @@ public class MenuManager : MonoBehaviour
     }
 
     public void onPlayButtonClick() => SceneManager.LoadScene("MainScene");
+    public void onTutorialButtonClick() => SceneManager.LoadScene("TutorialScene");
     public void onRulesButtonClick() => SceneManager.LoadScene("Rules");
     public void onCreatorsButtonClick() => SceneManager.LoadScene("Creators");
 }

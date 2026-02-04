@@ -88,6 +88,8 @@ namespace CardGame.Managers
         private bool isRulesOpened = false;
         private float bubbleShowTime;
 
+        public static bool inGameMenu = false;
+
         // References to tutorial cards (stored when spawned)
         private SimpleCard tutorialCard_Coin1;
         private SimpleCard tutorialCard_Coin3;
@@ -99,12 +101,21 @@ namespace CardGame.Managers
         
         void Start()
         {
+            inGameMenu = false;
+            Time.timeScale = 1f;
+
+            // Start music through AudioManager
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayMenuMusic();
+            }
+
             audioSource = GetComponent<AudioSource>();
             if (audioSource == null)
             {
                 audioSource = gameObject.AddComponent<AudioSource>();
             }
-            
+
             // Hide all UI elements initially
             HideAllBubbles();
             HideAllHighlights();
@@ -120,6 +131,17 @@ namespace CardGame.Managers
         
         void Update()
         {
+            // Block input while in game menu
+            if (inGameMenu) return;
+
+            // Open game menu on Escape
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                inGameMenu = true;
+                SceneManager.LoadScene("GameMenu", LoadSceneMode.Additive);
+                return;
+            }
+
             // Close rules panel when clicking anywhere while it's open
             if (isRulesOpened && Input.GetMouseButton(0))
             {

@@ -12,6 +12,8 @@ public class GameMenuManager : MonoBehaviour
     public void onMainMenuClick()
     {
         RoundManager.inGameMenu = false;
+        TutorialManager.inGameMenu = false;
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -20,6 +22,7 @@ public class GameMenuManager : MonoBehaviour
     void Start()
     {
         RoundManager.inGameMenu = true;
+        TutorialManager.inGameMenu = true;
         Time.timeScale = 0f;
 
         InitializeVolumeSliders();
@@ -67,6 +70,7 @@ public class GameMenuManager : MonoBehaviour
     private void returnToGame()
     {
         RoundManager.inGameMenu = false;
+        TutorialManager.inGameMenu = false;
         SceneManager.UnloadSceneAsync("GameMenu");
         Time.timeScale = 1f;
     }
