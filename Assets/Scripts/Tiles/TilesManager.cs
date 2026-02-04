@@ -2,6 +2,7 @@ using DefaultNamespace.Tiles;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using CardGame.Managers;
 
 public class TilesManager : MonoBehaviour
 {
@@ -14,7 +15,6 @@ public class TilesManager : MonoBehaviour
     public AudioClip audioClipSuccess;
     public AudioClip audioClipFullSuccess;
     public bool isActive = true;
-    private AudioSource audioSource;
     private int sumScore = 0;
     private int index = 0;
     public Color succesTextColor;
@@ -23,24 +23,26 @@ public class TilesManager : MonoBehaviour
 
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
         for (int i = 0; i < tiles.Length; i++) tiles[i].setIndex(i);
         bigTile.setIndex(-1);
         bigTile.setFailerColor(new  Color(1f, 1f, 1f, 0f));
     }
     public void setVisibility(SuccessCodes status)
     {
-        switch (status)
+        if (AudioManager.Instance != null)
         {
-            case SuccessCodes.Failer:
-                audioSource.PlayOneShot(audioClipFail);
-                break;
-            case SuccessCodes.Patrial:
-                audioSource.PlayOneShot(audioClipSuccess);
-                break;
-            case SuccessCodes.Success:
-                audioSource.PlayOneShot(audioClipFullSuccess);
-                break;
+            switch (status)
+            {
+                case SuccessCodes.Failer:
+                    AudioManager.Instance.PlayRoundResult(audioClipFail);
+                    break;
+                case SuccessCodes.Patrial:
+                    AudioManager.Instance.PlayRoundResult(audioClipSuccess);
+                    break;
+                case SuccessCodes.Success:
+                    AudioManager.Instance.PlayRoundResult(audioClipFullSuccess);
+                    break;
+            }
         }
         statuses[index] = status;
         sumScore += (int)status;

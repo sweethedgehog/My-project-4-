@@ -841,6 +841,16 @@ MonoBehaviour:
   scoreSound: {fileID: 0}
   musicVolume: 0.5
   sfxVolume: 0.8
+  cardShuffleVolume: 1
+  cardPlaceVolume: 1
+  cardHoverVolume: 0
+  cardClickVolume: 0
+  goalValueCompleteVolume: 1
+  goalSuitCompleteVolume: 0.3
+  roundResultVolume: 1
+  uiClickVolume: 0
+  uiHoverVolume: 0
+  rulesPanelVolume: 1
 --- !u!4 &1062332165
 Transform:
   m_ObjectHideFlags: 0

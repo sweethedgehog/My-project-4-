@@ -221,7 +221,8 @@ namespace CardGame.Managers
             currentRound++;
             isRoundActive = true;
             isWaitingToDeal = false;
-            audioSource.PlayOneShot(cardsShuffle);
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayCardShuffle(cardsShuffle);
 
             GenerateGoal();
             StartCoroutine(DealCardsToBoard());

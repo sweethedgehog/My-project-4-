@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using CardGame.Managers;
 
 namespace CardGame.UI
 {
@@ -47,38 +48,38 @@ namespace CardGame.UI
         public void OnPointerEnter(PointerEventData eventData)
         {
             isHovering = true;
-            
+
             // Play enter sound (one-shot)
-            if (hoverEnterSound != null)
+            if (hoverEnterSound != null && AudioManager.Instance != null)
             {
-                clickAudioSource.PlayOneShot(hoverEnterSound, hoverEnterVolume);
+                AudioManager.Instance.PlayUIHover(hoverEnterSound);
             }
-            
-            // Start hover loop
+
+            // Start hover loop (uses local source but respects SFX volume)
             if (hoverLoopSound != null)
             {
                 hoverLoopSource.clip = hoverLoopSound;
-                hoverLoopSource.volume = hoverLoopVolume;
+                hoverLoopSource.volume = hoverLoopVolume * (AudioManager.Instance != null ? AudioManager.Instance.GetSFXVolume() : 1f);
                 hoverLoopSource.Play();
             }
         }
-        
+
         public void OnPointerExit(PointerEventData eventData)
         {
             isHovering = false;
-            
+
             // Stop hover loop immediately
             if (hoverLoopSource.isPlaying)
             {
                 hoverLoopSource.Stop();
             }
         }
-        
+
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (clickSound != null)
+            if (clickSound != null && AudioManager.Instance != null)
             {
-                clickAudioSource.PlayOneShot(clickSound, clickVolume);
+                AudioManager.Instance.PlayUIClick(clickSound);
             }
         }
         

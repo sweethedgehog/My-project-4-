@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using CardGame.Managers;
 
 namespace CardGame.UI
 {
@@ -61,88 +62,88 @@ namespace CardGame.UI
         {
             // Don't play hover sounds if we're currently dragging
             if (isDragging) return;
-            
+
             isHovering = true;
-            
+
             // Play enter sound (one-shot)
-            if (cardHoverEnterSound != null)
+            if (cardHoverEnterSound != null && AudioManager.Instance != null)
             {
-                clickAudioSource.PlayOneShot(cardHoverEnterSound, hoverEnterVolume);
+                AudioManager.Instance.PlayCardHover(cardHoverEnterSound);
             }
-            
-            // Start hover loop
+
+            // Start hover loop (uses local source but respects SFX volume)
             if (cardHoverLoopSound != null)
             {
                 hoverLoopSource.clip = cardHoverLoopSound;
-                hoverLoopSource.volume = hoverLoopVolume;
+                hoverLoopSource.volume = hoverLoopVolume * (AudioManager.Instance != null ? AudioManager.Instance.GetCardHoverVolume() : 1f);
                 hoverLoopSource.Play();
             }
         }
-        
+
         public void OnPointerExit(PointerEventData eventData)
         {
             isHovering = false;
-            
+
             // Stop hover loop immediately
             if (hoverLoopSource.isPlaying)
             {
                 hoverLoopSource.Stop();
             }
         }
-        
+
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (cardClickSound != null)
+            if (cardClickSound != null && AudioManager.Instance != null)
             {
-                clickAudioSource.PlayOneShot(cardClickSound, clickVolume);
+                AudioManager.Instance.PlayCardClick(cardClickSound);
             }
         }
-        
+
         public void OnBeginDrag(PointerEventData eventData)
         {
             isDragging = true;
-            
+
             // Stop hover loop when starting to drag
             if (hoverLoopSource.isPlaying)
             {
                 hoverLoopSource.Stop();
             }
-            
+
             // Play pickup sound
-            if (cardPickupSound != null)
+            if (cardPickupSound != null && AudioManager.Instance != null)
             {
-                clickAudioSource.PlayOneShot(cardPickupSound, dragVolume);
+                AudioManager.Instance.PlaySFX(cardPickupSound);
             }
-            
-            // Start drag loop
+
+            // Start drag loop (uses local source but respects SFX volume)
             if (cardDragLoopSound != null)
             {
                 dragLoopSource.clip = cardDragLoopSound;
-                dragLoopSource.volume = dragVolume;
+                dragLoopSource.volume = dragVolume * (AudioManager.Instance != null ? AudioManager.Instance.GetSFXVolume() : 1f);
                 dragLoopSource.Play();
             }
         }
-        
+
         public void OnDrag(PointerEventData eventData)
         {
             // Keep drag loop playing (handled by loop flag)
             // This event is here for completeness
         }
-        
+
         public void OnEndDrag(PointerEventData eventData)
         {
             isDragging = false;
-            
+
             // Stop drag loop
             if (dragLoopSource.isPlaying)
             {
                 dragLoopSource.Stop();
             }
-            
+
             // Play drop sound
-            if (cardDropSound != null)
+            if (cardDropSound != null && AudioManager.Instance != null)
             {
-                clickAudioSource.PlayOneShot(cardDropSound, dropVolume);
+                AudioManager.Instance.PlaySFX(cardDropSound);
             }
         }
         

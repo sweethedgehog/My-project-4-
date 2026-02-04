@@ -80,6 +80,10 @@ namespace CardGame.Managers
         
         [Header("Audio")]
         [SerializeField] private AudioClip tutorialCompleteSound;
+        [SerializeField] private AudioClip cardDrawSound;
+        [SerializeField] private AudioClip goalValueCompleteSound;
+        [SerializeField] private AudioClip goalSuitCompleteSound;
+        [SerializeField] private float cardDrawDelay = 0.2f;
         
         private int currentStep = 0;
         private bool waitingForInput = false;
@@ -87,6 +91,7 @@ namespace CardGame.Managers
         private AudioSource audioSource;
         private bool isRulesOpened = false;
         private float bubbleShowTime;
+        private bool goalSoundPlayed = false;
 
         public static bool inGameMenu = false;
 
@@ -239,13 +244,15 @@ namespace CardGame.Managers
             currentStep = 3;
             HideAllBubbles();
             HideAllHighlights();
-            
+
+            // Play shuffle sound once before dealing
+            PlayCardDrawSound();
+
             // Spawn tutorial cards using deck
-            
             handBoard.SetFreeze(false);
-            SpawnTutorialCards();
+            yield return StartCoroutine(SpawnTutorialCards());
             handBoard.SetFreeze(true);
-            
+
             ShowHighlight(highlight_HandBoard);
             ShowBubble(bubble3_DealCards);
             yield return WaitForPlayerClick();
@@ -459,6 +466,9 @@ namespace CardGame.Managers
             {
                 yield return new WaitForSeconds(0.5f);
             }
+
+            // Play goal completion sounds
+            PlayGoalCompleteSounds();
 
             // Goal reached - now hide the goal bubble and freeze all cards
             HideBubble(bubble13_ExplainGoal);
@@ -697,24 +707,61 @@ namespace CardGame.Managers
         /// Spawn tutorial cards using deck.SpawnCardOnBoard
         /// Stores references to cards for later use in tutorial steps
         /// </summary>
-        private void SpawnTutorialCards()
+        private IEnumerator SpawnTutorialCards()
         {
             // Cards spawned left-to-right: 3co, 1r, 2cr, 1s, 1co
 
             // Card 1 (leftmost): Coin-3 (the one we'll ask player to place in step 9)
             tutorialCard_Coin3 = deck.SpawnCardOnBoard(new CardData(Suits.Coins, 3));
+            yield return new WaitForSeconds(cardDrawDelay);
 
             // Card 2: Rose-1
             tutorialCard_Rose1 = deck.SpawnCardOnBoard(new CardData(Suits.Roses, 1));
+            yield return new WaitForSeconds(cardDrawDelay);
 
             // Card 3: Crown-2
             tutorialCard_Crown2 = deck.SpawnCardOnBoard(new CardData(Suits.Crowns, 2));
+            yield return new WaitForSeconds(cardDrawDelay);
 
             // Card 4: Skull-1
             tutorialCard_Skull1 = deck.SpawnCardOnBoard(new CardData(Suits.Skulls, 1));
+            yield return new WaitForSeconds(cardDrawDelay);
 
             // Card 5 (rightmost): Coin-1 (first card to place in step 5)
             tutorialCard_Coin1 = deck.SpawnCardOnBoard(new CardData(Suits.Coins, 1));
+        }
+
+        private void PlayCardDrawSound()
+        {
+            if (cardDrawSound != null && AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayCardShuffle(cardDrawSound);
+            }
+        }
+
+        private void PlayGoalCompleteSounds()
+        {
+            if (goalSoundPlayed) return;
+            goalSoundPlayed = true;
+
+            StartCoroutine(PlayGoalSoundsSequence());
+        }
+
+        private IEnumerator PlayGoalSoundsSequence()
+        {
+            // Play value complete sound
+            if (goalValueCompleteSound != null && AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayGoalValueComplete(goalValueCompleteSound);
+            }
+
+            yield return new WaitForSeconds(0.5f);
+
+            // Play suit complete sound
+            if (goalSuitCompleteSound != null && AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayGoalSuitComplete(goalSuitCompleteSound);
+            }
         }
 
         /// <summary>
@@ -834,9 +881,9 @@ namespace CardGame.Managers
             HideAllHighlights();
             HideAllBubbles();
 
-            if (tutorialCompleteSound != null && audioSource != null)
+            if (tutorialCompleteSound != null && AudioManager.Instance != null)
             {
-                audioSource.PlayOneShot(tutorialCompleteSound);
+                AudioManager.Instance.PlaySFX(tutorialCompleteSound);
             }
 
             Debug.Log("Tutorial complete! Player is ready to play.");

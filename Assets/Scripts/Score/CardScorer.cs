@@ -121,31 +121,25 @@ namespace CardGame.Scoring
         /// </summary>
         private void PlayValueGoalSound()
         {
-            if (valueGoalCompleteSound != null)
+            if (valueGoalCompleteSound != null && AudioManager.Instance != null)
             {
-                audioSource.PlayOneShot(valueGoalCompleteSound, soundVolume);
+                AudioManager.Instance.PlayGoalValueComplete(valueGoalCompleteSound);
                 Debug.Log($"Value goal completed! Target: {goalValue}");
             }
         }
-        
+
         /// <summary>
         /// Play sound when suit goal is completed (suit-specific)
         /// </summary>
         private void PlaySuitGoalSound(Suits suit)
         {
             AudioClip suitSound = GetSuitSound(suit);
-            
-            if (suitSound != null)
+
+            if (suitSound != null && AudioManager.Instance != null)
             {
-                audioSource.PlayOneShot(suitSound, soundVolume);
+                AudioManager.Instance.PlayGoalSuitComplete(suitSound);
                 Debug.Log($"Suit goal completed! Target suit: {suit}");
             }
-            
-            // Alternative: Use AudioManager if you prefer
-            // if (audioManager != null)
-            // {
-            //     audioManager.ActivateSuitSound(suit);
-            // }
         }
         
         /// <summary>

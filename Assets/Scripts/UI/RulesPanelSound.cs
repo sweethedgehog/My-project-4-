@@ -1,4 +1,5 @@
 using UnityEngine;
+using CardGame.Managers;
 
 namespace CardGame.UI
 {
@@ -79,11 +80,12 @@ namespace CardGame.UI
         {
             if (panelOpenSound != null && currentState != RulesCords.Open)
             {
-                effectAudioSource.PlayOneShot(panelOpenSound, openVolume);
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayRulesPanel(panelOpenSound);
                 currentState = RulesCords.Open;
             }
         }
-        
+
         /// <summary>
         /// Call this when closing the panel
         /// </summary>
@@ -91,7 +93,8 @@ namespace CardGame.UI
         {
             if (panelCloseSound != null && currentState != RulesCords.Closed)
             {
-                effectAudioSource.PlayOneShot(panelCloseSound, closeVolume);
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayRulesPanel(panelCloseSound);
                 currentState = RulesCords.Closed;
             }
         }

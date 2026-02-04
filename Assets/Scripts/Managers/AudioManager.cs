@@ -33,6 +33,18 @@ namespace CardGame.Managers
         [SerializeField] [Range(0f, 1f)] private float musicVolume = 0.5f;
         [SerializeField] [Range(0f, 1f)] private float sfxVolume = 0.8f;
 
+        [Header("Individual SFX Volumes (multipliers)")]
+        [SerializeField] [Range(0f, 2f)] public float cardShuffleVolume = 1f;
+        [SerializeField] [Range(0f, 2f)] public float cardPlaceVolume = 1f;
+        [SerializeField] [Range(0f, 2f)] public float cardHoverVolume = 1f;
+        [SerializeField] [Range(0f, 2f)] public float cardClickVolume = 1f;
+        [SerializeField] [Range(0f, 2f)] public float goalValueCompleteVolume = 1f;
+        [SerializeField] [Range(0f, 2f)] public float goalSuitCompleteVolume = 1f;
+        [SerializeField] [Range(0f, 2f)] public float roundResultVolume = 1f;
+        [SerializeField] [Range(0f, 2f)] public float uiClickVolume = 1f;
+        [SerializeField] [Range(0f, 2f)] public float uiHoverVolume = 1f;
+        [SerializeField] [Range(0f, 2f)] public float rulesPanelVolume = 1f;
+
         void Awake()
         {
             // Singleton pattern
@@ -160,19 +172,32 @@ namespace CardGame.Managers
         }
 
         /// <summary>
-        /// Play sound at specific volume
+        /// Play sound at specific volume multiplier
         /// </summary>
-        public void PlaySFX(AudioClip clip, float volume)
+        public void PlaySFX(AudioClip clip, float volumeMultiplier)
         {
             if (clip == null) return;
-            sfxSource.PlayOneShot(clip, volume);
+            sfxSource.PlayOneShot(clip, volumeMultiplier);
         }
 
+        // Category-specific play methods (use individual volume settings)
+        public void PlayCardShuffle(AudioClip clip) => PlaySFX(clip, cardShuffleVolume);
+        public void PlayCardPlaceSFX(AudioClip clip) => PlaySFX(clip, cardPlaceVolume);
+        public void PlayCardHover(AudioClip clip) => PlaySFX(clip, cardHoverVolume);
+        public void PlayCardClick(AudioClip clip) => PlaySFX(clip, cardClickVolume);
+        public void PlayGoalValueComplete(AudioClip clip) => PlaySFX(clip, goalValueCompleteVolume);
+        public void PlayGoalSuitComplete(AudioClip clip) => PlaySFX(clip, goalSuitCompleteVolume);
+        public void PlayRoundResult(AudioClip clip) => PlaySFX(clip, roundResultVolume);
+        public void PlayUIClick(AudioClip clip) => PlaySFX(clip, uiClickVolume);
+        public void PlayUIHover(AudioClip clip) => PlaySFX(clip, uiHoverVolume);
+        public void PlayRulesPanel(AudioClip clip) => PlaySFX(clip, rulesPanelVolume);
+        public float GetCardHoverVolume() => cardHoverVolume * sfxVolume;
+
         // Specific sound effect methods
-        public void PlayCardDraw() => PlaySFX(cardDrawSound);
-        public void PlayCardPlace() => PlaySFX(cardPlaceSound);
+        public void PlayCardDraw() => PlaySFX(cardDrawSound, cardShuffleVolume);
+        public void PlayCardPlace() => PlaySFX(cardPlaceSound, cardPlaceVolume);
         public void PlayCardFlip() => PlaySFX(cardFlipSound);
-        public void PlayButtonClick() => PlaySFX(buttonClickSound);
+        public void PlayButtonClick() => PlaySFX(buttonClickSound, uiClickVolume);
         public void PlayWin() => PlaySFX(winSound);
         public void PlayLose() => PlaySFX(loseSound);
         public void PlayScore() => PlaySFX(scoreSound);

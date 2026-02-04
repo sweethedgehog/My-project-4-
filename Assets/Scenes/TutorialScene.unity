@@ -3617,6 +3617,10 @@ MonoBehaviour:
   tutorialGoalSuit: 1
   bubbleSkipDelay: 1
   tutorialCompleteSound: {fileID: 0}
+  cardDrawSound: {fileID: 8300000, guid: 0baaeb9c43ef5d54a9d7b31d9876a31b, type: 3}
+  goalValueCompleteSound: {fileID: 8300000, guid: 2fc98ac756b4d564fbb583de407175d7, type: 3}
+  goalSuitCompleteSound: {fileID: 8300000, guid: 59293006cd2e7c547a26b7fce0362a62, type: 3}
+  cardDrawDelay: 0.2
 --- !u!1 &673096946
 GameObject:
   m_ObjectHideFlags: 0
@@ -9275,6 +9279,7 @@ GameObject:
   - component: {fileID: 1715484308}
   - component: {fileID: 1715484307}
   - component: {fileID: 1715484306}
+  - component: {fileID: 1715484309}
   m_Layer: 5
   m_Name: RulesPanel
   m_TagString: Untagged
@@ -9314,10 +9319,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c15d6e407bab0c742b127d229496be57, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: '::'
   speedScale: 10
   arrivalThreshold: 1
+--- !u!114 &1715484309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715484304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324b3e4921f7428baf92803a9941a048, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::CardGame.UI.RulesPanelSound
+  panelOpenSound: {fileID: 8300000, guid: f28e641ac533ec1489d2d1a6f7025846, type: 3}
+  panelCloseSound: {fileID: 8300000, guid: ad1a51527122abf4c999a05906602dce, type: 3}
+  panelSlideLoopSound: {fileID: 0}
+  openVolume: 0.7
+  closeVolume: 0.7
+  slideLoopVolume: 0.3
 --- !u!114 &1715484307
 MonoBehaviour:
   m_ObjectHideFlags: 0
