@@ -45,6 +45,7 @@ namespace CardGame.Managers
         [Header("UI - Buttons")]
         [SerializeField] private Button startRoundButton;
         [SerializeField] private Button endRoundButton;
+        [SerializeField] private CanvasGroup endButtonCanvasGroup;
         [SerializeField] private Button rerollSuitButton;
         [SerializeField] private Button rerollCardsButton;
         [SerializeField] private Sprite makePredictionSprite;
@@ -157,7 +158,7 @@ namespace CardGame.Managers
             // Continuously update end button state based on card count (user can drag cards)
             if (!isWaitingToDeal && endRoundButton != null)
             {
-                endRoundButton.interactable = targetBoard.CardCount > 0;
+                SetEndButtonActable(targetBoard.CardCount > 0);
             }
         }
 
@@ -175,9 +176,26 @@ namespace CardGame.Managers
             if (endRoundButton != null)
             {
                 if (isReadyForPrediction)
-                    endRoundButton.interactable = true;
+                    SetEndButtonActable(true);
                 else
-                    endRoundButton.interactable = !isWaitingToDeal && targetBoard.CardCount > 0;
+                    SetEndButtonActable(!isWaitingToDeal && targetBoard.CardCount > 0);
+            }
+        }
+
+        private void SetEndButtonActable(bool flag)
+        {
+            endRoundButton.interactable = flag;
+
+            if (endButtonCanvasGroup != null)
+            {
+                endButtonCanvasGroup.alpha = flag ? 1f : 0.6f;
+                endButtonCanvasGroup.interactable = flag;
+                endButtonCanvasGroup.blocksRaycasts = flag;
+            }
+            else
+            {
+                // Fallback to direct color change when no CanvasGroup assigned
+                endRoundButton.image.color = flag ? Color.white : new Color(0.6f, 0.6f, 0.6f, 0.6f);
             }
         }
 
