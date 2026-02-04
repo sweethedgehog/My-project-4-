@@ -53,6 +53,7 @@ namespace CardGame.Managers
         [Header("Cat Animation")]
         [SerializeField] private CatAnimationController catAnimationController;
         [SerializeField] private float catTalkDuration = 3f;
+        [SerializeField] private Animator catBubbleAnimator;
 
         [Header("Round Settings")]
         [SerializeField] private int minGoalValue = 8;
@@ -691,6 +692,13 @@ namespace CardGame.Managers
             {
                 goalSuitText.color = Color.black;
                 goalSuitText.text = text;
+            }
+
+            // Replay bubble popup animation from the beginning
+            if (catBubbleAnimator != null)
+            {
+                catBubbleAnimator.Rebind();
+                catBubbleAnimator.Update(0f);
             }
 
             if (catAnimationController != null)
