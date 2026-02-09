@@ -36,7 +36,7 @@ public class TilesManager : MonoBehaviour
                 case SuccessCodes.Failer:
                     AudioManager.Instance.PlayRoundResult(audioClipFail);
                     break;
-                case SuccessCodes.Patrial:
+                case SuccessCodes.Partial:
                     AudioManager.Instance.PlayRoundResult(audioClipSuccess);
                     break;
                 case SuccessCodes.Success:
@@ -46,21 +46,21 @@ public class TilesManager : MonoBehaviour
         }
         statuses[index] = status;
         sumScore += (int)status;
-        tiles[index].setVisability(status);
-        setHistoryVisability(index);
+        tiles[index].setVisibility(status);
+        setHistoryVisibility(index);
         index++;
     }
 
     public void clickOn(int index)
     {
         if (index == -1) return;
-        setHistoryVisability(index);
+        setHistoryVisibility(index);
     }
 
-    private void setHistoryVisability(int index)
+    private void setHistoryVisibility(int index)
     {
         bigTile.changeSuccessSprites(storySprites[index]);
-        bigTile.setVisability(statuses[index]);
+        bigTile.setVisibility(statuses[index]);
         failerText.text = statuses[index] == SuccessCodes.Failer ? HintsAndFailers.failers[index] : "";
         failerText.faceColor = failerTextColor;
         successText.text = statuses[index] == SuccessCodes.Success ? HintsAndFailers.hints[index] : "";

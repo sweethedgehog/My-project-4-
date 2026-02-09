@@ -523,7 +523,7 @@ namespace CardGame.Managers
             {
                 // Score matches but suit doesn't
                 Debug.Log("Round Result: PARTIAL - Score matches but wrong suit (0.5 points)");
-                return SuccessCodes.Patrial;
+                return SuccessCodes.Partial;
             }
             else
             {
@@ -563,7 +563,7 @@ namespace CardGame.Managers
                     resultMessage = "MISS!\nScore doesn't match\n+0 points";
                     resultColor = new Color(1f, 0.3f, 0.3f); // Red
                 }
-                else if (roundScore == SuccessCodes.Patrial)
+                else if (roundScore == SuccessCodes.Partial)
                 {
                     resultMessage = "PARTIAL!\nRight score, wrong suit\n+0.5 points";
                     resultColor = new Color(1f, 0.8f, 0.2f); // Orange/Yellow
@@ -663,7 +663,7 @@ namespace CardGame.Managers
             {
                 if (score == SuccessCodes.Failer)
                     scoreStrings.Add("0");
-                else if (score == SuccessCodes.Patrial)
+                else if (score == SuccessCodes.Partial)
                     scoreStrings.Add("1/2");
                 else
                     scoreStrings.Add("1");

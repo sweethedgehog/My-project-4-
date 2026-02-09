@@ -18,8 +18,8 @@ public class PostdictionManager : MonoBehaviour
     public FinalImage squirrel;
     public Button makePostdictionButton;
     public Button backToGameButton;
-    private bool rightChoise = false;
-    private ImageType lastChoise;
+    private bool rightChoice = false;
+    private ImageType lastChoice;
 
     void Start()
     {
@@ -34,7 +34,7 @@ public class PostdictionManager : MonoBehaviour
     }
     private void makePostdiction()
     {
-        switch (lastChoise)
+        switch (lastChoice)
         {
             case ImageType.Badger:
                 SceneManager.LoadScene("BadgerEndingScene", LoadSceneMode.Additive);
@@ -49,14 +49,14 @@ public class PostdictionManager : MonoBehaviour
                 SceneManager.LoadScene("SquirrelEndingScene", LoadSceneMode.Additive);
                 break;
         }
-        // SceneManager.LoadScene(rightChoise ? "Win" : "Lose", LoadSceneMode.Additive);
+        // SceneManager.LoadScene(rightChoice ? "Win" : "Lose", LoadSceneMode.Additive);
         SceneManager.UnloadSceneAsync("PostdictionScene");
     }
     public void select(ImageType type)
     {
         makePostdictionButton.interactable = true;
-        lastChoise = type;
-        rightChoise = type == ImageType.Badger;
+        lastChoice = type;
+        rightChoice = type == ImageType.Badger;
         switch (type)
         {
             case ImageType.Badger:

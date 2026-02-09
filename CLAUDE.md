@@ -93,11 +93,7 @@ MainMenu → MainScene (6 rounds) → PostdictionScene → Win/Lose → MainMenu
 
 **Phase 2 (DONE - already fixed):** Bugs from review were already resolved in prior work. CardScorer's `GetSuitColor()` was removed, RulesPanel's float comparison uses threshold now.
 
-**Phase 3: Fix Typos in Identifiers**
-- `PostdictionManager.cs`: `rightChoise` -> `rightChoice`
-- `RoundManager.cs`: `rulsePanel` -> `rulesPanel`
-- `TileScript.cs`: `setVisability` -> `setVisibility` (+ all call sites)
-- `SuccessCodes.cs`: `Patrial` -> `Partial` (+ all references)
+**Phase 3 (DONE):** Fixed typos - `rightChoise`/`lastChoise` -> `rightChoice`/`lastChoice` (PostdictionManager), `Patrial` -> `Partial` (SuccessCodes + all refs), `setVisability`/`setHistoryVisability` -> `setVisibility`/`setHistoryVisibility` (TileScript, TilesManager). `rulsePanel` was already fixed.
 
 **Phase 4: Extract Duplicated Code**
 - `GetSuitColor()` duplicated in CardScorer, SimpleCard, RoundManager, CryLogic

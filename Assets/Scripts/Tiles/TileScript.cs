@@ -20,7 +20,7 @@ public class TileScript : MonoBehaviour, IPointerClickHandler
         thisImage.color = Color.clear;
     }
 
-    public void setVisability(SuccessCodes status)
+    public void setVisibility(SuccessCodes status)
     {
         thisImage.sprite = spriteLose;
         if (status == SuccessCodes.None) thisImage.color = Color.clear;
