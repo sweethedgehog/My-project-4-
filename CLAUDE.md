@@ -78,7 +78,7 @@ MainMenu → MainScene (6 rounds) → PostdictionScene → Win/Lose → MainMenu
 - Russian comments/strings throughout (narrative game in Russian)
 - Coroutines for async operations (dealing, animations, tutorial steps)
 - Component-based Unity patterns with `[SerializeField]` for inspector bindings
-- Legacy code exists in `Assets/Scripts/Legacy/` - superseded by current `SimpleCard`/`RoundManager` system
+- Legacy code was removed in Phase 1 cleanup (was in `Assets/Scripts/Legacy/`)
 
 ## Configuration Constants (in RoundManager)
 - Goal value range: 8-14
@@ -86,3 +86,29 @@ MainMenu → MainScene (6 rounds) → PostdictionScene → Win/Lose → MainMenu
 - Max rounds: 6
 - Max same suit per game: 2
 - Deal delay: 0.3s
+
+## Code Cleanup - Refactoring Plan (in progress)
+
+**Phase 1 (DONE):** Removed dead code - Legacy folder (Card.cs, CardSequence.cs, DeckManager.cs, GameplayManager.cs), empty DeckGameObject stub, unused `System.Collections` import in CardBoard.cs.
+
+**Phase 2 (DONE - already fixed):** Bugs from review were already resolved in prior work. CardScorer's `GetSuitColor()` was removed, RulesPanel's float comparison uses threshold now.
+
+**Phase 3: Fix Typos in Identifiers**
+- `PostdictionManager.cs`: `rightChoise` -> `rightChoice`
+- `RoundManager.cs`: `rulsePanel` -> `rulesPanel`
+- `TileScript.cs`: `setVisability` -> `setVisibility` (+ all call sites)
+- `SuccessCodes.cs`: `Patrial` -> `Partial` (+ all references)
+
+**Phase 4: Extract Duplicated Code**
+- `GetSuitColor()` duplicated in CardScorer, SimpleCard, RoundManager, CryLogic
+- Extract to shared `Assets/Scripts/Core/SuitHelper.cs`
+
+**Phase 5: Naming & Readability**
+- Extract magic numbers to named constants (RoundManager, SimpleDeckObject)
+- Add missing explicit access modifiers (RulesPanel, TilesManager)
+- Remove stray `Debug.Log()` calls
+
+**Phase 6: Reduce RoundManager Complexity**
+- RoundManager.cs is ~604 lines with too many responsibilities
+- Extract goal generation, score UI updates into helper methods
+- Add summary comments to major methods
