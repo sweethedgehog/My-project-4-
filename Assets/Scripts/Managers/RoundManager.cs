@@ -212,15 +212,8 @@ namespace CardGame.Managers
         /// </summary>
         public void StartRound()
         {
-            if (isDealing)
+            if (isDealing || isRoundActive)
             {
-                Debug.Log("Already dealing cards!");
-                return;
-            }
-
-            if (isRoundActive)
-            {
-                Debug.Log("Round already in progress! End current round first.");
                 return;
             }
 
@@ -297,16 +290,11 @@ namespace CardGame.Managers
         /// </summary>
         public bool EndRound()
         {
-            if (!isRoundActive)
-            {
-                Debug.Log("No active round to end!");
-                return false;
-            }
+            if (!isRoundActive) return false;
 
             // Check if at least one card is on the board
             if (targetBoard.CardCount == 0)
             {
-                Debug.Log("Cannot end round - at least one card required on board!");
                 if (resultText != null)
                 {
                     StartCoroutine(ShowTemporaryMessage("Need at least 1 card!", Color.red));
@@ -427,8 +415,6 @@ namespace CardGame.Managers
             }
             
             isDealing = false;
-            
-            Debug.Log($"Round {currentRound} started! Board now has {targetBoard.CardCount} cards.");
             UpdateAvailabilityField();
         }
 
@@ -507,28 +493,20 @@ namespace CardGame.Managers
             int achievedScore = currentScore.GetFullScore();
             Suits? dominantSuit = currentScore.GetDominantSuit();
             
-            Debug.Log($"Goal: {currentGoalSuit} {currentGoalValue} | Achieved: {(dominantSuit.HasValue ? dominantSuit.Value.ToString() : "None")} {achievedScore}");
-            
             // Check if score matches goal
             bool scoreMatches = (achievedScore == currentGoalValue);
             bool suitMatches = dominantSuit.HasValue && (dominantSuit.Value == currentGoalSuit);
             
             if (!scoreMatches)
             {
-                // Score doesn't match goal
-                Debug.Log("Round Result: MISS - Score doesn't match goal (0 points)");
                 return SuccessCodes.Failer;
             }
             else if (scoreMatches && !suitMatches)
             {
-                // Score matches but suit doesn't
-                Debug.Log("Round Result: PARTIAL - Score matches but wrong suit (0.5 points)");
                 return SuccessCodes.Partial;
             }
             else
             {
-                // Perfect match!
-                Debug.Log("Round Result: PERFECT - Exact match! (1 point)");
                 return SuccessCodes.Success;
             }
         }
@@ -617,7 +595,6 @@ namespace CardGame.Managers
             // Clear the board's internal list
             targetBoard.ClearBoard();
             
-            Debug.Log("Board cleared for next round");
         }
         
         /// <summary>
@@ -756,7 +733,6 @@ namespace CardGame.Managers
             if (catAnimationController != null)
                 catAnimationController.CatIdle();
 
-            Debug.Log("Game reset!");
         }
     }
 }

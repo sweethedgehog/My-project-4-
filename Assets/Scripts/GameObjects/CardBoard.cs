@@ -81,7 +81,6 @@ namespace CardGame.GameObjects
             UpdateCardInteractability();
             RebaseAllCards();
 
-            Debug.Log($"Board {gameObject.name} freeze state: {freeze}");
         }
 
         /// <summary>
@@ -170,7 +169,6 @@ namespace CardGame.GameObjects
         {
             if (freeze)
             {
-                Debug.Log($"Board {gameObject.name} is frozen - cannot add cards");
                 return;
             }
 
@@ -227,7 +225,6 @@ namespace CardGame.GameObjects
 
             RebaseAllCards();
 
-            Debug.Log($"Card added to board at position {cards.IndexOf(card)}. Total cards: {cards.Count}");
             UpdateScore();
         }
 
@@ -247,14 +244,12 @@ namespace CardGame.GameObjects
         {
             if (freeze)
             {
-                Debug.Log($"Board {gameObject.name} is frozen - cannot remove cards");
                 return;
             }
 
             if (cards.Remove(card))
             {
                 RebaseAllCards();
-                Debug.Log($"Card removed from board. Remaining cards: {cards.Count}");
             }
 
             card.TurnOffGlow();
@@ -417,7 +412,6 @@ namespace CardGame.GameObjects
         public void ClearBoard()
         {
             cards.Clear();
-            Debug.Log("Board cleared");
         }
         
         /// <summary>
@@ -427,7 +421,6 @@ namespace CardGame.GameObjects
         {
             if (freeze)
             {
-                Debug.Log($"Board {gameObject.name} is frozen - cannot swap cards");
                 return;
             }
             

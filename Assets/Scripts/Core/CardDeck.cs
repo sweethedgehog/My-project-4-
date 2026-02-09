@@ -42,7 +42,6 @@ namespace CardGame.Core
             }
             
             Shuffle();
-            Debug.Log($"Deck initialized with {deck.Count} cards");
 			
         }
         
@@ -70,7 +69,6 @@ namespace CardGame.Core
                 deck[randomIndex] = temp;
             }
             
-            Debug.Log("Deck shuffled");
         }
 
         public void PutCardIntoDeck(CardData card)

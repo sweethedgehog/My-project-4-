@@ -34,6 +34,11 @@ namespace CardGame.GameObjects
         [SerializeField] private CardBoard targetBoard;
         [SerializeField] private bool spawnDirectlyOnBoard = true;
         
+        // Card count thresholds for deck sprite changes
+        private const int ManyCardsThreshold = 13;
+        private const int MediumCardsThreshold = 5;
+        private const int FewCardsThreshold = 1;
+
         private CardDeck deck;
         private Image deckImage;
         
@@ -58,12 +63,10 @@ namespace CardGame.GameObjects
             deck = new CardDeck(null);
             deck.Shuffle();
             
-            Debug.Log($"Simple Deck initialized with {deck.RemainingCards} cards");
         }
         
         public void OnPointerClick(PointerEventData eventData)
         {
-            Debug.Log($"Deck clicked! SpawnDirectlyOnBoard: {spawnDirectlyOnBoard}, TargetBoard: {(targetBoard != null ? targetBoard.name : "NULL")}");
             // DrawCardUnderMouse();
         }
 
@@ -82,7 +85,6 @@ namespace CardGame.GameObjects
         {
             if (deck.IsEmpty())
             {
-                Debug.Log("Deck is empty!");
                 return;
             }
             
@@ -99,7 +101,6 @@ namespace CardGame.GameObjects
         {
             if (deck.IsEmpty())
             {
-                Debug.Log("Deck is empty!");
                 return;
             }
             
@@ -150,7 +151,6 @@ namespace CardGame.GameObjects
             }
             else
             {
-                Debug.Log("createSimpleCard");
                 cardObj = CreateSimpleCard();
                 cardObj.transform.SetParent(targetBoard.transform);
             }
@@ -178,8 +178,6 @@ namespace CardGame.GameObjects
 
             // Append to rightmost position for consistent left-to-right ordering
             targetBoard.AppendCard(simpleCard);
-
-            Debug.Log($"Drew: {cardData.suit} - Value {cardData.cardValue} → Added to {targetBoard.name} (Remaining: {deck.RemainingCards})");
 
             return simpleCard;
         }
@@ -228,7 +226,6 @@ namespace CardGame.GameObjects
                 draggable = cardObj.AddComponent<SimpleDraggableWithBoard>();
             }
             
-            Debug.Log($"Drew: {cardData.suit} - Value {cardData.cardValue} (Remaining: {deck.RemainingCards})");
         }
         
         GameObject CreateSimpleCard()
@@ -288,15 +285,15 @@ namespace CardGame.GameObjects
 
 			int remainingCards = deck.RemainingCards;
 			
-			if (remainingCards >= 13)
+			if (remainingCards >= ManyCardsThreshold)
 			{
 				deckImage.sprite = manyCardsSprite;
 			}
-			else if (remainingCards >= 5)
+			else if (remainingCards >= MediumCardsThreshold)
 			{
 				deckImage.sprite = mediumCardsSprite;
 			}
-			else if (remainingCards >= 1)
+			else if (remainingCards >= FewCardsThreshold)
 			{
 				deckImage.sprite = fewCardsSprite;
 			}
@@ -316,7 +313,6 @@ namespace CardGame.GameObjects
         {
             deck.ResetAndShuffle();
             UpdateVisual();
-            Debug.Log("Deck reset and shuffled");
         }
         
         // Public methods for external access

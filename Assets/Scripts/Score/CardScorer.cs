@@ -124,7 +124,6 @@ namespace CardGame.Scoring
             if (valueGoalCompleteSound != null && AudioManager.Instance != null)
             {
                 AudioManager.Instance.PlayGoalValueComplete(valueGoalCompleteSound);
-                Debug.Log($"Value goal completed! Target: {goalValue}");
             }
         }
 
@@ -138,7 +137,6 @@ namespace CardGame.Scoring
             if (suitSound != null && AudioManager.Instance != null)
             {
                 AudioManager.Instance.PlayGoalSuitComplete(suitSound);
-                Debug.Log($"Suit goal completed! Target suit: {suit}");
             }
         }
         
@@ -175,8 +173,6 @@ namespace CardGame.Scoring
             
             // Play suit goal sound
             PlaySuitGoalSound(goalSuit);
-            
-            Debug.Log($"Both goals completed! Value: {goalValue}, Suit: {goalSuit}");
         }
 
         private void DisplayScore(Score score)

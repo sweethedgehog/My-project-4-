@@ -1,7 +1,6 @@
 using DefaultNamespace.Tiles;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using CardGame.Managers;
 
 public class TilesManager : MonoBehaviour

@@ -97,10 +97,7 @@ MainMenu → MainScene (6 rounds) → PostdictionScene → Win/Lose → MainMenu
 
 **Phase 4 (DONE - already resolved):** `GetSuitColor()` duplication no longer exists. Only RoundManager has it now; SimpleCard/CryLogic use sprites not colors; CardScorer's copy was removed in prior work.
 
-**Phase 5: Naming & Readability**
-- Extract magic numbers to named constants (RoundManager, SimpleDeckObject)
-- Add missing explicit access modifiers (RulesPanel, TilesManager)
-- Remove stray `Debug.Log()` calls
+**Phase 5 (DONE):** Extracted magic numbers in SimpleDeckObject's `UpdateVisual()` to named constants. Removed unused `UnityEngine.Tilemaps` import from TilesManager. Cleaned ~25 stray `Debug.Log()` calls across CardBoard, CardDeck, CardScorer, RoundManager, SimpleDeckObject, TutorialManager. RoundManager/RulesPanel access modifiers were already clean from prior work.
 
 **Phase 6: Reduce RoundManager Complexity**
 - RoundManager.cs is ~604 lines with too many responsibilities

@@ -886,8 +886,6 @@ namespace CardGame.Managers
                 AudioManager.Instance.PlaySFX(tutorialCompleteSound);
             }
 
-            Debug.Log("Tutorial complete! Player is ready to play.");
-
             // Wait for final click then return to main menu
             StartCoroutine(WaitAndReturnToMenu());
         }
