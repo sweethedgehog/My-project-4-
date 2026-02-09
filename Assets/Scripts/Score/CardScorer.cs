@@ -36,26 +36,13 @@ namespace CardGame.Scoring
         [SerializeField] private AudioClip coinSuitCompleteSound;
         
         [Header("Sound Settings")]
-        [SerializeField] [Range(0f, 1f)] private float soundVolume = 0.7f;
-        [SerializeField] private float dualGoalDelay = 0.5f; // Delay between sounds when both goals complete
-        
-        public AudioManager audioManager;
-        private AudioSource audioSource;
-        
+        [SerializeField] private float dualGoalDelay = 0.5f;
+
         private Suits goalSuit;
         private int goalValue;
-        
+
         private bool valueGoalComplete = false;
         private bool suitGoalComplete = false;
-        
-        void Awake()
-        {
-            // Create audio source for goal completion sounds
-            audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.playOnAwake = false;
-            audioSource.loop = false;
-            audioSource.spatialBlend = 0f;
-        }
 
         public void SetGoal(Suits _goalSuit, int _goalValue)
         {
@@ -123,7 +110,7 @@ namespace CardGame.Scoring
         {
             if (valueGoalCompleteSound != null && AudioManager.Instance != null)
             {
-                AudioManager.Instance.PlayGoalValueComplete(valueGoalCompleteSound);
+                AudioManager.Instance.PlaySFX(valueGoalCompleteSound);
             }
         }
 
@@ -136,7 +123,7 @@ namespace CardGame.Scoring
 
             if (suitSound != null && AudioManager.Instance != null)
             {
-                AudioManager.Instance.PlayGoalSuitComplete(suitSound);
+                AudioManager.Instance.PlaySFX(suitSound);
             }
         }
         

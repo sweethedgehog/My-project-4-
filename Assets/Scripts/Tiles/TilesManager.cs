@@ -33,13 +33,13 @@ public class TilesManager : MonoBehaviour
             switch (status)
             {
                 case SuccessCodes.Failer:
-                    AudioManager.Instance.PlayRoundResult(audioClipFail);
+                    AudioManager.Instance.PlaySFX(audioClipFail);
                     break;
                 case SuccessCodes.Partial:
-                    AudioManager.Instance.PlayRoundResult(audioClipSuccess);
+                    AudioManager.Instance.PlaySFX(audioClipSuccess);
                     break;
                 case SuccessCodes.Success:
-                    AudioManager.Instance.PlayRoundResult(audioClipFullSuccess);
+                    AudioManager.Instance.PlaySFX(audioClipFullSuccess);
                     break;
             }
         }

@@ -70,7 +70,6 @@ namespace CardGame.Managers
         [SerializeField] private AudioClip cardsShuffle;
 
         // Runtime state
-        private AudioSource audioSource;
         private int currentRound = 0;
         private int currentGoalValue;
         private Suits currentGoalSuit;
@@ -97,7 +96,6 @@ namespace CardGame.Managers
 
         void Start()
         {
-            audioSource = GetComponent<AudioSource>();
             inGameMenu = false;
             Time.timeScale = 1f;
 
@@ -238,7 +236,7 @@ namespace CardGame.Managers
             isRoundActive = true;
             SetIsWaitingToDeal(false);
             if (AudioManager.Instance != null)
-                AudioManager.Instance.PlayCardShuffle(cardsShuffle);
+                AudioManager.Instance.PlaySFX(cardsShuffle);
 
             GenerateGoal();
             StartCoroutine(DealCardsToBoard());

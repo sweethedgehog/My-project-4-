@@ -1,271 +1,100 @@
 using UnityEngine;
-using System.Collections.Generic;
+using UnityEngine.Audio;
 
 namespace CardGame.Managers
 {
-    /// <summary>
-    /// Manages all audio in the game - music and sound effects
-    /// Singleton pattern for easy access from anywhere
-    /// </summary>
     public class AudioManager : MonoBehaviour
     {
         public static AudioManager Instance;
 
-        [Header("Audio Sources")]
-        [SerializeField] private AudioSource musicSource; // For looping background music
-        [SerializeField] private AudioSource sfxSource; // For one-shot sound effects
+        [Header("Mixer")]
+        [SerializeField] private AudioMixer mainMixer;
+        [SerializeField] private AudioMixerGroup musicGroup;
+        [SerializeField] private AudioMixerGroup sfxGroup;
 
         [Header("Music Clips")]
         [SerializeField] private AudioClip menuMusic;
         [SerializeField] private AudioClip gameplayMusic;
         [SerializeField] private AudioClip victoryMusic;
 
-        [Header("Sound Effects")]
-        [SerializeField] private AudioClip cardDrawSound;
-        [SerializeField] private AudioClip cardPlaceSound;
-        [SerializeField] private AudioClip cardFlipSound;
-        [SerializeField] private AudioClip buttonClickSound;
-        [SerializeField] private AudioClip winSound;
-        [SerializeField] private AudioClip loseSound;
-        [SerializeField] private AudioClip scoreSound;
-
-        [Header("Volume Settings")]
-        [SerializeField] [Range(0f, 1f)] private float musicVolume = 0.5f;
-        [SerializeField] [Range(0f, 1f)] private float sfxVolume = 0.8f;
-
-        [Header("Individual SFX Volumes (multipliers)")]
-        [SerializeField] [Range(0f, 2f)] public float cardShuffleVolume = 1f;
-        [SerializeField] [Range(0f, 2f)] public float cardPlaceVolume = 1f;
-        [SerializeField] [Range(0f, 2f)] public float cardHoverVolume = 1f;
-        [SerializeField] [Range(0f, 2f)] public float cardClickVolume = 1f;
-        [SerializeField] [Range(0f, 2f)] public float goalValueCompleteVolume = 1f;
-        [SerializeField] [Range(0f, 2f)] public float goalSuitCompleteVolume = 1f;
-        [SerializeField] [Range(0f, 2f)] public float roundResultVolume = 1f;
-        [SerializeField] [Range(0f, 2f)] public float uiClickVolume = 1f;
-        [SerializeField] [Range(0f, 2f)] public float uiHoverVolume = 1f;
-        [SerializeField] [Range(0f, 2f)] public float rulesPanelVolume = 1f;
+        private AudioSource musicSource;
+        private AudioSource sfxSource;
 
         void Awake()
         {
-            // Singleton pattern
             if (Instance == null)
             {
                 Instance = this;
-                DontDestroyOnLoad(gameObject); // Persist across scenes
+                DontDestroyOnLoad(gameObject);
+                SetupAudioSources();
             }
             else
             {
                 Destroy(gameObject);
-                return;
             }
-
-            // Create audio sources if not assigned
-            SetupAudioSources();
         }
 
-        void Start()
-        {
-            // Apply volume settings
-            SetMusicVolume(musicVolume);
-            SetSFXVolume(sfxVolume);
-        }
-
-        /// <summary>
-        /// Setup audio sources if not assigned in inspector
-        /// </summary>
         private void SetupAudioSources()
         {
-            if (musicSource == null)
-            {
-                GameObject musicObj = new GameObject("MusicSource");
-                musicObj.transform.SetParent(transform);
-                musicSource = musicObj.AddComponent<AudioSource>();
-                musicSource.loop = true; // Music loops by default
-                musicSource.playOnAwake = false;
-            }
+            musicSource = gameObject.AddComponent<AudioSource>();
+            musicSource.outputAudioMixerGroup = musicGroup;
+            musicSource.loop = true;
+            musicSource.playOnAwake = false;
 
-            if (sfxSource == null)
-            {
-                GameObject sfxObj = new GameObject("SFXSource");
-                sfxObj.transform.SetParent(transform);
-                sfxSource = sfxObj.AddComponent<AudioSource>();
-                sfxSource.loop = false; // SFX plays once
-                sfxSource.playOnAwake = false;
-            }
+            sfxSource = gameObject.AddComponent<AudioSource>();
+            sfxSource.outputAudioMixerGroup = sfxGroup;
+            sfxSource.playOnAwake = false;
         }
 
-        // ============================================
-        // PLAY MUSIC (Looping)
-        // ============================================
+        // ===== Music =====
 
-        /// <summary>
-        /// Play music clip in a loop
-        /// </summary>
         public void PlayMusic(AudioClip clip)
         {
-            if (clip == null) return;
-
+            if (clip == null || musicSource.clip == clip) return;
             musicSource.clip = clip;
-            musicSource.loop = true;
             musicSource.Play();
         }
 
-        /// <summary>
-        /// Play menu music
-        /// </summary>
-        public void PlayMenuMusic()
-        {
-            PlayMusic(menuMusic);
-        }
+        public void PlayMenuMusic() => PlayMusic(menuMusic);
+        public void PlayGameplayMusic() => PlayMusic(gameplayMusic);
+        public void PlayVictoryMusic() => PlayMusic(victoryMusic);
+        public void StopMusic() => musicSource.Stop();
+        public void PauseMusic() => musicSource.Pause();
+        public void ResumeMusic() => musicSource.UnPause();
+        public bool IsMusicPlaying() => musicSource.isPlaying;
 
-        /// <summary>
-        /// Play gameplay music
-        /// </summary>
-        public void PlayGameplayMusic()
-        {
-            PlayMusic(gameplayMusic);
-        }
+        // ===== SFX =====
 
-        /// <summary>
-        /// Play victory music
-        /// </summary>
-        public void PlayVictoryMusic()
-        {
-            PlayMusic(victoryMusic);
-        }
-
-        /// <summary>
-        /// Stop music
-        /// </summary>
-        public void StopMusic()
-        {
-            musicSource.Stop();
-        }
-
-        /// <summary>
-        /// Pause music
-        /// </summary>
-        public void PauseMusic()
-        {
-            musicSource.Pause();
-        }
-
-        /// <summary>
-        /// Resume music
-        /// </summary>
-        public void ResumeMusic()
-        {
-            musicSource.UnPause();
-        }
-
-        // ============================================
-        // PLAY SOUND EFFECTS (Once)
-        // ============================================
-
-        /// <summary>
-        /// Play a sound effect once
-        /// </summary>
         public void PlaySFX(AudioClip clip)
         {
             if (clip == null) return;
             sfxSource.PlayOneShot(clip);
         }
 
-        /// <summary>
-        /// Play sound at specific volume multiplier
-        /// </summary>
-        public void PlaySFX(AudioClip clip, float volumeMultiplier)
+        // ===== Volume (via AudioMixer) =====
+
+        public void SetMusicVolume(float normalized)
         {
-            if (clip == null) return;
-            sfxSource.PlayOneShot(clip, volumeMultiplier);
+            float dB = normalized > 0.001f ? Mathf.Log10(normalized) * 20f : -80f;
+            mainMixer.SetFloat("MusicVolume", dB);
         }
 
-        // Category-specific play methods (use individual volume settings)
-        public void PlayCardShuffle(AudioClip clip) => PlaySFX(clip, cardShuffleVolume);
-        public void PlayCardPlaceSFX(AudioClip clip) => PlaySFX(clip, cardPlaceVolume);
-        public void PlayCardHover(AudioClip clip) => PlaySFX(clip, cardHoverVolume);
-        public void PlayCardClick(AudioClip clip) => PlaySFX(clip, cardClickVolume);
-        public void PlayGoalValueComplete(AudioClip clip) => PlaySFX(clip, goalValueCompleteVolume);
-        public void PlayGoalSuitComplete(AudioClip clip) => PlaySFX(clip, goalSuitCompleteVolume);
-        public void PlayRoundResult(AudioClip clip) => PlaySFX(clip, roundResultVolume);
-        public void PlayUIClick(AudioClip clip) => PlaySFX(clip, uiClickVolume);
-        public void PlayUIHover(AudioClip clip) => PlaySFX(clip, uiHoverVolume);
-        public void PlayRulesPanel(AudioClip clip) => PlaySFX(clip, rulesPanelVolume);
-        public float GetCardHoverVolume() => cardHoverVolume * sfxVolume;
-
-        // Specific sound effect methods
-        public void PlayCardDraw() => PlaySFX(cardDrawSound, cardShuffleVolume);
-        public void PlayCardPlace() => PlaySFX(cardPlaceSound, cardPlaceVolume);
-        public void PlayCardFlip() => PlaySFX(cardFlipSound);
-        public void PlayButtonClick() => PlaySFX(buttonClickSound, uiClickVolume);
-        public void PlayWin() => PlaySFX(winSound);
-        public void PlayLose() => PlaySFX(loseSound);
-        public void PlayScore() => PlaySFX(scoreSound);
-
-        // ============================================
-        // VOLUME CONTROLS
-        // ============================================
-
-        /// <summary>
-        /// Set music volume (0 to 1)
-        /// </summary>
-        public void SetMusicVolume(float volume)
+        public void SetSFXVolume(float normalized)
         {
-            musicVolume = Mathf.Clamp01(volume);
-            musicSource.volume = musicVolume;
+            float dB = normalized > 0.001f ? Mathf.Log10(normalized) * 20f : -80f;
+            mainMixer.SetFloat("SFXVolume", dB);
         }
 
-        /// <summary>
-        /// Set SFX volume (0 to 1)
-        /// </summary>
-        public void SetSFXVolume(float volume)
-        {
-            sfxVolume = Mathf.Clamp01(volume);
-            sfxSource.volume = sfxVolume;
-        }
-
-        /// <summary>
-        /// Mute/unmute music
-        /// </summary>
-        public void ToggleMusicMute()
-        {
-            musicSource.mute = !musicSource.mute;
-        }
-
-        /// <summary>
-        /// Mute/unmute SFX
-        /// </summary>
-        public void ToggleSFXMute()
-        {
-            sfxSource.mute = !sfxSource.mute;
-        }
-
-        // ============================================
-        // UTILITY
-        // ============================================
-
-        /// <summary>
-        /// Check if music is playing
-        /// </summary>
-        public bool IsMusicPlaying()
-        {
-            return musicSource.isPlaying;
-        }
-
-        /// <summary>
-        /// Get current music volume
-        /// </summary>
         public float GetMusicVolume()
         {
-            return musicVolume;
+            mainMixer.GetFloat("MusicVolume", out float dB);
+            return dB > -79f ? Mathf.Pow(10f, dB / 20f) : 0f;
         }
 
-        /// <summary>
-        /// Get current SFX volume
-        /// </summary>
         public float GetSFXVolume()
         {
-            return sfxVolume;
+            mainMixer.GetFloat("SFXVolume", out float dB);
+            return dB > -79f ? Mathf.Pow(10f, dB / 20f) : 0f;
         }
     }
 }

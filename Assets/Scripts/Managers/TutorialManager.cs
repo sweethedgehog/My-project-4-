@@ -88,7 +88,6 @@ namespace CardGame.Managers
         private int currentStep = 0;
         private bool waitingForInput = false;
         private bool stepInProgress = false;
-        private AudioSource audioSource;
         private bool isRulesOpened = false;
         private float bubbleShowTime;
         private bool goalSoundPlayed = false;
@@ -113,12 +112,6 @@ namespace CardGame.Managers
             if (AudioManager.Instance != null)
             {
                 AudioManager.Instance.PlayMenuMusic();
-            }
-
-            audioSource = GetComponent<AudioSource>();
-            if (audioSource == null)
-            {
-                audioSource = gameObject.AddComponent<AudioSource>();
             }
 
             // Hide all UI elements initially
@@ -735,7 +728,7 @@ namespace CardGame.Managers
         {
             if (cardDrawSound != null && AudioManager.Instance != null)
             {
-                AudioManager.Instance.PlayCardShuffle(cardDrawSound);
+                AudioManager.Instance.PlaySFX(cardDrawSound);
             }
         }
 
@@ -752,7 +745,7 @@ namespace CardGame.Managers
             // Play value complete sound
             if (goalValueCompleteSound != null && AudioManager.Instance != null)
             {
-                AudioManager.Instance.PlayGoalValueComplete(goalValueCompleteSound);
+                AudioManager.Instance.PlaySFX(goalValueCompleteSound);
             }
 
             yield return new WaitForSeconds(0.5f);
@@ -760,7 +753,7 @@ namespace CardGame.Managers
             // Play suit complete sound
             if (goalSuitCompleteSound != null && AudioManager.Instance != null)
             {
-                AudioManager.Instance.PlayGoalSuitComplete(goalSuitCompleteSound);
+                AudioManager.Instance.PlaySFX(goalSuitCompleteSound);
             }
         }
 
