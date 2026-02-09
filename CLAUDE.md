@@ -95,9 +95,7 @@ MainMenu → MainScene (6 rounds) → PostdictionScene → Win/Lose → MainMenu
 
 **Phase 3 (DONE):** Fixed typos - `rightChoise`/`lastChoise` -> `rightChoice`/`lastChoice` (PostdictionManager), `Patrial` -> `Partial` (SuccessCodes + all refs), `setVisability`/`setHistoryVisability` -> `setVisibility`/`setHistoryVisibility` (TileScript, TilesManager). `rulsePanel` was already fixed.
 
-**Phase 4: Extract Duplicated Code**
-- `GetSuitColor()` duplicated in CardScorer, SimpleCard, RoundManager, CryLogic
-- Extract to shared `Assets/Scripts/Core/SuitHelper.cs`
+**Phase 4 (DONE - already resolved):** `GetSuitColor()` duplication no longer exists. Only RoundManager has it now; SimpleCard/CryLogic use sprites not colors; CardScorer's copy was removed in prior work.
 
 **Phase 5: Naming & Readability**
 - Extract magic numbers to named constants (RoundManager, SimpleDeckObject)
