@@ -93,6 +93,8 @@ namespace CardGame.Managers
         private const int MAX_CARD_REROLL_ATTEMPTS = 5;
         private const int MAX_SUIT_REROLL_ATTEMPTS = 5;
 
+        // ===== Lifecycle & Input =====
+
         void Start()
         {
             audioSource = GetComponent<AudioSource>();
@@ -207,8 +209,10 @@ namespace CardGame.Managers
             rulesPanel.Toggle();
         }
         
+        // ===== Round Flow =====
+
         /// <summary>
-        /// Start a new round
+        /// Start a new round: clear previous cards, generate goal, deal new hand
         /// </summary>
         public void StartRound()
         {
@@ -332,6 +336,8 @@ namespace CardGame.Managers
 
         private void StartPostdiction() => SceneManager.LoadScene("PostDictionScene", LoadSceneMode.Additive);
         
+        // ===== Goal Generation =====
+
         private void GenerateGoal()
         {
             // Random value between min and max (inclusive)
@@ -380,6 +386,8 @@ namespace CardGame.Managers
         {
             StartCoroutine(GetAnotherSetOfCards());
         }
+
+        // ===== Card Dealing =====
 
         private List<SimpleCard> GetActiveCards()
         {
@@ -483,32 +491,24 @@ namespace CardGame.Managers
             UpdateAvailabilityField();
         }
         
+        // ===== Score Calculation =====
+
         /// <summary>
         /// Calculate score based on goal matching
         /// </summary>
         private SuccessCodes CalculateRoundScore()
         {
             Score currentScore = CalculateScoreFromBoard();
-            
+
             int achievedScore = currentScore.GetFullScore();
             Suits? dominantSuit = currentScore.GetDominantSuit();
-            
-            // Check if score matches goal
-            bool scoreMatches = (achievedScore == currentGoalValue);
-            bool suitMatches = dominantSuit.HasValue && (dominantSuit.Value == currentGoalSuit);
-            
-            if (!scoreMatches)
-            {
-                return SuccessCodes.Failer;
-            }
-            else if (scoreMatches && !suitMatches)
-            {
-                return SuccessCodes.Partial;
-            }
-            else
-            {
-                return SuccessCodes.Success;
-            }
+
+            bool scoreMatches = achievedScore == currentGoalValue;
+            bool suitMatches = dominantSuit.HasValue && dominantSuit.Value == currentGoalSuit;
+
+            if (!scoreMatches) return SuccessCodes.Failer;
+            if (!suitMatches) return SuccessCodes.Partial;
+            return SuccessCodes.Success;
         }
         
         private Score CalculateScoreFromBoard()
@@ -524,6 +524,8 @@ namespace CardGame.Managers
             return layout.GetScore();
         }
         
+        // ===== UI Updates =====
+
         /// <summary>
         /// Show round result to player
         /// </summary>
@@ -560,42 +562,31 @@ namespace CardGame.Managers
                 resultText.gameObject.SetActive(false);
             }
 
-            // After last round, change button to "make prediction"
             if (currentRound >= maxRounds)
             {
-                isReadyForPrediction = true;
-                if (endRoundButton != null && makePredictionSprite != null)
-                {
-                    Image buttonImage = endRoundButton.GetComponent<Image>();
-                    if (buttonImage != null)
-                    {
-                        buttonImage.sprite = makePredictionSprite;
-                    }
-                }
-                UpdateButtonStates();
+                PrepareForPrediction();
             }
         }
 
         /// <summary>
-        /// Clear all cards from the board
+        /// Transition UI to prediction mode after the final round
         /// </summary>
-        private void ClearBoard()
+        private void PrepareForPrediction()
         {
-            var cards = targetBoard.GetCards();
-            
-            // Destroy all card GameObjects
-            foreach (var card in cards)
+            isReadyForPrediction = true;
+
+            if (endRoundButton != null && makePredictionSprite != null)
             {
-                if (card != null)
+                Image buttonImage = endRoundButton.GetComponent<Image>();
+                if (buttonImage != null)
                 {
-                    Destroy(card.gameObject);
+                    buttonImage.sprite = makePredictionSprite;
                 }
             }
-            
-            // Clear the board's internal list
-            targetBoard.ClearBoard();
-            
+
+            UpdateButtonStates();
         }
+
         
         /// <summary>
         /// Show temporary message
@@ -684,6 +675,8 @@ namespace CardGame.Managers
             }
         }
 
+        // ===== Helpers =====
+
         /// <summary>
         /// Get color for a suit
         /// </summary>
@@ -721,7 +714,7 @@ namespace CardGame.Managers
             currentGoalValue = 0;
             isRoundActive = false;
             
-            ClearBoard();
+            ClearPreviousRoundCards();
             
             UpdateRoundDisplay();
             UpdateScoreHistoryDisplay();

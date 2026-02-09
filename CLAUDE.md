@@ -99,7 +99,4 @@ MainMenu → MainScene (6 rounds) → PostdictionScene → Win/Lose → MainMenu
 
 **Phase 5 (DONE):** Extracted magic numbers in SimpleDeckObject's `UpdateVisual()` to named constants. Removed unused `UnityEngine.Tilemaps` import from TilesManager. Cleaned ~25 stray `Debug.Log()` calls across CardBoard, CardDeck, CardScorer, RoundManager, SimpleDeckObject, TutorialManager. RoundManager/RulesPanel access modifiers were already clean from prior work.
 
-**Phase 6: Reduce RoundManager Complexity**
-- RoundManager.cs is ~604 lines with too many responsibilities
-- Extract goal generation, score UI updates into helper methods
-- Add summary comments to major methods
+**Phase 6 (DONE):** Reduced RoundManager complexity. Removed duplicate `ClearBoard` method (reuses `ClearPreviousRoundCards`). Simplified `CalculateRoundScore` (removed redundant condition). Extracted `PrepareForPrediction()` from `ShowRoundResult`. Added section comments for navigation (Lifecycle, Round Flow, Goal Generation, Card Dealing, Score Calculation, UI Updates, Helpers).
