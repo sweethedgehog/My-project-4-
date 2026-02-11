@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using TMPro;
 using CardGame.Core;
 using CardGame.Cards;
@@ -30,6 +31,9 @@ namespace CardGame.GameObjects
         [SerializeField] private CardBoard targetBoard;
         [SerializeField] private bool spawnDirectlyOnBoard = true;
 
+        [Header("Click Event")]
+        [SerializeField] private UnityEvent onClick;
+
         // Card count thresholds for deck sprite changes
         private const int ManyCardsThreshold = 13;
         private const int MediumCardsThreshold = 5;
@@ -47,6 +51,11 @@ namespace CardGame.GameObjects
         {
             InitializeDeck();
             UpdateVisual();
+        }
+
+        void OnMouseDown()
+        {
+            onClick?.Invoke();
         }
 
         void InitializeDeck()

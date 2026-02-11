@@ -21,8 +21,8 @@ This is a standard Unity project. Open in Unity Editor 6000.0.32f1 or compatible
 ### Namespace Organization
 ```
 CardGame.Core          - Card data, deck, scoring calculations
-CardGame.Cards         - SimpleCard UI component
-CardGame.GameObjects   - CardBoard, dragging, deck visuals
+CardGame.Cards         - SimpleCard (SpriteRenderer-based card)
+CardGame.GameObjects   - CardBoard, dragging, deck (world-space)
 CardGame.Managers      - RoundManager, TutorialManager, AudioManager
 CardGame.Scoring       - CardScorer (live score display)
 DefaultNamespace.Tiles - Story tiles & hints for postdiction
@@ -67,8 +67,8 @@ MainMenu → MainScene (6 rounds) → PostdictionScene → Win/Lose → MainMenu
 ```
 
 ### Key Prefabs
-- `SimpleCardPrefab.prefab` - Card UI template
-- `SimpleDeck.prefab` - Deck visual
+- `SimpleCardPrefab.prefab` - Card template (SpriteRenderer + BoxCollider2D, Sorting Layer: Cards)
+- `SimpleDeck.prefab` - Deck visual (SpriteRenderer + BoxCollider2D, Sorting Layer: Gameplay)
 
 ### Audio
 `AudioManager` is a singleton (100 lines) with only 2 AudioSources (music + sfx), routed through a Unity `AudioMixer` asset (`Assets/Audio/MainMixer`). Volume is controlled via exposed mixer parameters (`MusicVolume`, `SFXVolume`) — no manual volume multiplication in code.
@@ -83,6 +83,7 @@ MainMenu → MainScene (6 rounds) → PostdictionScene → Win/Lose → MainMenu
 - Never create local `AudioSource` components — all playback goes through `AudioManager`
 - Never add per-category volume multipliers — use AudioMixer groups instead
 - Sound components (`CardSound`, `UISound`, `RulesPanelSound`) own their clips but don't own AudioSources
+- `CardSound` uses `OnMouseEnter`/`OnMouseDown` for hover/click + explicit `PlayPickup()`/`PlayDrop()` called from `SimpleDraggableWithBoard`
 
 ## Code Conventions
 
@@ -127,12 +128,70 @@ Replaced scattered audio system (7+ components with local AudioSources, 3-layer 
 
 Total AudioSources in project: 2 (both on AudioManager). Previously: 20+ (3 per card, 2 per button, 2 per panel, etc.)
 
+## Canvas-to-World-Space Refactoring (IN PROGRESS)
+
+Moved gameplay objects (cards, boards, deck) from ScreenSpace-Overlay Canvas to world-space with SpriteRenderers. Pure UI stays on Canvas overlay.
+
+### Rendering Architecture
+```
+Scene Root
+  Main Camera (Orthographic, size=5.4, pos 0,0,-10)
+  GameplayRoot (empty, pos 0,0,0)
+    Background (SpriteRenderer, Sorting Layer: Background)
+    SimpleDeck (SpriteRenderer + BoxCollider2D, Sorting Layer: Gameplay)
+    CardBoard (SpriteRenderer, Sorting Layer: Gameplay)
+    CardBoardHand (SpriteRenderer, Sorting Layer: Gameplay)
+  Canvas (ScreenSpace-Overlay)
+    GoalPanel, EndRoundButton, ScoreDisplay, Tiles Panel,
+    RulesPanel, Cat, Frog_hands, RoundManager/TutorialManager refs
+  EventSystem
+  Managers/AudioManager
+```
+
+**Sorting Layers** (Project Settings → Tags & Layers):
+1. `Background` — scene background
+2. `Gameplay` — boards, deck
+3. `Cards` — card sprites (sortingOrder 0 at rest, 100 during drag)
+
+**Coordinate mapping:** `old_canvas_pixels / 100 = world_units` (100 PPU)
+
+### Code Changes (DONE)
+| File | Change |
+|------|--------|
+| `SimpleCard.cs` | `Image` → `SpriteRenderer`, `CanvasGroup` → `BoxCollider2D` + color |
+| `CardBoard.cs` | `RectTransform` → serialized `boardWidth`/`boardHeight`, `Image` → `SpriteRenderer`, world-space bounds via `Camera.ScreenToWorldPoint` |
+| `SmoothCardMover` | `RectTransform.anchoredPosition` → `Transform.localPosition` |
+| `SimpleDraggableWithBoard.cs` | Full rewrite: EventSystem drag → `OnMouseDown`/`OnMouseDrag`/`OnMouseUp`, sorting order 100 during drag |
+| `CardSound.cs` | EventSystem interfaces → `OnMouseEnter`/`OnMouseDown` + explicit `PlayPickup()`/`PlayDrop()` |
+| `SimpleDeckObject.cs` | `Image` → `SpriteRenderer`, removed `Canvas` ref, removed dead code, added `UnityEvent onClick` for deck click |
+| `TutorialManager.cs` | `WaitForDeckClick()`: `EventSystem.RaycastAll` → `Physics2D.Raycast` |
+| `RoundManager.cs` | `OnStartButtonClicked()` made public (wired to deck's `onClick` event) |
+
+### Scene Setup (PARTIALLY DONE — MainScene working, TutorialScene/DevMainScene need same treatment)
+
+Each scene needs:
+- Main Camera: Orthographic, Size=5.4, Position=(0,0,-10), Tag=MainCamera
+- GameplayRoot at (0,0,0) containing CardBoard, CardBoardHand, SimpleDeck, Background
+- World positions: CardBoard (3.308,-1.108,0), CardBoardHand (3.296,-3.094,0), SimpleDeck (-1.085,-2.010,0)
+- CardBoard Inspector: `boardWidth=5.92`, `boardHeight=1.58`, `edgeExtension=1.0`
+- CardBoardHand Inspector: `boardWidth=5.95`, `boardHeight=1.70`, `edgeExtension=1.0`
+- SimpleDeck: `onClick` event wired to `RoundManager.OnStartButtonClicked` (MainScene) or tutorial equivalent
+- SimpleDeck: BoxCollider2D (required for click detection and TutorialManager's `Physics2D.Raycast`)
+
+### Key Rules
+- Gameplay objects (cards, boards, deck) use `SpriteRenderer` + `BoxCollider2D` in world-space
+- UI elements (buttons, text, panels) stay on `ScreenSpace-Overlay` Canvas
+- Card interaction uses `OnMouse*` callbacks (requires `BoxCollider2D`), NOT EventSystem drag interfaces
+- `SimpleCard.cardRenderer` must point to the card's own `SpriteRenderer` (not parent/sibling)
+- Cards set their sorting layer to "Cards" programmatically in `Awake()`
+- During drag, card sorting order raises to 100 and collider is disabled
+
 ## Future Technical Roadmap
 
 ### Phase A: Quick Wins (low risk, high impact)
 
 **A1. Cache `FindObjectsOfType` in SimpleDraggableWithBoard**
-- `SimpleDraggableWithBoard.cs` calls `FindObjectsOfType<CardBoard>()` during every drag operation (lines ~142, 157, 184)
+- `SimpleDraggableWithBoard.cs` calls `FindObjectsOfType<CardBoard>()` in `CheckBoardHover()` and `FindNearestBoard()` every drag frame
 - This runs O(n) scan each frame while dragging. Cache board references on Awake instead.
 
 **A2. Create `SceneNames` constants class**

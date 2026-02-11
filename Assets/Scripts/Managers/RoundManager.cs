@@ -130,7 +130,7 @@ namespace CardGame.Managers
             isRulesOpened = false;
         }
 
-        private void OnStartButtonClicked()
+        public void OnStartButtonClicked()
         {
             if (currentRound >= maxRounds)
             {

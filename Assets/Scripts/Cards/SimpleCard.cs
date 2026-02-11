@@ -30,6 +30,15 @@ namespace CardGame.Cards
         {
             if (cardRenderer == null)
                 cardRenderer = GetComponent<SpriteRenderer>();
+
+            if (cardRenderer == null)
+            {
+                cardRenderer = gameObject.AddComponent<SpriteRenderer>();
+                Debug.LogWarning($"SimpleCard '{name}': SpriteRenderer was missing, added one. Add SpriteRenderer to prefab to fix this.");
+            }
+
+            cardRenderer.sortingLayerName = "Cards";
+            cardRenderer.sortingOrder = 0;
         }
 
         public void SetCardData(CardData cardData)
@@ -42,8 +51,12 @@ namespace CardGame.Cards
         {
             SetCardData(cardData);
             UpdateVisual();
-            glowable = true;
-            overlay = transform.Find("Overlay").gameObject;
+            Transform overlayTransform = transform.Find("Overlay");
+            if (overlayTransform != null)
+            {
+                overlay = overlayTransform.gameObject;
+                glowable = true;
+            }
             TurnOffGlow();
         }
 
@@ -65,6 +78,12 @@ namespace CardGame.Cards
                 case Suits.Crowns:
                     cardSet = CrownSprites;
                     break;
+            }
+
+            if (cardSet == null || cardSet.Count < cardValue)
+            {
+                Debug.LogError($"[SimpleCard] {name}: Sprite list is null or too small! suit={suit}, count={cardSet?.Count}, needed index={cardValue - 1}");
+                return;
             }
 
             cardRenderer.sprite = cardSet[cardValue - 1];
