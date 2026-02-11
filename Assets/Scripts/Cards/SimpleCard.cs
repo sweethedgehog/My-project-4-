@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using CardGame.Core;
 using System.Collections.Generic;
 using CardGame.GameObjects;
@@ -8,7 +7,7 @@ namespace CardGame.Cards
 {
     /// <summary>
     /// Simple card that displays suit color and value number
-    /// No sprites needed - just colors and text
+    /// Uses SpriteRenderer for world-space rendering
     /// </summary>
     public class SimpleCard : MonoBehaviour
     {
@@ -20,22 +19,17 @@ namespace CardGame.Cards
         public List<Sprite> SkullSprites;
         public List<Sprite> CrownSprites;
         public List<Sprite> CoinSprites;
-        
-        [Header("UI References")]
-        public Image cardBackground;
-        public Text valueText;
+
+        [Header("References")]
+        public SpriteRenderer cardRenderer;
         public GameObject overlay;
-        
+
         private bool glowable = false;
-        
+
         void Awake()
         {
-            // Auto-find components if not assigned
-            if (cardBackground == null)
-                cardBackground = GetComponent<Image>();
-            
-            if (valueText == null)
-                valueText = GetComponentInChildren<Text>();
+            if (cardRenderer == null)
+                cardRenderer = GetComponent<SpriteRenderer>();
         }
 
         public void SetCardData(CardData cardData)
@@ -43,7 +37,7 @@ namespace CardGame.Cards
             suit = cardData.suit;
             cardValue = cardData.cardValue;
         }
-        
+
         public void Initialize(CardData cardData)
         {
             SetCardData(cardData);
@@ -52,11 +46,11 @@ namespace CardGame.Cards
             overlay = transform.Find("Overlay").gameObject;
             TurnOffGlow();
         }
-        
+
         void UpdateVisual()
         {
             List<Sprite> cardSet = new List<Sprite> {} ;
-            
+
             switch (suit)
             {
                 case Suits.Roses:
@@ -72,10 +66,10 @@ namespace CardGame.Cards
                     cardSet = CrownSprites;
                     break;
             }
-            
-            cardBackground.sprite = cardSet[cardValue - 1];
+
+            cardRenderer.sprite = cardSet[cardValue - 1];
         }
-        
+
         public void TurnOffGlow()
         {
             if (glowable)
@@ -83,7 +77,7 @@ namespace CardGame.Cards
                 overlay.SetActive(false);
             }
         }
-    
+
         public void TurnOnGlow()
         {
             if (glowable)
@@ -118,19 +112,16 @@ namespace CardGame.Cards
         {
             individualFreeze = frozen;
 
-            CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
-            if (canvasGroup == null)
+            BoxCollider2D col = GetComponent<BoxCollider2D>();
+            if (col != null)
             {
-                canvasGroup = gameObject.AddComponent<CanvasGroup>();
+                col.enabled = !frozen;
             }
 
-            canvasGroup.interactable = !frozen;
-            canvasGroup.blocksRaycasts = !frozen;
-
             // Darken the card when frozen (no transparency)
-            if (cardBackground != null)
+            if (cardRenderer != null)
             {
-                cardBackground.color = frozen ? new Color(0.5f, 0.5f, 0.5f, 1f) : Color.white;
+                cardRenderer.color = frozen ? new Color(0.5f, 0.5f, 0.5f, 1f) : Color.white;
             }
         }
 

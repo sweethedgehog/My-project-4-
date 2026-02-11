@@ -620,6 +620,7 @@ namespace CardGame.Managers
 
         /// <summary>
         /// Wait for player to click specifically on the deck
+        /// Uses Physics2D raycast to detect world-space deck with BoxCollider2D
         /// </summary>
         private IEnumerator WaitForDeckClick()
         {
@@ -627,24 +628,14 @@ namespace CardGame.Managers
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    // Check if click is on the deck using raycast
-                    UnityEngine.EventSystems.PointerEventData pointerData =
-                        new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
-                        {
-                            position = Input.mousePosition
-                        };
+                    Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
-                    List<UnityEngine.EventSystems.RaycastResult> results = new List<UnityEngine.EventSystems.RaycastResult>();
-                    UnityEngine.EventSystems.EventSystem.current.RaycastAll(pointerData, results);
-
-                    foreach (var result in results)
+                    if (hit.collider != null && deck != null &&
+                        (hit.collider.gameObject == deck.gameObject ||
+                         hit.collider.transform.IsChildOf(deck.transform)))
                     {
-                        // Check if clicked object is the deck or a child of deck
-                        if (deck != null && (result.gameObject == deck.gameObject ||
-                            result.gameObject.transform.IsChildOf(deck.transform)))
-                        {
-                            yield break; // Exit coroutine - deck was clicked
-                        }
+                        yield break;
                     }
                 }
                 yield return null;

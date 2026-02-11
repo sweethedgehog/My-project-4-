@@ -1,14 +1,9 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 using CardGame.Managers;
 
 namespace CardGame.UI
 {
-    public class CardSound : MonoBehaviour,
-        IPointerEnterHandler,
-        IPointerClickHandler,
-        IBeginDragHandler,
-        IEndDragHandler
+    public class CardSound : MonoBehaviour
     {
         [Header("Card Sounds")]
         [SerializeField] private AudioClip cardHoverEnterSound;
@@ -16,28 +11,30 @@ namespace CardGame.UI
         [SerializeField] private AudioClip cardPickupSound;
         [SerializeField] private AudioClip cardDropSound;
 
-        public void OnPointerEnter(PointerEventData eventData)
+        void OnMouseEnter()
         {
-            if (AudioManager.Instance != null)
-                AudioManager.Instance.PlaySFX(cardHoverEnterSound);
+            AudioManager.Instance?.PlaySFX(cardHoverEnterSound);
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        void OnMouseDown()
         {
-            if (AudioManager.Instance != null)
-                AudioManager.Instance.PlaySFX(cardClickSound);
+            AudioManager.Instance?.PlaySFX(cardClickSound);
         }
 
-        public void OnBeginDrag(PointerEventData eventData)
+        /// <summary>
+        /// Called explicitly from SimpleDraggableWithBoard on drag start
+        /// </summary>
+        public void PlayPickup()
         {
-            if (AudioManager.Instance != null)
-                AudioManager.Instance.PlaySFX(cardPickupSound);
+            AudioManager.Instance?.PlaySFX(cardPickupSound);
         }
 
-        public void OnEndDrag(PointerEventData eventData)
+        /// <summary>
+        /// Called explicitly from SimpleDraggableWithBoard on drag end
+        /// </summary>
+        public void PlayDrop()
         {
-            if (AudioManager.Instance != null)
-                AudioManager.Instance.PlaySFX(cardDropSound);
+            AudioManager.Instance?.PlaySFX(cardDropSound);
         }
     }
 }

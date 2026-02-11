@@ -3,7 +3,6 @@ using UnityEngine;
 using CardGame.Cards;
 using CardGame.Scoring;
 using CardGame.Core;
-using CardGame.UI;
 
 
 namespace CardGame.GameObjects
@@ -11,17 +10,17 @@ namespace CardGame.GameObjects
     /// <summary>
     /// Magnetic card board that organizes cards in a row
     /// Cards automatically arrange themselves when added/removed
-    /// Works with UI RectTransform system
+    /// Works with world-space Transform system
     /// </summary>
     public class CardBoard : MonoBehaviour
     {
         [Header("Board Settings")] [SerializeField]
         private int maxCards = 5;
 
-        [SerializeField] private float minX = -300f;
-        [SerializeField] private float maxX = 300f;
+        [SerializeField] private float boardWidth = 5.92f;
+        [SerializeField] private float boardHeight = 1.58f;
         [SerializeField] private float yPosition = 0f;
-        [SerializeField] private float edgeExtension = 100f;
+        [SerializeField] private float edgeExtension = 1.0f;
 
         [Header("Animation")] [SerializeField] private float moveSpeed = 10f;
         [SerializeField] private bool smoothMovement = true;
@@ -32,21 +31,14 @@ namespace CardGame.GameObjects
         [SerializeField] private bool showBoardVisual = true;
 
         [Header("Interaction Control")] public bool freeze = false;
-        [SerializeField] private float frozenAlpha = 0.6f; // Transparency when frozen
+        [SerializeField] private float frozenAlpha = 0.6f;
 
         private List<SimpleCard> cards = new List<SimpleCard>();
         public CardScorer scorer;
-        private RectTransform rectTransform;
         public bool neverGlow;
 
         void Awake()
         {
-            rectTransform = GetComponent<RectTransform>();
-            if (rectTransform == null)
-            {
-                rectTransform = gameObject.AddComponent<RectTransform>();
-            }
-
             if (showBoardVisual)
             {
                 SetupBoardVisual();
@@ -60,14 +52,14 @@ namespace CardGame.GameObjects
 
         void SetupBoardVisual()
         {
-            UnityEngine.UI.Image img = GetComponent<UnityEngine.UI.Image>();
-            if (img == null)
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+            if (sr == null)
             {
-                img = gameObject.AddComponent<UnityEngine.UI.Image>();
+                sr = gameObject.AddComponent<SpriteRenderer>();
             }
 
-            img.color = boardColor;
-            img.raycastTarget = false;
+            sr.color = boardColor;
+            sr.sortingLayerName = "Gameplay";
         }
 
         /// <summary>
@@ -75,12 +67,11 @@ namespace CardGame.GameObjects
         /// </summary>
         public void SetFreeze(bool frozen)
         {
-            if (freeze == frozen) return; // No change needed
+            if (freeze == frozen) return;
 
             freeze = frozen;
             UpdateCardInteractability();
             RebaseAllCards();
-
         }
 
         /// <summary>
@@ -102,17 +93,17 @@ namespace CardGame.GameObjects
         /// </summary>
         private void SetCardInteractable(SimpleCard card, bool interactable)
         {
-            // Use CanvasGroup for interaction control
-            CanvasGroup canvasGroup = card.GetComponent<CanvasGroup>();
-            if (canvasGroup == null)
+            SpriteRenderer sr = card.GetComponent<SpriteRenderer>();
+            if (sr != null)
             {
-                canvasGroup = card.gameObject.AddComponent<CanvasGroup>();
+                sr.color = interactable ? Color.white : new Color(1f, 1f, 1f, frozenAlpha);
             }
 
-            canvasGroup.interactable = interactable;
-            canvasGroup.blocksRaycasts = interactable;
-            canvasGroup.alpha = interactable ? 1f : frozenAlpha;
-
+            BoxCollider2D col = card.GetComponent<BoxCollider2D>();
+            if (col != null)
+            {
+                col.enabled = interactable;
+            }
         }
 
         /// <summary>
@@ -156,7 +147,7 @@ namespace CardGame.GameObjects
 
         public void AddCard(SimpleCard card)
         {
-            AddCardAtPosition(card, -1); // -1 means auto-detect position based on card location
+            AddCardAtPosition(card, -1);
         }
 
         /// <summary>
@@ -181,9 +172,8 @@ namespace CardGame.GameObjects
 
             if (index < 0)
             {
-                // Auto-detect position based on card's current location (original drag-drop behavior)
-                RectTransform cardRect = card.GetComponent<RectTransform>();
-                Vector2 localCardPos = transform.InverseTransformPoint(cardRect.position);
+                // Auto-detect position based on card's current location
+                Vector2 localCardPos = transform.InverseTransformPoint(card.transform.position);
                 float cardX = localCardPos.x;
 
                 if (cards.Count == 0)
@@ -195,7 +185,6 @@ namespace CardGame.GameObjects
                     int bestIndex = 0;
                     float minDistance = float.MaxValue;
 
-                    // Check all possible insertion positions
                     for (int i = 0; i <= cards.Count; i++)
                     {
                         float targetX = GetInsertionXPosition(i);
@@ -213,14 +202,12 @@ namespace CardGame.GameObjects
             }
             else
             {
-                // Insert at specific index (for programmatic spawning)
                 int insertIndex = Mathf.Clamp(index, 0, cards.Count);
                 cards.Insert(insertIndex, card);
             }
 
             card.transform.SetParent(transform);
 
-            // Set interactability for newly added card
             SetCardInteractable(card, !freeze);
 
             RebaseAllCards();
@@ -230,7 +217,6 @@ namespace CardGame.GameObjects
 
         /// <summary>
         /// Append a card to the rightmost position (left-to-right order)
-        /// Use this for programmatic card spawning to ensure consistent ordering
         /// </summary>
         public void AppendCard(SimpleCard card)
         {
@@ -280,7 +266,7 @@ namespace CardGame.GameObjects
 
         /// <summary>
         /// Calculate X position for card at index
-        /// Uses actual board width for adaptive sizing
+        /// Uses serialized board width for adaptive sizing
         /// </summary>
         private float GetCardXPosition(int index)
         {
@@ -289,7 +275,6 @@ namespace CardGame.GameObjects
                 return 0f;
             }
 
-            float boardWidth = rectTransform.rect.width;
             float usableWidth = boardWidth * 0.8f;
             float spreadFactor = Mathf.Min(1f, (float)cards.Count / maxCards);
             float actualSpread = usableWidth * spreadFactor;
@@ -311,7 +296,6 @@ namespace CardGame.GameObjects
             }
 
             int futureCardCount = cards.Count + 1;
-            float boardWidth = rectTransform.rect.width;
             float usableWidth = boardWidth * 0.8f;
             float spreadFactor = Mathf.Min(1f, (float)futureCardCount / maxCards);
             float actualSpread = usableWidth * spreadFactor;
@@ -327,9 +311,6 @@ namespace CardGame.GameObjects
         /// </summary>
         private void SetCardTargetPosition(SimpleCard card, Vector2 targetPos)
         {
-            RectTransform cardRect = card.GetComponent<RectTransform>();
-            if (cardRect == null) return;
-
             if (smoothMovement)
             {
                 SmoothCardMover mover = card.GetComponent<SmoothCardMover>();
@@ -342,28 +323,22 @@ namespace CardGame.GameObjects
             }
             else
             {
-                cardRect.anchoredPosition = targetPos;
+                card.transform.localPosition = new Vector3(targetPos.x, targetPos.y, 0f);
             }
         }
 
         /// <summary>
         /// Check if a position is within the board's detection area
+        /// Converts screen position to world-space for comparison
         /// </summary>
         public bool IsPositionNearBoard(Vector2 screenPosition)
         {
-            // Don't accept drops if frozen
             if (freeze) return false;
 
-            Vector2 localPos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                rectTransform,
-                screenPosition,
-                null,
-                out localPos
-            );
-
-            float boardWidth = rectTransform.rect.width;
-            float boardHeight = rectTransform.rect.height;
+            Camera cam = Camera.main;
+            Vector3 worldPos = cam.ScreenToWorldPoint(
+                new Vector3(screenPosition.x, screenPosition.y, Mathf.Abs(cam.transform.position.z)));
+            Vector2 localPos = transform.InverseTransformPoint(worldPos);
 
             float leftEdge = -boardWidth / 2f - edgeExtension;
             float rightEdge = boardWidth / 2f + edgeExtension;
@@ -413,7 +388,7 @@ namespace CardGame.GameObjects
         {
             cards.Clear();
         }
-        
+
         /// <summary>
         /// Swap two cards on the board
         /// </summary>
@@ -423,17 +398,17 @@ namespace CardGame.GameObjects
             {
                 return;
             }
-            
+
             if (index1 < 0 || index1 >= cards.Count || index2 < 0 || index2 >= cards.Count)
                 return;
-            
+
             SimpleCard temp = cards[index1];
             cards[index1] = cards[index2];
             cards[index2] = temp;
             RebaseAllCards();
             UpdateScore();
         }
-        
+
         /// <summary>
         /// Get card at index
         /// </summary>
@@ -444,22 +419,17 @@ namespace CardGame.GameObjects
             return cards[index];
         }
     }
-    
+
     /// <summary>
     /// Component that smoothly moves a card to its target position
+    /// Uses Transform.localPosition for world-space positioning
     /// </summary>
     public class SmoothCardMover : MonoBehaviour
     {
         private Vector2 targetPosition;
         private float speed = 10f;
-        private RectTransform rectTransform;
         private bool isMoving = false;
-        
-        void Awake()
-        {
-            rectTransform = GetComponent<RectTransform>();
-        }
-        
+
         public void SetTarget(Vector2 target, float moveSpeed)
         {
             targetPosition = target;
@@ -471,18 +441,18 @@ namespace CardGame.GameObjects
         {
             isMoving = false;
         }
-        
+
         void Update()
         {
             if (!isMoving) return;
-            
-            Vector2 currentPos = rectTransform.anchoredPosition;
+
+            Vector2 currentPos = (Vector2)transform.localPosition;
             Vector2 newPos = Vector2.Lerp(currentPos, targetPosition, Time.deltaTime * speed);
-            rectTransform.anchoredPosition = newPos;
-            
-            if (Vector2.Distance(newPos, targetPosition) < 0.1f)
+            transform.localPosition = new Vector3(newPos.x, newPos.y, transform.localPosition.z);
+
+            if (Vector2.Distance(newPos, targetPosition) < 0.01f)
             {
-                rectTransform.anchoredPosition = targetPosition;
+                transform.localPosition = new Vector3(targetPosition.x, targetPosition.y, transform.localPosition.z);
                 isMoving = false;
             }
         }
