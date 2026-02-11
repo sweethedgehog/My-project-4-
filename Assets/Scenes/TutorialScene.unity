@@ -534,8 +534,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardGame.GameObjects.CardBoard
   maxCards: 5
-  minX: -300
-  maxX: 300
+  boardWidth: 5.92
+  boardHeight: 1.58
   yPosition: 0
   edgeExtension: 100
   moveSpeed: 10
@@ -8002,6 +8002,7 @@ GameObject:
   - component: {fileID: 1505598449}
   - component: {fileID: 1505598448}
   - component: {fileID: 1505598447}
+  - component: {fileID: 1505598450}
   m_Layer: 5
   m_Name: SimpleDeck
   m_TagString: Untagged
@@ -8048,8 +8049,6 @@ MonoBehaviour:
   mediumCardsSprite: {fileID: -8441923500095732324, guid: 12411d4a469c064419b72495c209e521, type: 3}
   manyCardsSprite: {fileID: 412305847452878508, guid: ffdfabac9e4b66e46b7afa2eab8f26d9, type: 3}
   simpleCardPrefab: {fileID: 7288336276837508695, guid: 452d560ca5837714f9db803eb36b8bfd, type: 3}
-  parentCanvas: {fileID: 0}
-  cardSize: {x: 80, y: 120}
   targetBoard: {fileID: 52902509}
   spawnDirectlyOnBoard: 1
 --- !u!114 &1505598448
@@ -8090,6 +8089,64 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1505598445}
   m_CullTransparentMesh: 1
+--- !u!212 &1505598450
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505598445}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &1531373610
 GameObject:
   m_ObjectHideFlags: 0
@@ -8788,7 +8845,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 500
+  orthographic size: 5.4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -9299,8 +9356,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardGame.GameObjects.CardBoard
   maxCards: 5
-  minX: -300
-  maxX: 300
+  boardWidth: 5.92
+  boardHeight: 1.58
   yPosition: 0
   edgeExtension: 150
   moveSpeed: 10
@@ -9591,10 +9648,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardGame.UI.RulesPanelSound
   panelOpenSound: {fileID: 8300000, guid: f28e641ac533ec1489d2d1a6f7025846, type: 3}
   panelCloseSound: {fileID: 8300000, guid: ad1a51527122abf4c999a05906602dce, type: 3}
-  panelSlideLoopSound: {fileID: 0}
-  openVolume: 0.7
-  closeVolume: 0.7
-  slideLoopVolume: 0.3
 --- !u!1 &1757443226
 GameObject:
   m_ObjectHideFlags: 0
@@ -10436,9 +10489,7 @@ MonoBehaviour:
   crownSuitCompleteSound: {fileID: 0}
   skullSuitCompleteSound: {fileID: 0}
   coinSuitCompleteSound: {fileID: 0}
-  soundVolume: 0.7
   dualGoalDelay: 0.5
-  audioManager: {fileID: 0}
 --- !u!114 &1823294910
 MonoBehaviour:
   m_ObjectHideFlags: 0
