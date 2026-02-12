@@ -34,6 +34,9 @@ namespace CardGame.GameObjects
         [Header("Click Event")]
         [SerializeField] private UnityEvent onClick;
 
+        [Header("Advice Glow")]
+        [SerializeField] private GameObject adviceGlow;
+
         // Card count thresholds for deck sprite changes
         private const int ManyCardsThreshold = 13;
         private const int MediumCardsThreshold = 5;
@@ -194,6 +197,12 @@ namespace CardGame.GameObjects
         {
             if (deck == null) return true;
             return deck.IsEmpty();
+        }
+
+        public void SetAdviceGlow(bool visible)
+        {
+            if (adviceGlow != null)
+                adviceGlow.SetActive(visible);
         }
     }
 }

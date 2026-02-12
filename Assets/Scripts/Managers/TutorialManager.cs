@@ -68,9 +68,9 @@ namespace CardGame.Managers
 
         [Header("Goal Display")]
         [SerializeField] private GameObject goalDisplay;
-        [SerializeField] private TMPro.TextMeshProUGUI goalValueText;
-        [SerializeField] private TMPro.TextMeshProUGUI goalSuitText;
-        [SerializeField] private Image ballImage;
+        [SerializeField] private TMPro.TextMeshPro goalValueText;
+        [SerializeField] private TMPro.TextMeshPro goalSuitText;
+        [SerializeField] private SpriteRenderer ballImage;
         [SerializeField] private Sprite coinBallSprite;
 
         [Header("Tutorial Settings")]

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using CardGame.Core;
 using CardGame.Managers;
 
@@ -16,13 +15,11 @@ namespace CardGame.UI
         [SerializeField] private Sprite skullsSprite;
         [SerializeField] private Sprite rosesSprite;
 
-        private Image imageComponent;
         private SpriteRenderer spriteRenderer;
         private Suits lastSuit;
 
         private void Awake()
         {
-            imageComponent = GetComponent<Image>();
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
@@ -52,11 +49,6 @@ namespace CardGame.UI
             Sprite targetSprite = GetSpriteForSuit(suit);
 
             if (targetSprite == null) return;
-
-            if (imageComponent != null)
-            {
-                imageComponent.sprite = targetSprite;
-            }
 
             if (spriteRenderer != null)
             {

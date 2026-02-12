@@ -32,9 +32,9 @@ namespace CardGame.Managers
         [SerializeField] private bool onlyPossibleSetsMode = false;
 
         [Header("UI - Goal Display")]
-        [SerializeField] private TextMeshProUGUI goalValueText;
-        [SerializeField] private TextMeshProUGUI goalSuitText;
-        [SerializeField] private Image goalCardImage;
+        [SerializeField] private TextMeshPro goalValueText;
+        [SerializeField] private TextMeshPro goalSuitText;
+        [SerializeField] private SpriteRenderer goalCardImage;
 
         [Header("UI - Round Info")]
         [SerializeField] private TextMeshProUGUI roundNumberText;
@@ -128,6 +128,10 @@ namespace CardGame.Managers
                 resultText.gameObject.SetActive(false);
             }
             isRulesOpened = false;
+
+            // Show deck glow since deck is clickable at start
+            if (deck != null)
+                deck.SetAdviceGlow(true);
         }
 
         public void OnStartButtonClicked()
@@ -329,7 +333,10 @@ namespace CardGame.Managers
         private void SetIsWaitingToDeal(bool value)
         {
             isWaitingToDeal = value;
-            startRoundButton.image.enabled = value;
+            if (startRoundButton != null)
+                startRoundButton.image.enabled = value;
+            if (deck != null)
+                deck.SetAdviceGlow(value && currentRound < maxRounds);
         }
 
         private void StartPostdiction() => SceneManager.LoadScene("PostDictionScene", LoadSceneMode.Additive);
@@ -572,6 +579,9 @@ namespace CardGame.Managers
         private void PrepareForPrediction()
         {
             isReadyForPrediction = true;
+
+            if (deck != null)
+                deck.SetAdviceGlow(false);
 
             if (endRoundButton != null && makePredictionSprite != null)
             {
