@@ -22,7 +22,7 @@ EditorBuildSettings:
     guid: 74c0901cfe180e74d9c239bb60001d0f
   - enabled: 1
     path: Assets/Scenes/MainScene.unity
-    guid: b89a30bff409f4344b7d9fab9e1bc2ab
+    guid: 953ad18dcb852f64699814cf59dedd0b
   - enabled: 1
     path: Assets/Scenes/PostdictionScene.unity
     guid: cfa8d66af5033de41885f0b748da572a
