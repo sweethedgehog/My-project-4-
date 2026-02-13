@@ -14,12 +14,12 @@ namespace CardGame.Scoring
     public class CardScorer : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private TextMeshProUGUI totalScoreText;
-        [SerializeField] private TextMeshProUGUI roseScoreText;
-        [SerializeField] private TextMeshProUGUI crownScoreText;
-        [SerializeField] private TextMeshProUGUI skullScoreText;
-        [SerializeField] private TextMeshProUGUI coinsScoreText;
-        [SerializeField] private TextMeshProUGUI dominantSuitText;
+        [SerializeField] private TextMeshPro totalScoreText;
+        [SerializeField] private TextMeshPro roseScoreText;
+        [SerializeField] private TextMeshPro crownScoreText;
+        [SerializeField] private TextMeshPro skullScoreText;
+        [SerializeField] private TextMeshPro coinsScoreText;
+        [SerializeField] private TextMeshPro dominantSuitText;
         [SerializeField] private CryLogic crystal;
         
         [Header("Display Format")]
