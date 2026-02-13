@@ -9,31 +9,40 @@ public class CryLogic : MonoBehaviour
     public Sprite crownCristal;
     public Sprite coinsCristal;
     public Sprite skullCristal;
-    private Image sprite;
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
-        sprite = GetComponent<Image>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
+        {
+            Debug.LogError("На объекте " + gameObject.name + " отсутствует SpriteRenderer!", this);
+        }
     }
     public void setTexture(Suits? suits)
     {
-        if (sprite == null) return;
+        if (spriteRenderer == null) return;
+
         switch (suits)
         {
             case Suits.Coins:
-                sprite.sprite = coinsCristal;
+                spriteRenderer.sprite = coinsCristal;
                 break;
+
             case Suits.Roses:
-                sprite.sprite = roseCristal;
+                spriteRenderer.sprite = roseCristal;
                 break;
+
             case Suits.Crowns:
-                sprite.sprite = crownCristal;
+                spriteRenderer.sprite = crownCristal;
                 break;
+
             case Suits.Skulls:
-                sprite.sprite = skullCristal;
+                spriteRenderer.sprite = skullCristal;
                 break;
+
             default:
-                sprite.sprite = grayCristal;
+                spriteRenderer.sprite = grayCristal;
                 break;
         }
     }

@@ -31,7 +31,7 @@ namespace CardGame.GameObjects
         [SerializeField] private bool showBoardVisual = true;
 
         [Header("Interaction Control")] public bool freeze = false;
-        [SerializeField] private float frozenAlpha = 0.6f;
+        [SerializeField] private float frozenBrightness = 0.65f;
 
         private List<SimpleCard> cards = new List<SimpleCard>();
         public CardScorer scorer;
@@ -96,7 +96,16 @@ namespace CardGame.GameObjects
             SpriteRenderer sr = card.GetComponent<SpriteRenderer>();
             if (sr != null)
             {
-                sr.color = interactable ? Color.white : new Color(1f, 1f, 1f, frozenAlpha);
+                if (interactable)
+                {
+                    sr.color = Color.white;
+                }
+                else
+                {
+                    // Затемнение карт
+                    sr.color = new Color(frozenBrightness, frozenBrightness, frozenBrightness, 1f); 
+
+                }
             }
 
             BoxCollider2D col = card.GetComponent<BoxCollider2D>();
