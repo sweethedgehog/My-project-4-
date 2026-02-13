@@ -1146,9 +1146,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7153204f750d92a4dacd3ee0ed746bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardGame.Managers.AudioManager
-  mainMixer: {fileID: 0}
-  musicGroup: {fileID: 0}
-  sfxGroup: {fileID: 0}
+  mainMixer: {fileID: 24100000, guid: 04baf3e52fcb81a46b4cc5be871a597c, type: 2}
+  musicGroup: {fileID: 7596804206327920914, guid: 04baf3e52fcb81a46b4cc5be871a597c, type: 2}
+  sfxGroup: {fileID: -6029695937345118717, guid: 04baf3e52fcb81a46b4cc5be871a597c, type: 2}
   menuMusic: {fileID: 8300000, guid: e2ea74402872b794dbc0ed2abb0e6419, type: 3}
   gameplayMusic: {fileID: 8300000, guid: e2ea74402872b794dbc0ed2abb0e6419, type: 3}
   victoryMusic: {fileID: 0}

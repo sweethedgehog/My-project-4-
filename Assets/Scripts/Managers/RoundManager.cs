@@ -137,10 +137,8 @@ namespace CardGame.Managers
         public void OnStartButtonClicked()
         {
             if (currentRound >= maxRounds)
-            {
-                StartPostdiction();
                 return;
-            }
+
             StartRound();
         }
 
