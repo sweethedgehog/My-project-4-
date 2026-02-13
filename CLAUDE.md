@@ -139,10 +139,17 @@ Scene Root
   GameplayRoot (empty, pos 0,0,0)
     Background (SpriteRenderer, Sorting Layer: Background)
     SimpleDeck (SpriteRenderer + BoxCollider2D, Sorting Layer: Gameplay)
+      AdviceGlow (child, toggled by RoundManager between rounds)
     CardBoard (SpriteRenderer, Sorting Layer: Gameplay)
     CardBoardHand (SpriteRenderer, Sorting Layer: Gameplay)
+    GoalPanel (empty container, world-space)
+      Dialog_bubble (Animator)
+        bubble (SpriteRenderer, Sorting Layer: Gameplay, order 1)
+        Suit (TextMeshPro 3D, Sorting Layer: Gameplay, order 2)
+      Ball (SpriteRenderer + BallSpriteByGoalSuit, Sorting Layer: Gameplay, order 1)
+      Number (TextMeshPro 3D, Sorting Layer: Gameplay, order 2)
   Canvas (ScreenSpace-Overlay)
-    GoalPanel, EndRoundButton, ScoreDisplay, Tiles Panel,
+    EndRoundButton, ScoreDisplay, Tiles Panel,
     RulesPanel, Cat, Frog_hands, RoundManager/TutorialManager refs
   EventSystem
   Managers/AudioManager
@@ -163,28 +170,33 @@ Scene Root
 | `SmoothCardMover` | `RectTransform.anchoredPosition` → `Transform.localPosition` |
 | `SimpleDraggableWithBoard.cs` | Full rewrite: EventSystem drag → `OnMouseDown`/`OnMouseDrag`/`OnMouseUp`, sorting order 100 during drag |
 | `CardSound.cs` | EventSystem interfaces → `OnMouseEnter`/`OnMouseDown` + explicit `PlayPickup()`/`PlayDrop()` |
-| `SimpleDeckObject.cs` | `Image` → `SpriteRenderer`, removed `Canvas` ref, removed dead code, added `UnityEvent onClick` for deck click |
-| `TutorialManager.cs` | `WaitForDeckClick()`: `EventSystem.RaycastAll` → `Physics2D.Raycast` |
-| `RoundManager.cs` | `OnStartButtonClicked()` made public (wired to deck's `onClick` event) |
+| `SimpleDeckObject.cs` | `Image` → `SpriteRenderer`, removed `Canvas` ref, removed dead code, added `UnityEvent onClick` for deck click, added `adviceGlow` field + `SetAdviceGlow()` |
+| `TutorialManager.cs` | `WaitForDeckClick()`: `EventSystem.RaycastAll` → `Physics2D.Raycast`; goal fields: `TextMeshProUGUI` → `TextMeshPro`, `Image ballImage` → `SpriteRenderer ballImage` |
+| `RoundManager.cs` | `OnStartButtonClicked()` made public; goal fields: `TextMeshProUGUI` → `TextMeshPro`, `Image goalCardImage` → `SpriteRenderer goalCardImage`; null-safe `SetIsWaitingToDeal()`; controls deck `adviceGlow` visibility |
+| `BallSpriteByGoalSuit.cs` | Removed `Image` dependency — only uses `SpriteRenderer` now |
 
 ### Scene Setup (PARTIALLY DONE — MainScene working, TutorialScene/DevMainScene need same treatment)
 
 Each scene needs:
 - Main Camera: Orthographic, Size=5.4, Position=(0,0,-10), Tag=MainCamera
-- GameplayRoot at (0,0,0) containing CardBoard, CardBoardHand, SimpleDeck, Background
-- World positions: CardBoard (3.308,-1.108,0), CardBoardHand (3.296,-3.094,0), SimpleDeck (-1.085,-2.010,0)
+- GameplayRoot at (0,0,0) containing CardBoard, CardBoardHand, SimpleDeck, GoalPanel, Background
+- World positions: CardBoard (3.308,-1.108,0), CardBoardHand (3.296,-3.094,0), SimpleDeck (-1.085,-2.010,0), GoalPanel (-1.0846, 0.3108, 0)
 - CardBoard Inspector: `boardWidth=5.92`, `boardHeight=1.58`, `edgeExtension=1.0`
 - CardBoardHand Inspector: `boardWidth=5.95`, `boardHeight=1.70`, `edgeExtension=1.0`
 - SimpleDeck: `onClick` event wired to `RoundManager.OnStartButtonClicked` (MainScene) or tutorial equivalent
 - SimpleDeck: BoxCollider2D (required for click detection and TutorialManager's `Physics2D.Raycast`)
+- SimpleDeck: AdviceGlow child assigned to `adviceGlow` field (glows between rounds)
+- GoalPanel: all children use plain Transform (not RectTransform), layer Default (not UI)
+- GoalPanel: bubble + Ball use SpriteRenderer; Suit + Number use TextMeshPro 3D with MeshRenderer
 
 ### Key Rules
-- Gameplay objects (cards, boards, deck) use `SpriteRenderer` + `BoxCollider2D` in world-space
-- UI elements (buttons, text, panels) stay on `ScreenSpace-Overlay` Canvas
+- Gameplay objects (cards, boards, deck, goal panel) use `SpriteRenderer`/`TextMeshPro` + `BoxCollider2D` in world-space
+- UI elements (buttons, score text, tiles panel, rules panel) stay on `ScreenSpace-Overlay` Canvas
 - Card interaction uses `OnMouse*` callbacks (requires `BoxCollider2D`), NOT EventSystem drag interfaces
 - `SimpleCard.cardRenderer` must point to the card's own `SpriteRenderer` (not parent/sibling)
 - Cards set their sorting layer to "Cards" programmatically in `Awake()`
 - During drag, card sorting order raises to 100 and collider is disabled
+- All objects under GameplayRoot must use plain `Transform` (not `RectTransform`) and layer Default (not UI)
 
 ## Future Technical Roadmap
 
