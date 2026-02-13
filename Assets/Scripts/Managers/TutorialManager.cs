@@ -655,7 +655,8 @@ namespace CardGame.Managers
             if (pictureDisplay != null) pictureDisplay.SetActive(false);
             if (hintDisplay != null) hintDisplay.SetActive(false);
             if (endTurnButton != null) endTurnButton.gameObject.SetActive(false);
-            if (goalDisplay != null) goalDisplay.SetActive(false);
+            if (goalValueText != null) goalValueText.gameObject.SetActive(false);
+            if (goalSuitText != null) goalSuitText.gameObject.SetActive(false);
             if (rulesButton != null) rulesButton.interactable = false;
             if (rulesPanel != null) rulesPanel.SetLocked(true);
         }
@@ -665,18 +666,15 @@ namespace CardGame.Managers
         /// </summary>
         private void ShowGoalDisplay()
         {
-            if (goalDisplay != null)
-            {
-                goalDisplay.SetActive(true);
-            }
-
             if (goalValueText != null)
             {
+                goalValueText.gameObject.SetActive(true);
                 goalValueText.text = tutorialGoalValue.ToString();
             }
 
             if (goalSuitText != null)
             {
+                goalSuitText.gameObject.SetActive(true);
                 goalSuitText.text = tutorialGoalSuit.ToString();
             }
 
