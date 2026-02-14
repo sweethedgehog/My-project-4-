@@ -12,7 +12,7 @@ This is a standard Unity project. Open in Unity Editor 6000.0.32f1 or compatible
 
 **Opening**: File → Open Project → Select this folder
 
-**Running**: Open `Assets/Scenes/MainMenu.unity` and press Play, or use `Assets/Scenes/MainScene.unity` for direct gameplay testing. `DevMainScene.unity` exists for development/testing.
+**Running**: Open `Assets/Scenes/MainMenu.unity` and press Play, or use `Assets/Scenes/MainScene.unity` for direct gameplay testing.
 
 **Build**: File → Build Settings → Select target platform → Build
 
@@ -128,9 +128,9 @@ Replaced scattered audio system (7+ components with local AudioSources, 3-layer 
 
 Total AudioSources in project: 2 (both on AudioManager). Previously: 20+ (3 per card, 2 per button, 2 per panel, etc.)
 
-## Canvas-to-World-Space Refactoring (IN PROGRESS)
+## Canvas-to-World-Space Refactoring (DONE)
 
-Moved gameplay objects (cards, boards, deck) from ScreenSpace-Overlay Canvas to world-space with SpriteRenderers. Pure UI stays on Canvas overlay.
+Moved gameplay objects (cards, boards, deck) from ScreenSpace-Overlay Canvas to world-space with SpriteRenderers. Pure UI stays on Canvas overlay. All scenes (MainScene, TutorialScene) migrated. DevMainScene deprecated (to be deleted).
 
 ### Rendering Architecture
 ```
@@ -172,22 +172,24 @@ Scene Root
 | `CardSound.cs` | EventSystem interfaces → `OnMouseEnter`/`OnMouseDown` + explicit `PlayPickup()`/`PlayDrop()` |
 | `SimpleDeckObject.cs` | `Image` → `SpriteRenderer`, removed `Canvas` ref, removed dead code, added `UnityEvent onClick` for deck click, added `adviceGlow` field + `SetAdviceGlow()` |
 | `TutorialManager.cs` | `WaitForDeckClick()`: `EventSystem.RaycastAll` → `Physics2D.Raycast`; goal fields: `TextMeshProUGUI` → `TextMeshPro`, `Image ballImage` → `SpriteRenderer ballImage` |
-| `RoundManager.cs` | `OnStartButtonClicked()` made public; goal fields: `TextMeshProUGUI` → `TextMeshPro`, `Image goalCardImage` → `SpriteRenderer goalCardImage`; null-safe `SetIsWaitingToDeal()`; controls deck `adviceGlow` visibility |
+| `RoundManager.cs` | `OnStartButtonClicked()` made public; goal fields: `TextMeshProUGUI` → `TextMeshPro`, `Image goalCardImage` → `SpriteRenderer goalCardImage`; null-safe `SetIsWaitingToDeal()`; controls deck `adviceGlow` visibility; deck click no longer triggers postdiction (only end button does) |
 | `BallSpriteByGoalSuit.cs` | Removed `Image` dependency — only uses `SpriteRenderer` now |
 
-### Scene Setup (PARTIALLY DONE — MainScene working, TutorialScene/DevMainScene need same treatment)
+### Scene Setup (DONE — MainScene and TutorialScene migrated)
 
-Each scene needs:
+Both scenes have:
 - Main Camera: Orthographic, Size=5.4, Position=(0,0,-10), Tag=MainCamera
-- GameplayRoot at (0,0,0) containing CardBoard, CardBoardHand, SimpleDeck, GoalPanel, Background
+- Gameplay Root at (0,0,0) containing CardBoard, CardBoardHand, SimpleDeck, GoalPanel, Background
 - World positions: CardBoard (3.308,-1.108,0), CardBoardHand (3.296,-3.094,0), SimpleDeck (-1.085,-2.010,0), GoalPanel (-1.0846, 0.3108, 0)
 - CardBoard Inspector: `boardWidth=5.92`, `boardHeight=1.58`, `edgeExtension=1.0`
 - CardBoardHand Inspector: `boardWidth=5.95`, `boardHeight=1.70`, `edgeExtension=1.0`
-- SimpleDeck: `onClick` event wired to `RoundManager.OnStartButtonClicked` (MainScene) or tutorial equivalent
+- SimpleDeck: `onClick` event wired to `RoundManager.OnStartButtonClicked` (MainScene); TutorialScene uses `Physics2D.Raycast` for deck detection
 - SimpleDeck: BoxCollider2D (required for click detection and TutorialManager's `Physics2D.Raycast`)
 - SimpleDeck: AdviceGlow child assigned to `adviceGlow` field (glows between rounds)
 - GoalPanel: all children use plain Transform (not RectTransform), layer Default (not UI)
 - GoalPanel: bubble + Ball use SpriteRenderer; Suit + Number use TextMeshPro 3D with MeshRenderer
+
+**Migration tool:** `Assets/Editor/SceneMigrationTool.cs` — Editor script used for TutorialScene migration (menu: Tools > Migrate Scene to World-Space). Can be deleted now that migration is complete.
 
 ### Key Rules
 - Gameplay objects (cards, boards, deck, goal panel) use `SpriteRenderer`/`TextMeshPro` + `BoxCollider2D` in world-space
