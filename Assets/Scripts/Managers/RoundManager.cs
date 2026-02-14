@@ -114,10 +114,7 @@ namespace CardGame.Managers
             if (rerollCardsButton != null)
                 rerollCardsButton.onClick.AddListener(RerollCards);
 
-            foreach (Suits suit in System.Enum.GetValues(typeof(Suits)))
-            {
-                suitUsageCount[suit] = 0;
-            }
+            ResetSuitGoalRestrictions();
 
             UpdateRoundDisplay();
             UpdateScoreHistoryDisplay();
@@ -341,10 +338,15 @@ namespace CardGame.Managers
         
         // ===== Goal Generation =====
 
+        private void SetGoalValue(int goalValue)
+        {
+            currentGoalValue = goalValue;
+        }
+
         private void GenerateGoal()
         {
             // Random value between min and max (inclusive)
-            currentGoalValue = Random.Range(minGoalValue, maxGoalValue + 1);
+            SetGoalValue(Random.Range(minGoalValue, maxGoalValue + 1));
             
             // Get available suits (those that haven't reached the limit)
             RollNewSuitGoal();
@@ -358,6 +360,14 @@ namespace CardGame.Managers
             suitUsageCount[currentGoalSuit]--;
             RollNewSuitGoal();
             UpdateGoalDisplay();
+        }
+
+        private void ResetSuitGoalRestrictions()
+        {
+            foreach (Suits suit in System.Enum.GetValues(typeof(Suits)))
+            {
+                suitUsageCount[suit] = 0;
+            }
         }
 
         private void RollNewSuitGoal()
@@ -374,9 +384,9 @@ namespace CardGame.Managers
             if (availableSuits.Count == 0)
             {
                 Debug.LogWarning("All suits have reached max usage! Resetting suit counters.");
+                ResetSuitGoalRestrictions();
                 foreach (Suits suit in System.Enum.GetValues(typeof(Suits)))
                 {
-                    suitUsageCount[suit] = 0;
                     availableSuits.Add(suit);
                 }
             }
@@ -449,17 +459,26 @@ namespace CardGame.Managers
             List<CardData> newSetOfCards = GetNewSetOfCards(cardsNum);
             List<CardData> currentCardSet = handBoard.GetCardsData();
 
-            for (int suitAttempt = 0; suitAttempt < MAX_SUIT_REROLL_ATTEMPTS; suitAttempt++)
+            for (int currentGoal = currentGoalValue; currentGoal > 0; currentGoal -= 1)
             {
-                for (int cardAttempt = 0; cardAttempt < MAX_CARD_REROLL_ATTEMPTS; cardAttempt++)
+                for (int suitAttempt = 0; suitAttempt < MAX_SUIT_REROLL_ATTEMPTS; suitAttempt++)
                 {
-                    newSetOfCards = GetNewSetOfCards(cardsNum);
-                    if (CheckAvailability(newSetOfCards.Concat(currentCardSet).ToList()) == AVAILABILITY_FULL_MATCH)
+                    for (int cardAttempt = 0; cardAttempt < MAX_CARD_REROLL_ATTEMPTS; cardAttempt++)
                     {
-                        return newSetOfCards;
+                        newSetOfCards = GetNewSetOfCards(cardsNum);
+                        if (CheckAvailability(newSetOfCards.Concat(currentCardSet).ToList()) == AVAILABILITY_FULL_MATCH)
+                        {
+                            return newSetOfCards;
+                        }
                     }
+                    RerollSuitGoal();
                 }
-                RerollSuitGoal();
+
+                if (currentGoal == minGoalValue)
+                {
+                    ResetSuitGoalRestrictions();   
+                }
+                SetGoalValue(currentGoal - 1); 
             }
 
             return newSetOfCards;
