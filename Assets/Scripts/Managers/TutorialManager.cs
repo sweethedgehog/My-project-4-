@@ -8,6 +8,7 @@ using CardGame.Core;
 using CardGame.GameObjects;
 using CardGame.Scoring;
 using CardGame.UI;
+using DefaultNamespace.Tiles;
 using UnityEngine.SceneManagement;
 
 namespace CardGame.Managers
@@ -136,7 +137,7 @@ namespace CardGame.Managers
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 inGameMenu = true;
-                SceneManager.LoadScene("GameMenu", LoadSceneMode.Additive);
+                SceneManager.LoadScene(SceneNames.GameMenu, LoadSceneMode.Additive);
                 return;
             }
 
@@ -834,20 +835,9 @@ namespace CardGame.Managers
         private bool IsSpreadCorrect()
         {
             if (targetBoard.CardCount == 0) return false;
-            
-            // Get current score
-            CardLayout layout = new CardLayout();
-            foreach (SimpleCard card in targetBoard.GetCards())
-            {
-                layout.AddCard(card);
-            }
-            
-            Score score = layout.GetScore();
-            int totalValue = score.GetFullScore();
-            Suits? dominantSuit = score.GetDominantSuit();
-            
-            // Check if matches tutorial goal
-            return totalValue == tutorialGoalValue && dominantSuit == tutorialGoalSuit;
+
+            Score score = ScoreCalculator.CalculateScore(targetBoard.GetCards());
+            return ScoreCalculator.EvaluateGoal(score, tutorialGoalValue, tutorialGoalSuit) == SuccessCodes.Success;
         }
 
         /// <summary>
@@ -875,7 +865,7 @@ namespace CardGame.Managers
         private IEnumerator WaitAndReturnToMenu()
         {
             yield return WaitForPlayerClick();
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu);
         }
 
         /// <summary>

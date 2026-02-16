@@ -1,18 +1,22 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using CardGame.Core;
 
-public class MenuManager : MonoBehaviour
+namespace CardGame.Managers
 {
-    public Texture2D cursorTexture;
-    public Vector2 hotspot = Vector2.zero;
-    private void Start()
+    public class MenuManager : MonoBehaviour
     {
-        Cursor.SetCursor(cursorTexture, hotspot, CursorMode.Auto);
-    }
+        public Texture2D cursorTexture;
+        public Vector2 hotspot = Vector2.zero;
+        private void Start()
+        {
+            Cursor.SetCursor(cursorTexture, hotspot, CursorMode.Auto);
+        }
 
-    public void onPlayButtonClick() => SceneManager.LoadScene("MainScene");
-    public void onTutorialButtonClick() => SceneManager.LoadScene("TutorialScene");
-    public void onRulesButtonClick() => SceneManager.LoadScene("Rules");
-    public void onCreatorsButtonClick() => SceneManager.LoadScene("Creators");
+        public void onPlayButtonClick() => SceneManager.LoadScene(SceneNames.MainScene);
+        public void onTutorialButtonClick() => SceneManager.LoadScene(SceneNames.TutorialScene);
+        public void onRulesButtonClick() => SceneManager.LoadScene(SceneNames.Rules);
+        public void onCreatorsButtonClick() => SceneManager.LoadScene(SceneNames.Creators);
+    }
 }

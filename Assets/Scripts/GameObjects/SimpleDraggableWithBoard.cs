@@ -19,6 +19,7 @@ namespace CardGame.GameObjects
         private Camera mainCamera;
         private SpriteRenderer spriteRenderer;
         private int originalSortingOrder;
+        private CardBoard[] cachedBoards;
 
         [Header("Drag Settings")]
         [SerializeField] private int dragSortingOrder = 100;
@@ -28,6 +29,7 @@ namespace CardGame.GameObjects
         {
             simpleCard = GetComponent<SimpleCard>();
             spriteRenderer = GetComponent<SpriteRenderer>();
+            cachedBoards = FindObjectsOfType<CardBoard>();
         }
 
         void OnMouseDown()
@@ -127,10 +129,9 @@ namespace CardGame.GameObjects
                 }
                 else
                 {
-                    CardBoard[] allBoards = FindObjectsOfType<CardBoard>();
-                    if (allBoards.Length > 0)
+                    if (cachedBoards.Length > 0)
                     {
-                        allBoards[0].AddCard(simpleCard);
+                        cachedBoards[0].AddCard(simpleCard);
                     }
                     else
                     {
@@ -142,12 +143,11 @@ namespace CardGame.GameObjects
 
         private void CheckBoardHover()
         {
-            CardBoard[] allBoards = FindObjectsOfType<CardBoard>();
             CardBoard closestBoard = null;
 
             Vector2 cardScreenPos = Input.mousePosition;
 
-            foreach (CardBoard board in allBoards)
+            foreach (CardBoard board in cachedBoards)
             {
                 if (board.IsPositionNearBoard(cardScreenPos))
                 {
@@ -168,13 +168,12 @@ namespace CardGame.GameObjects
 
         private CardBoard FindNearestBoard()
         {
-            CardBoard[] allBoards = FindObjectsOfType<CardBoard>();
             CardBoard nearestBoard = null;
             float nearestDistance = float.MaxValue;
 
             Vector2 cardScreenPos = Input.mousePosition;
 
-            foreach (CardBoard board in allBoards)
+            foreach (CardBoard board in cachedBoards)
             {
                 if (board.IsPositionNearBoard(cardScreenPos))
                 {

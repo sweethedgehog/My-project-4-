@@ -2,39 +2,43 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using CardGame.Managers;
 
-public class FinalImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+namespace CardGame.UI
 {
-    public PostdictionManager postdictionManager;
-    public ImageType imageType;
-    public Sprite light;
-    public Sprite dark;
-    private Image image;
-    private bool selected = false;
-    void Start()
+    public class FinalImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
-        image = GetComponent<Image>();
-        image.sprite = dark;
-    }
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        image.sprite = light;
-    }
+        public PostdictionManager postdictionManager;
+        public ImageType imageType;
+        public Sprite light;
+        public Sprite dark;
+        private Image image;
+        private bool selected = false;
+        void Start()
+        {
+            image = GetComponent<Image>();
+            image.sprite = dark;
+        }
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            image.sprite = light;
+        }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (!selected) image.sprite = dark;
-    }
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            if (!selected) image.sprite = dark;
+        }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        selected = true;
-        postdictionManager.select(imageType);
-    }
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            selected = true;
+            postdictionManager.select(imageType);
+        }
 
-    public void clearSelection()
-    {
-        selected = false;
-        image.sprite = dark;
+        public void clearSelection()
+        {
+            selected = false;
+            image.sprite = dark;
+        }
     }
 }

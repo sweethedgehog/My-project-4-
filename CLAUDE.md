@@ -20,12 +20,15 @@ This is a standard Unity project. Open in Unity Editor 6000.0.32f1 or compatible
 
 ### Namespace Organization
 ```
-CardGame.Core          - Card data, deck, scoring calculations
+CardGame.Core          - Card data, deck, scoring calculations, SceneNames
 CardGame.Cards         - SimpleCard (SpriteRenderer-based card)
 CardGame.GameObjects   - CardBoard, dragging, deck (world-space)
-CardGame.Managers      - RoundManager, TutorialManager, AudioManager
+CardGame.Managers      - RoundManager, TutorialManager, AudioManager, MenuManager,
+                         EndMenuManager, PostdictionManager, GameMenuManager,
+                         CreatorsManager, RulesManager
 CardGame.Scoring       - CardScorer (live score display)
-DefaultNamespace.Tiles - Story tiles & hints for postdiction
+CardGame.UI            - FinalImage, CatAnimationController, CryLogic
+DefaultNamespace.Tiles - Story tiles, hints, TileScript, TilesManager
 ```
 
 ### Core Systems
@@ -202,51 +205,29 @@ Both scenes have:
 
 ## Future Technical Roadmap
 
-### Phase A: Quick Wins (low risk, high impact)
+### Phase A: Quick Wins (DONE)
 
-**A1. Cache `FindObjectsOfType` in SimpleDraggableWithBoard**
-- `SimpleDraggableWithBoard.cs` calls `FindObjectsOfType<CardBoard>()` in `CheckBoardHover()` and `FindNearestBoard()` every drag frame
-- This runs O(n) scan each frame while dragging. Cache board references on Awake instead.
+**A1. (DONE)** Cached `FindObjectsOfType<CardBoard>()` in `SimpleDraggableWithBoard.Awake()` — no more per-frame scans during drag.
 
-**A2. Create `SceneNames` constants class**
-- Scene names are hardcoded strings in 6+ files: `MenuManager`, `RoundManager`, `EndMenuManager`, `PostdictionManager`, `GameMenuManager`, `CreatorsManager`
-- Create `Assets/Scripts/Core/SceneNames.cs` with `public const string` fields
-- One place to update if scene names change
+**A2. (DONE)** Created `Assets/Scripts/Core/SceneNames.cs` with all scene name constants. Replaced hardcoded strings in 8 files. Fixed bug: `"PostDictionScene"` → `SceneNames.PostdictionScene` (wrong casing caused scene load failure).
 
-**A3. Add missing namespaces to 8+ classes**
-- No namespace: `EndMenuManager`, `FinalImage`, `PostdictionManager`, `CreatorsManager`, `GameMenuManager`, `MenuManager`, `RulesManager`, `CatAnimationController`, `CryLogic`, `TileScript`, `TilesManager`
-- Wrap in `CardGame.Managers`, `CardGame.UI`, etc. to match existing conventions
+**A3. (DONE)** Added namespaces to 11 classes: `MenuManager`, `EndMenuManager`, `PostdictionManager`, `GameMenuManager`, `CreatorsManager`, `RulesManager` → `CardGame.Managers`; `FinalImage`, `CatAnimationController`, `CryLogic` → `CardGame.UI`; `TileScript`, `TilesManager` → `DefaultNamespace.Tiles`.
 
-**A4. Replace public fields with `[SerializeField] private`**
-- `PostdictionManager.cs`: all public references (lines 15-20)
-- `TilesManager.cs`: public arrays and references (lines 9-21)
-- `TileScript.cs`: public sprites and manager reference
-- `CardBoard.cs`: `public bool neverGlow`, `public CardScorer scorer`
+**A4. (DONE)** Replaced public fields with `[SerializeField] private` in `PostdictionManager` (6 fields), `TilesManager` (10 fields, kept `isActive` public), `TileScript` (3 fields), `CardBoard` (`scorer`, `neverGlow`; kept `freeze` public).
 
-### Phase B: Medium Impact (moderate effort)
+### Phase B: Medium Impact (DONE except B4)
 
-**B1. Extract `ScoreCalculator` as non-MonoBehaviour class**
-- Pull score calculation logic out of `RoundManager.CalculateRoundScore()` and `CardBoard`
-- Makes scoring logic unit-testable without Unity scene
+**B1. (DONE)** Extracted `ScoreCalculator` static class (`Assets/Scripts/Core/ScoreCalculator.cs`) with `CalculateScore()` and `EvaluateGoal()` methods. Updated `CardBoard.UpdateScore()`, `RoundManager.CalculateRoundScore()`, and `TutorialManager.IsSpreadCorrect()` to use it. Removed `CalculateScoreFromBoard()` from RoundManager.
 
-**B2. Create `GameConfig` ScriptableObject**
-- Move all game settings (goal range, cards per round, deal delay, max rounds, max same suit) into a single ScriptableObject
-- Currently scattered as `[SerializeField]` in `RoundManager.cs` (lines 59-67)
-- Allows designers to tweak values without touching code
+**B2. (DONE)** Created `GameConfig` ScriptableObject (`Assets/Scripts/Core/GameConfig.cs`) with all game settings (goal range, cards per round, deal delay, result display time, max rounds, max same suit, cat talk duration). RoundManager now uses a single `[SerializeField] private GameConfig config` field instead of 8 individual config fields. Asset must be created in Unity Editor via Create → CardGame → Game Config and assigned to RoundManager.
 
-**B3. Pre-compute card combinations**
-- `CardSystem.cs` `AllOrderedSubsets()` generates all permutations every time availability is checked
-- For 5 cards this is 120+ layouts per combination
-- Cache results or compute only on card release, not during drag
+**B3. (DONE)** Optimized `CardCombinations.AllOrderedSubsets()`: added early exit when max possible score (all values × 2) < goal; skips size-0 subsets; reuses a single static `CardLayout` instance instead of allocating per permutation; replaced LINQ `.Sum()` with for-loop in inner loop.
 
 **B4. Create `IAudioService` interface**
 - `AudioManager.Instance` singleton used in 10+ places
 - Create interface for mockability and cleaner dependency
 
-**B5. Return `IReadOnlyList<T>` instead of copying lists**
-- `CardBoard.GetCards()` creates `new List<SimpleCard>(cards)` every call
-- `CardBoard.GetCardsData()` creates new list and loops
-- Return read-only view instead of allocating
+**B5. (DONE)** `CardBoard.GetCards()` returns `IReadOnlyList<SimpleCard>` via cached `ReadOnlyCollection` (zero-allocation). `GetCardsData()` returns `IReadOnlyList<CardData>`. Updated all callers in `RoundManager` and `TutorialManager`.
 
 ### Phase C: Architectural Refactor (high effort, high reward)
 

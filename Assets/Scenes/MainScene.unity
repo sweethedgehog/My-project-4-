@@ -1548,15 +1548,8 @@ MonoBehaviour:
   rerollCardsButton: {fileID: 0}
   makePredictionSprite: {fileID: -3678151726762832826, guid: de25b2b411291b64aa871966c51d95dd, type: 3}
   catAnimationController: {fileID: 377586655}
-  catTalkDuration: 3
   catBubbleAnimator: {fileID: 417079835}
-  minGoalValue: 8
-  maxGoalValue: 14
-  cardsPerRound: 5
-  dealDelay: 0.3
-  resultDisplayTime: 2
-  maxRounds: 6
-  maxSameSuitOccurrences: 2
+  config: {fileID: 11400000, guid: d51b8db758ef33f438988baa7669c56c, type: 2}
   cardsShuffle: {fileID: 8300000, guid: 0baaeb9c43ef5d54a9d7b31d9876a31b, type: 3}
 --- !u!82 &780156731
 AudioSource:

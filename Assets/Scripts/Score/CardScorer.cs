@@ -6,6 +6,7 @@ using CardGame.Core;
 using CardGame.Cards;
 using CardGame.GameObjects;
 using CardGame.Managers;
+using CardGame.UI;
 using TMPro;
 using UnityEngine.Serialization;
 

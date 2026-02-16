@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0256149a-2497-4659-b2d6-196da940d533" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/RoundManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/RoundManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,7 +145,7 @@
       <workItem from="1770150998945" duration="19820000" />
       <workItem from="1770821108588" duration="7234000" />
       <workItem from="1770904968986" duration="12964000" />
-      <workItem from="1771096885370" duration="4577000" />
+      <workItem from="1771096885370" duration="5275000" />
     </task>
     <servers />
   </component>

@@ -52,19 +52,10 @@ namespace CardGame.Managers
 
         [Header("Cat Animation")]
         [SerializeField] private CatAnimationController catAnimationController;
-        [SerializeField] private float catTalkDuration = 3f;
         [SerializeField] private Animator catBubbleAnimator;
 
-        [Header("Round Settings")]
-        [SerializeField] private int minGoalValue = 8;
-        [SerializeField] private int maxGoalValue = 14;
-        [SerializeField] private int cardsPerRound = 5;
-        [SerializeField] private float dealDelay = 0.3f;
-        [SerializeField] private float resultDisplayTime = 2f;
-
-        [Header("Game Rules")]
-        [SerializeField] private int maxRounds = 6;
-        [SerializeField] private int maxSameSuitOccurrences = 2;
+        [Header("Configuration")]
+        [SerializeField] private GameConfig config;
 
         [Header("Audio")]
         [SerializeField] private AudioClip cardsShuffle;
@@ -133,7 +124,7 @@ namespace CardGame.Managers
 
         public void OnStartButtonClicked()
         {
-            if (currentRound >= maxRounds)
+            if (currentRound >= config.MaxRounds)
                 return;
 
             StartRound();
@@ -153,7 +144,7 @@ namespace CardGame.Managers
         {
             if (inGameMenu) return;
             if (isRulesOpened && Input.GetMouseButton(0)) RulesToggle();
-            if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene("GameMenu", LoadSceneMode.Additive);
+            if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene(SceneNames.GameMenu, LoadSceneMode.Additive);
 
             // Continuously update end button state based on card count (user can drag cards)
             if (!isWaitingToDeal && endRoundButton != null)
@@ -246,7 +237,8 @@ namespace CardGame.Managers
 
         private void ClearPreviousRoundCards()
         {
-            var targetCards = targetBoard.GetCards();
+            // Copy to array since we're destroying objects while the source list shrinks
+            var targetCards = new List<SimpleCard>(targetBoard.GetCards());
             foreach (var card in targetCards)
             {
                 if (card != null) Destroy(card.gameObject);
@@ -331,10 +323,10 @@ namespace CardGame.Managers
             if (startRoundButton != null)
                 startRoundButton.image.enabled = value;
             if (deck != null)
-                deck.SetAdviceGlow(value && currentRound < maxRounds);
+                deck.SetAdviceGlow(value && currentRound < config.MaxRounds);
         }
 
-        private void StartPostdiction() => SceneManager.LoadScene("PostDictionScene", LoadSceneMode.Additive);
+        private void StartPostdiction() => SceneManager.LoadScene(SceneNames.PostdictionScene, LoadSceneMode.Additive);
         
         // ===== Goal Generation =====
 
@@ -346,7 +338,7 @@ namespace CardGame.Managers
         private void GenerateGoal()
         {
             // Random value between min and max (inclusive)
-            SetGoalValue(Random.Range(minGoalValue, maxGoalValue + 1));
+            SetGoalValue(Random.Range(config.MinGoalValue, config.MaxGoalValue + 1));
             
             // Get available suits (those that haven't reached the limit)
             RollNewSuitGoal();
@@ -375,7 +367,7 @@ namespace CardGame.Managers
             List<Suits> availableSuits = new List<Suits>();
             foreach (Suits suit in System.Enum.GetValues(typeof(Suits)))
             {
-                if (suitUsageCount[suit] < maxSameSuitOccurrences)
+                if (suitUsageCount[suit] < config.MaxSameSuitOccurrences)
                 {
                     availableSuits.Add(suit);
                 }
@@ -404,7 +396,7 @@ namespace CardGame.Managers
 
         private List<SimpleCard> GetActiveCards()
         {
-            List<SimpleCard> result = new List<SimpleCard>();
+            var result = new List<SimpleCard>(handBoard.CardCount + targetBoard.CardCount);
             result.AddRange(handBoard.GetCards());
             result.AddRange(targetBoard.GetCards());
             return result;
@@ -418,7 +410,7 @@ namespace CardGame.Managers
             {
                 deck.ShuffleCardIntoDeck(card.GetCardData());
                 Destroy(card.gameObject);
-                yield return new WaitForSeconds(dealDelay);
+                yield return new WaitForSeconds(config.DealDelay);
             }
             handBoard.ClearBoard();
             targetBoard.ClearBoard();
@@ -432,7 +424,7 @@ namespace CardGame.Managers
             foreach (CardData cardData in cardsToDraw)
             {
                 deck.SpawnCardOnBoard(cardData, true);
-                yield return new WaitForSeconds(dealDelay);
+                yield return new WaitForSeconds(config.DealDelay);
             }
             
             isDealing = false;
@@ -443,7 +435,7 @@ namespace CardGame.Managers
         {
             // Calculate how many cards to deal
             int currentCards = handBoard.CardCount + targetBoard.CardCount;
-            int cardsToDeal = cardsPerRound - currentCards;
+            int cardsToDeal = config.CardsPerRound - currentCards;
 
             List<CardData> newSetOfCards = GetNewSetOfCards(cardsToDeal);
             if (onlyPossibleSetsMode)
@@ -457,7 +449,7 @@ namespace CardGame.Managers
         private List<CardData> GetPossibleSetOfCards(int cardsNum)
         {
             List<CardData> newSetOfCards = GetNewSetOfCards(cardsNum);
-            List<CardData> currentCardSet = handBoard.GetCardsData();
+            IReadOnlyList<CardData> currentCardSet = handBoard.GetCardsData();
 
             for (int currentGoal = currentGoalValue; currentGoal > 0; currentGoal -= 1)
             {
@@ -474,7 +466,7 @@ namespace CardGame.Managers
                     RerollSuitGoal();
                 }
 
-                if (currentGoal == minGoalValue)
+                if (currentGoal == config.MinGoalValue)
                 {
                     ResetSuitGoalRestrictions();   
                 }
@@ -520,30 +512,8 @@ namespace CardGame.Managers
         /// </summary>
         private SuccessCodes CalculateRoundScore()
         {
-            Score currentScore = CalculateScoreFromBoard();
-
-            int achievedScore = currentScore.GetFullScore();
-            Suits? dominantSuit = currentScore.GetDominantSuit();
-
-            bool scoreMatches = achievedScore == currentGoalValue;
-            bool suitMatches = dominantSuit.HasValue && dominantSuit.Value == currentGoalSuit;
-
-            if (!scoreMatches) return SuccessCodes.Failer;
-            if (!suitMatches) return SuccessCodes.Partial;
-            return SuccessCodes.Success;
-        }
-        
-        private Score CalculateScoreFromBoard()
-        {
-            var cards = targetBoard.GetCards();
-
-            CardLayout layout = new CardLayout();
-            foreach (var simpleCard in cards)
-            {
-                layout.AddCard(simpleCard);
-            }
-
-            return layout.GetScore();
+            Score currentScore = ScoreCalculator.CalculateScore(targetBoard.GetCards());
+            return ScoreCalculator.EvaluateGoal(currentScore, currentGoalValue, currentGoalSuit);
         }
         
         // ===== UI Updates =====
@@ -553,13 +523,17 @@ namespace CardGame.Managers
         /// </summary>
         private IEnumerator ShowRoundResult(SuccessCodes roundScore)
         {
+            // Capture round number now — currentRound may be incremented by a new
+            // StartRound() call while this coroutine is waiting.
+            int roundWhenStarted = currentRound;
+
             if (resultText != null)
             {
                 resultText.gameObject.SetActive(true);
-                
+
                 string resultMessage = "";
                 Color resultColor = Color.white;
-                
+
                 if (roundScore == SuccessCodes.Failer)
                 {
                     resultMessage = "MISS!\nScore doesn't match\n+0 points";
@@ -575,16 +549,16 @@ namespace CardGame.Managers
                     resultMessage = "PERFECT!\nExact match!\n+1 point";
                     resultColor = new Color(0.3f, 1f, 0.3f); // Green
                 }
-                
+
                 resultText.text = resultMessage;
                 resultText.color = resultColor;
 
-                yield return new WaitForSeconds(resultDisplayTime);
+                yield return new WaitForSeconds(config.ResultDisplayTime);
 
                 resultText.gameObject.SetActive(false);
             }
 
-            if (currentRound >= maxRounds)
+            if (roundWhenStarted >= config.MaxRounds)
             {
                 PrepareForPrediction();
             }
@@ -696,7 +670,7 @@ namespace CardGame.Managers
 
             if (catAnimationController != null)
             {
-                catAnimationController.CatTalkForDuration(catTalkDuration);
+                catAnimationController.CatTalkForDuration(config.CatTalkDuration);
             }
         }
 

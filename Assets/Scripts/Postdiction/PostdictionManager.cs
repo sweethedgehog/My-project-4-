@@ -2,83 +2,88 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using CardGame.Core;
+using CardGame.UI;
 
-public enum ImageType
+namespace CardGame.Managers
 {
-    Badger = 0,
-    Cat = 1,
-    Rabbit = 2,
-    Squirrel = 3
-}
-public class PostdictionManager : MonoBehaviour
-{
-    public FinalImage badger;
-    public FinalImage cat;
-    public FinalImage rabbit;
-    public FinalImage squirrel;
-    public Button makePostdictionButton;
-    public Button backToGameButton;
-    private bool rightChoice = false;
-    private ImageType lastChoice;
-
-    void Start()
+    public enum ImageType
     {
-        makePostdictionButton.onClick.AddListener(makePostdiction);
-        backToGameButton.onClick.AddListener(backToGame);
-        makePostdictionButton.interactable = false;
+        Badger = 0,
+        Cat = 1,
+        Rabbit = 2,
+        Squirrel = 3
     }
 
-    private void backToGame()
+    public class PostdictionManager : MonoBehaviour
     {
-        SceneManager.UnloadSceneAsync("PostdictionScene");
-    }
-    private void makePostdiction()
-    {
-        switch (lastChoice)
+        [SerializeField] private FinalImage badger;
+        [SerializeField] private FinalImage cat;
+        [SerializeField] private FinalImage rabbit;
+        [SerializeField] private FinalImage squirrel;
+        [SerializeField] private Button makePostdictionButton;
+        [SerializeField] private Button backToGameButton;
+        private bool rightChoice = false;
+        private ImageType lastChoice;
+
+        void Start()
         {
-            case ImageType.Badger:
-                SceneManager.LoadScene("BadgerEndingScene", LoadSceneMode.Additive);
-                break;
-            case ImageType.Cat:
-                SceneManager.LoadScene("CatEndingScene", LoadSceneMode.Additive);
-                break;
-            case ImageType.Rabbit:
-                SceneManager.LoadScene("RabbitEndingScene", LoadSceneMode.Additive);
-                break;
-            case ImageType.Squirrel:
-                SceneManager.LoadScene("SquirrelEndingScene", LoadSceneMode.Additive);
-                break;
+            makePostdictionButton.onClick.AddListener(makePostdiction);
+            backToGameButton.onClick.AddListener(backToGame);
+            makePostdictionButton.interactable = false;
         }
-        // SceneManager.LoadScene(rightChoice ? "Win" : "Lose", LoadSceneMode.Additive);
-        SceneManager.UnloadSceneAsync("PostdictionScene");
-    }
-    public void select(ImageType type)
-    {
-        makePostdictionButton.interactable = true;
-        lastChoice = type;
-        rightChoice = type == ImageType.Badger;
-        switch (type)
+
+        private void backToGame()
         {
-            case ImageType.Badger:
-                cat.clearSelection();
-                squirrel.clearSelection();
-                rabbit.clearSelection();
-                break;
-            case ImageType.Cat:
-                badger.clearSelection();
-                squirrel.clearSelection();
-                rabbit.clearSelection();
-                break;
-            case ImageType.Rabbit:
-                cat.clearSelection();
-                squirrel.clearSelection();
-                badger.clearSelection();
-                break;
-            default:
-                cat.clearSelection();
-                badger.clearSelection();
-                rabbit.clearSelection();
-                break;
+            SceneManager.UnloadSceneAsync(SceneNames.PostdictionScene);
+        }
+        private void makePostdiction()
+        {
+            switch (lastChoice)
+            {
+                case ImageType.Badger:
+                    SceneManager.LoadScene(SceneNames.BadgerEndingScene, LoadSceneMode.Additive);
+                    break;
+                case ImageType.Cat:
+                    SceneManager.LoadScene(SceneNames.CatEndingScene, LoadSceneMode.Additive);
+                    break;
+                case ImageType.Rabbit:
+                    SceneManager.LoadScene(SceneNames.RabbitEndingScene, LoadSceneMode.Additive);
+                    break;
+                case ImageType.Squirrel:
+                    SceneManager.LoadScene(SceneNames.SquirrelEndingScene, LoadSceneMode.Additive);
+                    break;
+            }
+            SceneManager.UnloadSceneAsync(SceneNames.PostdictionScene);
+        }
+        public void select(ImageType type)
+        {
+            makePostdictionButton.interactable = true;
+            lastChoice = type;
+            rightChoice = type == ImageType.Badger;
+            switch (type)
+            {
+                case ImageType.Badger:
+                    cat.clearSelection();
+                    squirrel.clearSelection();
+                    rabbit.clearSelection();
+                    break;
+                case ImageType.Cat:
+                    badger.clearSelection();
+                    squirrel.clearSelection();
+                    rabbit.clearSelection();
+                    break;
+                case ImageType.Rabbit:
+                    cat.clearSelection();
+                    squirrel.clearSelection();
+                    badger.clearSelection();
+                    break;
+                default:
+                    cat.clearSelection();
+                    badger.clearSelection();
+                    rabbit.clearSelection();
+                    break;
+            }
         }
     }
 }

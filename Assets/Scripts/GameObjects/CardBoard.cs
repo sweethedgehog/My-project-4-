@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 using CardGame.Cards;
 using CardGame.Scoring;
@@ -34,11 +35,14 @@ namespace CardGame.GameObjects
         [SerializeField] private float frozenBrightness = 0.65f;
 
         private List<SimpleCard> cards = new List<SimpleCard>();
-        public CardScorer scorer;
-        public bool neverGlow;
+        private ReadOnlyCollection<SimpleCard> cardsReadOnly;
+        [SerializeField] private CardScorer scorer;
+        [SerializeField] private bool neverGlow;
 
         void Awake()
         {
+            cardsReadOnly = cards.AsReadOnly();
+
             if (showBoardVisual)
             {
                 SetupBoardVisual();
@@ -102,7 +106,7 @@ namespace CardGame.GameObjects
                 }
                 else
                 {
-                    // Затемнение карт
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
                     sr.color = new Color(frozenBrightness, frozenBrightness, frozenBrightness, 1f); 
 
                 }
@@ -127,14 +131,7 @@ namespace CardGame.GameObjects
         {
             if (scorer == null) return;
 
-            CardLayout cardLayout = new CardLayout();
-            foreach (SimpleCard simpleCard in cards)
-            {
-                cardLayout.AddCard(simpleCard);
-            }
-
-            // Calculate score using CardLayout
-            Score score = cardLayout.GetScore();
+            Score score = ScoreCalculator.CalculateScore(cardsReadOnly);
 
             int i = 0;
             foreach (bool hasMultiplier in score.GetMultipliers())
@@ -377,12 +374,12 @@ namespace CardGame.GameObjects
         /// <summary>
         /// Get all cards on the board
         /// </summary>
-        public List<SimpleCard> GetCards() => new List<SimpleCard>(cards);
+        public IReadOnlyList<SimpleCard> GetCards() => cardsReadOnly;
 
-        public List<CardData> GetCardsData()
+        public IReadOnlyList<CardData> GetCardsData()
         {
-            List<CardData> result = new List<CardData>();
-            foreach (SimpleCard simpleCard in GetCards())
+            List<CardData> result = new List<CardData>(cards.Count);
+            foreach (SimpleCard simpleCard in cards)
             {
                 result.Add(simpleCard.GetCardData());
             }

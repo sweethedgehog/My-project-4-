@@ -1,18 +1,22 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using CardGame.Core;
 
-public class CreatorsManager : MonoBehaviour
+namespace CardGame.Managers
 {
-    void Update()
+    public class CreatorsManager : MonoBehaviour
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) 
+        void Update()
         {
-            exit();
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                exit();
+            }
         }
-    }
 
-    public void exit()
-    {
-        SceneManager.LoadScene("MainMenu");
+        public void exit()
+        {
+            SceneManager.LoadScene(SceneNames.MainMenu);
+        }
     }
 }
