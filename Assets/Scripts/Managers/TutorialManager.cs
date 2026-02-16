@@ -364,16 +364,13 @@ namespace CardGame.Managers
         private IEnumerator Step10_ExplainMultiplier()
         {
             currentStep = 10;
-
+            FreezeAllCards();
             // Wait for player to place the coin card
             int initialCount = targetBoard.CardCount;
             while (targetBoard.CardCount <= initialCount)
             {
                 yield return null;
             }
-
-            // Unfreeze all cards after placement
-            UnfreezeAllCards();
 
             // Small delay to let glow effect show
             yield return new WaitForSeconds(0.5f);
@@ -429,6 +426,8 @@ namespace CardGame.Managers
             ShowHighlight(highlight_Crystal);
             ShowBubble(bubble12_ExplainDominantSuit);
             yield return WaitForPlayerClick();
+
+            UnfreezeAllCards();
         }
         
         private IEnumerator Step13_ExplainGoal()
