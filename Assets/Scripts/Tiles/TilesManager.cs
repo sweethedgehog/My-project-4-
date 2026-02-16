@@ -23,11 +23,11 @@ namespace DefaultNamespace.Tiles
 
         void Start()
         {
-            for (int i = 0; i < tiles.Length; i++) tiles[i].setIndex(i);
-            bigTile.setIndex(-1);
-            bigTile.setFailerColor(new  Color(1f, 1f, 1f, 0f));
+            for (int i = 0; i < tiles.Length; i++) tiles[i].SetIndex(i);
+            bigTile.SetIndex(-1);
+            bigTile.SetFailColor(new  Color(1f, 1f, 1f, 0f));
         }
-        public void setVisibility(SuccessCodes status)
+        public void SetVisibility(SuccessCodes status)
         {
             if (AudioManager.Instance != null)
             {
@@ -46,21 +46,21 @@ namespace DefaultNamespace.Tiles
             }
             statuses[index] = status;
             sumScore += (int)status;
-            tiles[index].setVisibility(status);
-            setHistoryVisibility(index);
+            tiles[index].SetVisibility(status);
+            SetHistoryVisibility(index);
             index++;
         }
 
-        public void clickOn(int index)
+        public void ClickOn(int index)
         {
             if (index == -1) return;
-            setHistoryVisibility(index);
+            SetHistoryVisibility(index);
         }
 
-        private void setHistoryVisibility(int index)
+        private void SetHistoryVisibility(int index)
         {
-            bigTile.changeSuccessSprites(storySprites[index]);
-            bigTile.setVisibility(statuses[index]);
+            bigTile.ChangeSuccessSprites(storySprites[index]);
+            bigTile.SetVisibility(statuses[index]);
             failerText.text = statuses[index] == SuccessCodes.Failer ? HintsAndFailers.failers[index] : "";
             failerText.faceColor = failerTextColor;
             successText.text = statuses[index] == SuccessCodes.Success ? HintsAndFailers.hints[index] : "";

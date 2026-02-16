@@ -302,7 +302,7 @@ namespace CardGame.Managers
             // Calculate round score
             SuccessCodes roundScore = CalculateRoundScore();
             scoreHistory.Add(roundScore);
-            if (tilesManager != null && tilesManager.isActive) tilesManager.setVisibility(roundScore);
+            if (tilesManager != null && tilesManager.isActive) tilesManager.SetVisibility(roundScore);
 
             // Show result
             StartCoroutine(ShowRoundResult(roundScore));

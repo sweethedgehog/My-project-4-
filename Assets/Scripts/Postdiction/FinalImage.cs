@@ -32,10 +32,10 @@ namespace CardGame.UI
         public void OnPointerClick(PointerEventData eventData)
         {
             selected = true;
-            postdictionManager.select(imageType);
+            postdictionManager.Select(imageType);
         }
 
-        public void clearSelection()
+        public void ClearSelection()
         {
             selected = false;
             image.sprite = dark;

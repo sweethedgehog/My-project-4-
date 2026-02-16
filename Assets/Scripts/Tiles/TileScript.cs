@@ -21,7 +21,7 @@ namespace DefaultNamespace.Tiles
             thisImage.color = Color.clear;
         }
 
-        public void setVisibility(SuccessCodes status)
+        public void SetVisibility(SuccessCodes status)
         {
             thisImage.sprite = spriteLose;
             if (status == SuccessCodes.None) thisImage.color = Color.clear;
@@ -32,9 +32,9 @@ namespace DefaultNamespace.Tiles
                 thisImage.sprite = spriteSuccess;
             }
         }
-        public void changeSuccessSprites(Sprite sprite) => spriteSuccess = sprite;
-        public void setIndex(int index) => this.index = index;
-        public void OnPointerClick(PointerEventData eventData) => tilesManager.clickOn(index);
-        public void setFailerColor(Color color) => failColor = color;
+        public void ChangeSuccessSprites(Sprite sprite) => spriteSuccess = sprite;
+        public void SetIndex(int index) => this.index = index;
+        public void OnPointerClick(PointerEventData eventData) => tilesManager.ClickOn(index);
+        public void SetFailColor(Color color) => failColor = color;
     }
 }

@@ -11,7 +11,7 @@ namespace CardGame.Managers
         [SerializeField] private Slider musicSlider;
         [SerializeField] private Slider sfxSlider;
 
-        public void onMainMenuClick()
+        public void OnMainMenuClick()
         {
             RoundManager.inGameMenu = false;
             TutorialManager.inGameMenu = false;
@@ -19,7 +19,7 @@ namespace CardGame.Managers
             SceneManager.LoadScene(SceneNames.MainMenu);
         }
 
-        public void onContinueClick() => returnToGame();
+        public void OnContinueClick() => ReturnToGame();
 
         void Start()
         {
@@ -66,10 +66,10 @@ namespace CardGame.Managers
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape)) returnToGame();
+            if (Input.GetKeyDown(KeyCode.Escape)) ReturnToGame();
         }
 
-        private void returnToGame()
+        private void ReturnToGame()
         {
             RoundManager.inGameMenu = false;
             TutorialManager.inGameMenu = false;

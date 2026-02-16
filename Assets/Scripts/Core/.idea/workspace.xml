@@ -5,10 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff7c3555-d168-4977-86d5-5012c5870bed" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../Objects/Card.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/../../Objects/Card.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CardSequence.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../CardSequence.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../card/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../card/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ProjectSettings/ShaderGraphSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../../../ProjectSettings/ShaderGraphSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scenes/Creators.unity" beforeDir="false" afterPath="$PROJECT_DIR$/../../Scenes/Creators.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scenes/MainMenu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/../../Scenes/MainMenu.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/../../Scenes/MainScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Managers/EndMenuManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Managers/EndMenuManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Managers/RoundManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Managers/RoundManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Managers/RulesManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Managers/RulesManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Managers/TutorialManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Managers/TutorialManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Postdiction/FinalImage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Postdiction/FinalImage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Postdiction/PostdictionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Postdiction/PostdictionManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Rules/RulesPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Rules/RulesPanel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Scenes/CreatorsManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Scenes/CreatorsManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Scenes/GameMenuManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Scenes/GameMenuManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Scenes/MenuManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Scenes/MenuManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Score/CardScorer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Score/CardScorer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Score/CryLogic.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tiles/TileScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Tiles/TileScript.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tiles/TilesManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Tiles/TilesManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../../CLAUDE.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,9 +33,13 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/CardData.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Suits.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/CardData.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/CardDeck.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/CardSystem.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ScoreCalculator.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Suits.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -35,7 +53,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/Viktor",
+    "git-widget-placeholder": "claude/4",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -53,12 +71,14 @@
       <updated>1762128153588</updated>
       <workItem from="1762128153593" duration="471000" />
       <workItem from="1762128701449" duration="3204000" />
+      <workItem from="1771237245446" duration="808000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />

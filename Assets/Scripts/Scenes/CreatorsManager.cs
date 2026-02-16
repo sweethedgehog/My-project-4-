@@ -10,11 +10,11 @@ namespace CardGame.Managers
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                exit();
+                Exit();
             }
         }
 
-        public void exit()
+        public void Exit()
         {
             SceneManager.LoadScene(SceneNames.MainMenu);
         }

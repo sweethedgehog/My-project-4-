@@ -10,11 +10,11 @@ namespace CardGame.UI
         [SerializeField] private AudioClip panelOpenSound;
         [SerializeField] private AudioClip panelCloseSound;
 
-        private RulesCords currentState = RulesCords.Closed;
+        private RulesCoords currentState = RulesCoords.Closed;
 
-        public void PlaySoundForState(RulesCords targetState)
+        public void PlaySoundForState(RulesCoords targetState)
         {
-            if (targetState == RulesCords.Open)
+            if (targetState == RulesCoords.Open)
                 PlayOpenSound();
             else
                 PlayCloseSound();
@@ -22,19 +22,19 @@ namespace CardGame.UI
 
         private void PlayOpenSound()
         {
-            if (panelOpenSound != null && currentState != RulesCords.Open && AudioManager.Instance != null)
+            if (panelOpenSound != null && currentState != RulesCoords.Open && AudioManager.Instance != null)
             {
                 AudioManager.Instance.PlaySFX(panelOpenSound);
-                currentState = RulesCords.Open;
+                currentState = RulesCoords.Open;
             }
         }
 
         private void PlayCloseSound()
         {
-            if (panelCloseSound != null && currentState != RulesCords.Closed && AudioManager.Instance != null)
+            if (panelCloseSound != null && currentState != RulesCoords.Closed && AudioManager.Instance != null)
             {
                 AudioManager.Instance.PlaySFX(panelCloseSound);
-                currentState = RulesCords.Closed;
+                currentState = RulesCoords.Closed;
             }
         }
     }

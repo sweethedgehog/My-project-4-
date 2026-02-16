@@ -397,7 +397,7 @@ namespace CardGame.Managers
             ShowBubble(bubble11_ReferToRules);
 
             // Wait for player to open the rules panel
-            while (rulesPanel == null || rulesPanel.CurrentTarget != RulesCords.Open)
+            while (rulesPanel == null || rulesPanel.CurrentTarget != RulesCoords.Open)
             {
                 yield return null;
             }
@@ -408,7 +408,7 @@ namespace CardGame.Managers
             ShowBubble(bubble11b_RulesScrollOpened);
 
             // Wait for player to start closing the rules panel (hide bubble immediately)
-            while (rulesPanel.CurrentTarget != RulesCords.Closed)
+            while (rulesPanel.CurrentTarget != RulesCoords.Closed)
             {
                 yield return null;
             }

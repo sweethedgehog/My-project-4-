@@ -14,9 +14,9 @@ namespace CardGame.Managers
             Cursor.SetCursor(cursorTexture, hotspot, CursorMode.Auto);
         }
 
-        public void onPlayButtonClick() => SceneManager.LoadScene(SceneNames.MainScene);
-        public void onTutorialButtonClick() => SceneManager.LoadScene(SceneNames.TutorialScene);
-        public void onRulesButtonClick() => SceneManager.LoadScene(SceneNames.Rules);
-        public void onCreatorsButtonClick() => SceneManager.LoadScene(SceneNames.Creators);
+        public void OnPlayButtonClick() => SceneManager.LoadScene(SceneNames.MainScene);
+        public void OnTutorialButtonClick() => SceneManager.LoadScene(SceneNames.TutorialScene);
+        public void OnRulesButtonClick() => SceneManager.LoadScene(SceneNames.Rules);
+        public void OnCreatorsButtonClick() => SceneManager.LoadScene(SceneNames.Creators);
     }
 }

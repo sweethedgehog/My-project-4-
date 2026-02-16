@@ -28,16 +28,16 @@ namespace CardGame.Managers
 
         void Start()
         {
-            makePostdictionButton.onClick.AddListener(makePostdiction);
-            backToGameButton.onClick.AddListener(backToGame);
+            makePostdictionButton.onClick.AddListener(MakePostdiction);
+            backToGameButton.onClick.AddListener(BackToGame);
             makePostdictionButton.interactable = false;
         }
 
-        private void backToGame()
+        private void BackToGame()
         {
             SceneManager.UnloadSceneAsync(SceneNames.PostdictionScene);
         }
-        private void makePostdiction()
+        private void MakePostdiction()
         {
             switch (lastChoice)
             {
@@ -56,7 +56,7 @@ namespace CardGame.Managers
             }
             SceneManager.UnloadSceneAsync(SceneNames.PostdictionScene);
         }
-        public void select(ImageType type)
+        public void Select(ImageType type)
         {
             makePostdictionButton.interactable = true;
             lastChoice = type;
@@ -64,24 +64,24 @@ namespace CardGame.Managers
             switch (type)
             {
                 case ImageType.Badger:
-                    cat.clearSelection();
-                    squirrel.clearSelection();
-                    rabbit.clearSelection();
+                    cat.ClearSelection();
+                    squirrel.ClearSelection();
+                    rabbit.ClearSelection();
                     break;
                 case ImageType.Cat:
-                    badger.clearSelection();
-                    squirrel.clearSelection();
-                    rabbit.clearSelection();
+                    badger.ClearSelection();
+                    squirrel.ClearSelection();
+                    rabbit.ClearSelection();
                     break;
                 case ImageType.Rabbit:
-                    cat.clearSelection();
-                    squirrel.clearSelection();
-                    badger.clearSelection();
+                    cat.ClearSelection();
+                    squirrel.ClearSelection();
+                    badger.ClearSelection();
                     break;
                 default:
-                    cat.clearSelection();
-                    badger.clearSelection();
-                    rabbit.clearSelection();
+                    cat.ClearSelection();
+                    badger.ClearSelection();
+                    rabbit.ClearSelection();
                     break;
             }
         }

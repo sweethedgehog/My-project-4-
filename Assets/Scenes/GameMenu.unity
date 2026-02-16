@@ -549,7 +549,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1368598732}
         m_TargetAssemblyTypeName: GameMenuManager, Assembly-CSharp
-        m_MethodName: onContinueClick
+        m_MethodName: OnContinueClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -873,7 +873,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1368598732}
         m_TargetAssemblyTypeName: GameMenuManager, Assembly-CSharp
-        m_MethodName: onMainMenuClick
+        m_MethodName: OnMainMenuClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2493,7 +2493,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1368598732}
         m_TargetAssemblyTypeName: GameMenuManager, Assembly-CSharp
-        m_MethodName: onContinueClick
+        m_MethodName: OnContinueClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

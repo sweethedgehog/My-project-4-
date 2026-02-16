@@ -13,10 +13,10 @@ namespace CardGame.Managers
 
         private void Start()
         {
-            continueButton.onClick.AddListener(returnToMainMenu);
+            continueButton.onClick.AddListener(ReturnToMainMenu);
             if (AudioManager.Instance != null)
                 AudioManager.Instance.PlaySFX(audioClip);
         }
-        private void returnToMainMenu() => SceneManager.LoadScene(SceneNames.MainMenu);
+        private void ReturnToMainMenu() => SceneManager.LoadScene(SceneNames.MainMenu);
     }
 }

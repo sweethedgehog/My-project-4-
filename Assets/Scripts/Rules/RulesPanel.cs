@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CardGame.UI
 {
-    public enum RulesCords
+    public enum RulesCoords
     {
         Open = 300,
         Closed = 1550  // Fixed capitalization
@@ -37,7 +37,7 @@ namespace CardGame.UI
         /// <summary>
         /// Current target position state
         /// </summary>
-        public RulesCords CurrentTarget { get; private set; }
+        public RulesCoords CurrentTarget { get; private set; }
         
         void Awake()
         {
@@ -51,7 +51,7 @@ namespace CardGame.UI
             targetPos = rectTransform.anchoredPosition;
             
             // Determine initial state based on position
-            CurrentTarget = rectTransform.anchoredPosition.x < 1000 ? RulesCords.Open : RulesCords.Closed;
+            CurrentTarget = rectTransform.anchoredPosition.x < 1000 ? RulesCoords.Open : RulesCoords.Closed;
         }
         
         void Update()
@@ -80,10 +80,10 @@ namespace CardGame.UI
         /// <summary>
         /// Move the panel to a specific position (open or closed)
         /// </summary>
-        public void MoveTo(RulesCords targetState)
+        public void MoveTo(RulesCoords targetState)
         {
             // If locked, only allow closing, not opening
-            if (isLocked && targetState == RulesCords.Open)
+            if (isLocked && targetState == RulesCoords.Open)
             {
                 return;
             }
@@ -111,13 +111,13 @@ namespace CardGame.UI
         /// </summary>
         public void Toggle()
         {
-            if (CurrentTarget == RulesCords.Open)
+            if (CurrentTarget == RulesCoords.Open)
             {
-                MoveTo(RulesCords.Closed);
+                MoveTo(RulesCoords.Closed);
             }
             else
             {
-                MoveTo(RulesCords.Open);
+                MoveTo(RulesCoords.Open);
             }
         }
         
@@ -126,7 +126,7 @@ namespace CardGame.UI
         /// </summary>
         public void Open()
         {
-            MoveTo(RulesCords.Open);
+            MoveTo(RulesCoords.Open);
         }
         
         /// <summary>
@@ -134,7 +134,7 @@ namespace CardGame.UI
         /// </summary>
         public void Close()
         {
-            MoveTo(RulesCords.Closed);
+            MoveTo(RulesCoords.Closed);
         }
     }
 }

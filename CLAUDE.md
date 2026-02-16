@@ -27,7 +27,7 @@ CardGame.Managers      - RoundManager, TutorialManager, AudioManager, MenuManage
                          EndMenuManager, PostdictionManager, GameMenuManager,
                          CreatorsManager, RulesManager
 CardGame.Scoring       - CardScorer (live score display)
-CardGame.UI            - FinalImage, CatAnimationController, CryLogic
+CardGame.UI            - FinalImage, CatAnimationController, CrystalDisplay
 DefaultNamespace.Tiles - Story tiles, hints, TileScript, TilesManager
 ```
 
@@ -110,7 +110,7 @@ MainMenu → MainScene (6 rounds) → PostdictionScene → Win/Lose → MainMenu
 
 **Phase 3 (DONE):** Fixed typos - `rightChoise`/`lastChoise` -> `rightChoice`/`lastChoice` (PostdictionManager), `Patrial` -> `Partial` (SuccessCodes + all refs), `setVisability`/`setHistoryVisability` -> `setVisibility`/`setHistoryVisibility` (TileScript, TilesManager). `rulsePanel` was already fixed.
 
-**Phase 4 (DONE - already resolved):** `GetSuitColor()` duplication no longer exists. Only RoundManager has it now; SimpleCard/CryLogic use sprites not colors; CardScorer's copy was removed in prior work.
+**Phase 4 (DONE - already resolved):** `GetSuitColor()` duplication no longer exists. Only RoundManager has it now; SimpleCard/CrystalDisplay use sprites not colors; CardScorer's copy was removed in prior work.
 
 **Phase 5 (DONE):** Extracted magic numbers in SimpleDeckObject's `UpdateVisual()` to named constants. Removed unused `UnityEngine.Tilemaps` import from TilesManager. Cleaned ~25 stray `Debug.Log()` calls across CardBoard, CardDeck, CardScorer, RoundManager, SimpleDeckObject, TutorialManager. RoundManager/RulesPanel access modifiers were already clean from prior work.
 
@@ -211,11 +211,11 @@ Both scenes have:
 
 **A2. (DONE)** Created `Assets/Scripts/Core/SceneNames.cs` with all scene name constants. Replaced hardcoded strings in 8 files. Fixed bug: `"PostDictionScene"` → `SceneNames.PostdictionScene` (wrong casing caused scene load failure).
 
-**A3. (DONE)** Added namespaces to 11 classes: `MenuManager`, `EndMenuManager`, `PostdictionManager`, `GameMenuManager`, `CreatorsManager`, `RulesManager` → `CardGame.Managers`; `FinalImage`, `CatAnimationController`, `CryLogic` → `CardGame.UI`; `TileScript`, `TilesManager` → `DefaultNamespace.Tiles`.
+**A3. (DONE)** Added namespaces to 11 classes: `MenuManager`, `EndMenuManager`, `PostdictionManager`, `GameMenuManager`, `CreatorsManager`, `RulesManager` → `CardGame.Managers`; `FinalImage`, `CatAnimationController`, `CrystalDisplay` → `CardGame.UI`; `TileScript`, `TilesManager` → `DefaultNamespace.Tiles`.
 
 **A4. (DONE)** Replaced public fields with `[SerializeField] private` in `PostdictionManager` (6 fields), `TilesManager` (10 fields, kept `isActive` public), `TileScript` (3 fields), `CardBoard` (`scorer`, `neverGlow`; kept `freeze` public).
 
-### Phase B: Medium Impact (DONE except B4)
+### Phase B: Medium Impact (DONE)
 
 **B1. (DONE)** Extracted `ScoreCalculator` static class (`Assets/Scripts/Core/ScoreCalculator.cs`) with `CalculateScore()` and `EvaluateGoal()` methods. Updated `CardBoard.UpdateScore()`, `RoundManager.CalculateRoundScore()`, and `TutorialManager.IsSpreadCorrect()` to use it. Removed `CalculateScoreFromBoard()` from RoundManager.
 
@@ -223,9 +223,7 @@ Both scenes have:
 
 **B3. (DONE)** Optimized `CardCombinations.AllOrderedSubsets()`: added early exit when max possible score (all values × 2) < goal; skips size-0 subsets; reuses a single static `CardLayout` instance instead of allocating per permutation; replaced LINQ `.Sum()` with for-loop in inner loop.
 
-**B4. Create `IAudioService` interface**
-- `AudioManager.Instance` singleton used in 10+ places
-- Create interface for mockability and cleaner dependency
+**B4. (DONE)** Created `IAudioService` interface (`Assets/Scripts/Managers/IAudioService.cs`) with 13 public methods. `AudioManager` implements the interface; `Instance` typed as `IAudioService`. All 43 call sites across 9 consumer files unchanged.
 
 **B5. (DONE)** `CardBoard.GetCards()` returns `IReadOnlyList<SimpleCard>` via cached `ReadOnlyCollection` (zero-allocation). `GetCardsData()` returns `IReadOnlyList<CardData>`. Updated all callers in `RoundManager` and `TutorialManager`.
 
@@ -249,11 +247,12 @@ Both scenes have:
   ```
 - Prevents invalid state combinations
 
-**C4. Fix remaining naming inconsistencies**
-- Method casing: `setTexture()`, `setVisibility()`, `clickOn()` should be PascalCase
-- `RulesCords` enum should be `RulesCoords`
-- `CryLogic` class should be `CrystalDisplay` or similar
-- `Cristal` typo in CryLogic field names (`grayCristal`, `roseCristal`, etc.)
+**C4. (DONE)** Fixed naming inconsistencies across codebase + scene files:
+- Renamed `CryLogic` → `CrystalDisplay` (class + file, preserved GUID)
+- Fixed `Cristal` → `Crystal` in 5 sprite fields + 4 scene files (MainScene, TutorialScene, 2 recovery)
+- Renamed `RulesCords` → `RulesCoords` enum (RulesPanel, RulesPanelSound, TutorialManager)
+- PascalCased 14 methods: `setTexture`→`SetTexture`, `setVisibility`→`SetVisibility`, `clickOn`→`ClickOn`, `setHistoryVisibility`→`SetHistoryVisibility`, `changeSuccessSprites`→`ChangeSuccessSprites`, `setIndex`→`SetIndex`, `setFailerColor`→`SetFailColor`, `clearSelection`→`ClearSelection`, `select`→`Select`, `backToGame`→`BackToGame`, `makePostdiction`→`MakePostdiction`, `returnToMainMenu`→`ReturnToMainMenu`, `returnToGame`→`ReturnToGame`
+- PascalCased 8 button callbacks + updated 7 scene `m_MethodName` refs: `onPlayButtonClick`→`OnPlayButtonClick`, `onTutorialButtonClick`→`OnTutorialButtonClick`, `onRulesButtonClick`→`OnRulesButtonClick`, `onCreatorsButtonClick`→`OnCreatorsButtonClick`, `onMainMenuClick`→`OnMainMenuClick`, `onContinueClick`→`OnContinueClick`, `exit`→`Exit` (CreatorsManager + RulesManager)
 
 ### Phase D: Long-term (requires planning)
 

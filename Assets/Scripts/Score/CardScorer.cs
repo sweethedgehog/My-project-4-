@@ -21,7 +21,7 @@ namespace CardGame.Scoring
         [SerializeField] private TextMeshPro skullScoreText;
         [SerializeField] private TextMeshPro coinsScoreText;
         [SerializeField] private TextMeshPro dominantSuitText;
-        [SerializeField] private CryLogic crystal;
+        [SerializeField] private CrystalDisplay crystal;
         
         [Header("Display Format")]
         [SerializeField] private string totalScoreFormat = "Total: {0}";
@@ -199,7 +199,7 @@ namespace CardGame.Scoring
                 }
             }
             
-            if (crystal != null) crystal.setTexture(score.GetDominantSuit());
+            if (crystal != null) crystal.SetTexture(score.GetDominantSuit());
         }
     }
 }

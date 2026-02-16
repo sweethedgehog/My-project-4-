@@ -6736,11 +6736,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b04e3020915f5144a057a0748b8f0b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  grayCristal: {fileID: 21300000, guid: 81551b67a7a5abd4cb40ef1f843299b2, type: 3}
-  roseCristal: {fileID: 21300000, guid: f5a398e6b8cf2d345b5bf8d5671bf00a, type: 3}
-  crownCristal: {fileID: 21300000, guid: 13c5d5406bfdf3e4d923dbe16bbd49c7, type: 3}
-  coinsCristal: {fileID: 21300000, guid: ad4daf6ce63cb1a4f8048de8673f084b, type: 3}
-  skullCristal: {fileID: 21300000, guid: 961a4c07cbe262943be7f2d724e53922, type: 3}
+  grayCrystal: {fileID: 21300000, guid: 81551b67a7a5abd4cb40ef1f843299b2, type: 3}
+  roseCrystal: {fileID: 21300000, guid: f5a398e6b8cf2d345b5bf8d5671bf00a, type: 3}
+  crownCrystal: {fileID: 21300000, guid: 13c5d5406bfdf3e4d923dbe16bbd49c7, type: 3}
+  coinsCrystal: {fileID: 21300000, guid: ad4daf6ce63cb1a4f8048de8673f084b, type: 3}
+  skullCrystal: {fileID: 21300000, guid: 961a4c07cbe262943be7f2d724e53922, type: 3}
 --- !u!212 &1179959039
 SpriteRenderer:
   m_ObjectHideFlags: 0
