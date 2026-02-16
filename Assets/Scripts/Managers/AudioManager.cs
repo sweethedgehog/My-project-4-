@@ -3,9 +3,9 @@ using UnityEngine.Audio;
 
 namespace CardGame.Managers
 {
-    public class AudioManager : MonoBehaviour
+    public class AudioManager : MonoBehaviour, IAudioService
     {
-        public static AudioManager Instance;
+        public static IAudioService Instance;
 
         [Header("Mixer")]
         [SerializeField] private AudioMixer mainMixer;
