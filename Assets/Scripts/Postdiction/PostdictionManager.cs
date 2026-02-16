@@ -26,6 +26,7 @@ public class PostdictionManager : MonoBehaviour
         makePostdictionButton.onClick.AddListener(makePostdiction);
         backToGameButton.onClick.AddListener(backToGame);
         makePostdictionButton.interactable = false;
+        UpdateButtonVisual();
     }
 
     private void backToGame()
@@ -80,5 +81,23 @@ public class PostdictionManager : MonoBehaviour
                 rabbit.clearSelection();
                 break;
         }
+        UpdateButtonVisual();
+    }
+    private void UpdateButtonVisual()
+    {
+        if (makePostdictionButton == null) return;
+
+        Image btnImage = makePostdictionButton.GetComponent<Image>();
+        if (btnImage == null) return;
+
+        if (makePostdictionButton.interactable)
+        {
+            btnImage.color = Color.white;           // или твой нормальный цвет
+        }
+        else
+        {
+            btnImage.color = new Color(0.65f, 0.65f, 0.65f, 1f);  // затемнение, alpha = 1
+        }
+
     }
 }

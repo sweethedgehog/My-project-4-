@@ -1458,7 +1458,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0432\u044B\u043B\u043E\u0436\u0438\u0442\u044C \u043A\u0430\u0440\u0442\u044B"
+  m_text: "\u043F\u0443\u0441\u0442\u044C \u0442\u0430\u043A"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3d67daf697984e743977af5c0aed5f24, type: 2}
   m_sharedMaterial: {fileID: -9213576566228972854, guid: 3d67daf697984e743977af5c0aed5f24, type: 2}
@@ -1495,7 +1495,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: -2
+  m_characterSpacing: -5
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -2144,7 +2144,9 @@ MonoBehaviour:
   endButtonCanvasGroup: {fileID: 1187628351}
   rerollSuitButton: {fileID: 0}
   rerollCardsButton: {fileID: 0}
-  makePredictionSprite: {fileID: -3678151726762832826, guid: de25b2b411291b64aa871966c51d95dd, type: 3}
+  makePredictionText: {fileID: 554735601}
+  predictionButtonText: "\u044F \u0433\u043E\u0442\u043E\u0432 \u0434\u0430\u0442\u044C
+    \u043E\u0442\u0432\u0435\u0442"
   catAnimationController: {fileID: 377586655}
   catTalkDuration: 3
   catBubbleAnimator: {fileID: 417079835}
