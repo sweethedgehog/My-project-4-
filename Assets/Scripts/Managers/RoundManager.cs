@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using TMPro;
-using CardGame.Cards;
+﻿using CardGame.Cards;
 using CardGame.Core;
 using CardGame.GameObjects;
 using CardGame.Scoring;
 using CardGame.UI;
 using DefaultNamespace.Tiles;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
 using Random = UnityEngine.Random;
@@ -48,7 +50,9 @@ namespace CardGame.Managers
         [SerializeField] private CanvasGroup endButtonCanvasGroup;
         [SerializeField] private Button rerollSuitButton;
         [SerializeField] private Button rerollCardsButton;
-        [SerializeField] private Sprite makePredictionSprite;
+        //[SerializeField] private Sprite makePredictionSprite;
+        [SerializeField] private TextMeshProUGUI makePredictionText;
+        [SerializeField] private string predictionButtonText = "я готов дать ответ";
 
         [Header("Cat Animation")]
         [SerializeField] private CatAnimationController catAnimationController;
@@ -179,15 +183,20 @@ namespace CardGame.Managers
 
             if (endButtonCanvasGroup != null)
             {
-                endButtonCanvasGroup.alpha = flag ? 1f : 0.6f;
+                float brightness = flag ? 1f : 0.65f;     
+                endButtonCanvasGroup.alpha = 1f;
+                // endButtonCanvasGroup.alpha = flag ? 1f : 0.6f;
                 endButtonCanvasGroup.interactable = flag;
                 endButtonCanvasGroup.blocksRaycasts = flag;
             }
-            else
+            Image btnImage = endRoundButton.GetComponent<Image>();
+            if (btnImage != null)
             {
-                // Fallback to direct color change when no CanvasGroup assigned
-                endRoundButton.image.color = flag ? Color.white : new Color(0.6f, 0.6f, 0.6f, 0.6f);
+                btnImage.color = flag
+                    ? Color.white
+                    : new Color(0.5f, 0.5f, 0.5f, 1f);   // затемнение без потери alpha
             }
+
         }
 
         public void RulesToggle()
@@ -574,19 +583,18 @@ namespace CardGame.Managers
             if (deck != null)
                 deck.SetAdviceGlow(false);
 
-            if (endRoundButton != null && makePredictionSprite != null)
+            if (makePredictionText != null)
             {
-                Image buttonImage = endRoundButton.GetComponent<Image>();
-                if (buttonImage != null)
-                {
-                    buttonImage.sprite = makePredictionSprite;
-                }
+                makePredictionText.text = predictionButtonText;
+
+
             }
 
             UpdateButtonStates();
         }
 
-        
+
+
         /// <summary>
         /// Show temporary message
         /// </summary>
