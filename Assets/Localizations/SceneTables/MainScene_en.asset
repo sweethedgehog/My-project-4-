@@ -87,7 +87,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 100000000018
-    m_Localized: 
+    m_Localized: '{0}'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000019

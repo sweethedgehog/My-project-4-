@@ -124,6 +124,10 @@ namespace CardGame.Managers
             // Show deck glow since deck is clickable at start
             if (deck != null)
                 deck.SetAdviceGlow(true);
+
+            // Initialize cat replica from localization (overrides hardcoded scene value)
+            if (goalSuitText != null)
+                goalSuitText.text = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "narrative_round_0");
         }
 
         public void OnStartButtonClicked()

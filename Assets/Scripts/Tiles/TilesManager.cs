@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using CardGame.Managers;
 
 namespace DefaultNamespace.Tiles
@@ -61,9 +62,13 @@ namespace DefaultNamespace.Tiles
         {
             bigTile.ChangeSuccessSprites(storySprites[index]);
             bigTile.SetVisibility(statuses[index]);
-            failerText.text = statuses[index] == SuccessCodes.Failer ? HintsAndFailers.failers[index] : "";
+            failerText.text = statuses[index] == SuccessCodes.Failer
+                ? LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", $"tile_failer_{index}")
+                : "";
             failerText.faceColor = failerTextColor;
-            successText.text = statuses[index] == SuccessCodes.Success ? HintsAndFailers.hints[index] : "";
+            successText.text = statuses[index] == SuccessCodes.Success
+                ? LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", $"tile_hint_{index}")
+                : "";
             successText.faceColor = succesTextColor;
         }
         public float GetScore() => (float) sumScore / 2;

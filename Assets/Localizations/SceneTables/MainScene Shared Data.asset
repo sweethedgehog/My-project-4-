@@ -135,6 +135,54 @@ MonoBehaviour:
     m_Key: initial_goal_text
     m_Metadata:
       m_Items: []
+  - m_Id: 100000000031
+    m_Key: tile_failer_0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000032
+    m_Key: tile_failer_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000033
+    m_Key: tile_failer_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000034
+    m_Key: tile_failer_3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000035
+    m_Key: tile_failer_4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000036
+    m_Key: tile_failer_5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000037
+    m_Key: tile_hint_0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000038
+    m_Key: tile_hint_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000039
+    m_Key: tile_hint_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000040
+    m_Key: tile_hint_3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000041
+    m_Key: tile_hint_4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000042
+    m_Key: tile_hint_5
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
