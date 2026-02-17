@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,9 +25,6 @@ namespace CardGame.Scoring
         [SerializeField] private CrystalDisplay crystal;
         
         [Header("Display Format")]
-        [SerializeField] private string totalScoreFormat = "Total: {0}";
-        [SerializeField] private string suitScoreFormat = "{0}: {1}";
-        [SerializeField] private string dominantFormat = "Dominant: {0}";
         [SerializeField] private bool showBreakdown = true;
         
         [Header("Goal Completion Sounds")]
@@ -168,7 +166,9 @@ namespace CardGame.Scoring
             // Total score
             if (totalScoreText != null)
             {
-                totalScoreText.text = string.Format(totalScoreFormat, score.GetFullScore());
+                totalScoreText.text = string.Format(
+                    LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "score_total"),
+                    score.GetFullScore());
             }
             
             // Individual suit scores

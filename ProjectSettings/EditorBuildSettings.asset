@@ -45,5 +45,7 @@ EditorBuildSettings:
     path: Assets/Scenes/EndingScenes/SquirrelEndingScene.unity
     guid: b78330ee42d2e4b46a7d6948d5a2e58b
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: dd4eae8d88af6ed46870a8090e55d067, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+    com.unity.localization.settings: {fileID: 11400000, guid: dcec48303ac9dce4bb509eada6d978f4, type: 2}
   m_UseUCBPForAssetBundles: 0

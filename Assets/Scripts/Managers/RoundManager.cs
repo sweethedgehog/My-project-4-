@@ -11,6 +11,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
@@ -52,7 +53,6 @@ namespace CardGame.Managers
         [SerializeField] private Button rerollCardsButton;
         //[SerializeField] private Sprite makePredictionSprite;
         [SerializeField] private TextMeshProUGUI makePredictionText;
-        [SerializeField] private string predictionButtonText = "я готов дать ответ";
 
         [Header("Cat Animation")]
         [SerializeField] private CatAnimationController catAnimationController;
@@ -276,13 +276,13 @@ namespace CardGame.Managers
             switch (result)
             {
                 case AVAILABILITY_FULL_MATCH:
-                    availabilityText.text = "Full";
+                    availabilityText.text = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "availability_full");
                     break;
                 case AVAILABILITY_VALUE_ONLY:
-                    availabilityText.text = "Only value";
+                    availabilityText.text = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "availability_value_only");
                     break;
                 case AVAILABILITY_NO_MATCH:
-                    availabilityText.text = "Nothing Here";
+                    availabilityText.text = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "availability_no_match");
                     break;
             }
         }
@@ -299,7 +299,7 @@ namespace CardGame.Managers
             {
                 if (resultText != null)
                 {
-                    StartCoroutine(ShowTemporaryMessage("Need at least 1 card!", Color.red));
+                    StartCoroutine(ShowTemporaryMessage(LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "error_need_card"), Color.red));
                 }
                 return false;
             }
@@ -502,7 +502,9 @@ namespace CardGame.Managers
             }
             
             // Update suit text (cat replica) and trigger cat talk animation
-            SetCatReplica(RoundTips.replica[currentRound]);
+            string replica = LocalizationSettings.StringDatabase.GetLocalizedString(
+                "MainScene", $"narrative_round_{currentRound}");
+            SetCatReplica(replica);
             
             // Update goal card image (if using visual card)
             if (goalCardImage != null)
@@ -545,17 +547,17 @@ namespace CardGame.Managers
 
                 if (roundScore == SuccessCodes.Failer)
                 {
-                    resultMessage = "MISS!\nScore doesn't match\n+0 points";
+                    resultMessage = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "result_miss");
                     resultColor = new Color(1f, 0.3f, 0.3f); // Red
                 }
                 else if (roundScore == SuccessCodes.Partial)
                 {
-                    resultMessage = "PARTIAL!\nRight score, wrong suit\n+0.5 points";
+                    resultMessage = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "result_partial");
                     resultColor = new Color(1f, 0.8f, 0.2f); // Orange/Yellow
                 }
                 else
                 {
-                    resultMessage = "PERFECT!\nExact match!\n+1 point";
+                    resultMessage = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "result_perfect");
                     resultColor = new Color(0.3f, 1f, 0.3f); // Green
                 }
 
@@ -585,9 +587,7 @@ namespace CardGame.Managers
 
             if (makePredictionText != null)
             {
-                makePredictionText.text = predictionButtonText;
-
-
+                makePredictionText.text = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "prediction_button");
             }
 
             UpdateButtonStates();
@@ -619,7 +619,7 @@ namespace CardGame.Managers
         {
             if (scoreHistoryText != null)
             {
-                scoreHistoryText.text = "Scores: " + GetScoreHistoryString();
+                scoreHistoryText.text = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "score_history_prefix") + GetScoreHistoryString();
             }
         }
         
@@ -654,7 +654,9 @@ namespace CardGame.Managers
         {
             if (roundNumberText != null)
             {
-                roundNumberText.text = $"Round: {currentRound}";
+                roundNumberText.text = string.Format(
+                    LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "round_display"),
+                    currentRound);
             }
         }
         
@@ -729,7 +731,7 @@ namespace CardGame.Managers
             if (goalValueText != null)
                 goalValueText.text = "?";
             if (goalSuitText != null)
-                goalSuitText.text = "Press Start";
+                goalSuitText.text = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "initial_goal_text");
             if (catAnimationController != null)
                 catAnimationController.CatIdle();
 
