@@ -84,24 +84,23 @@ namespace CardGame.Managers
                     rabbit.ClearSelection();
                     break;
             }
+            UpdateButtonVisual();
         }
-        UpdateButtonVisual();
-    }
-    private void UpdateButtonVisual()
-    {
-        if (makePostdictionButton == null) return;
-
-        Image btnImage = makePostdictionButton.GetComponent<Image>();
-        if (btnImage == null) return;
-
-        if (makePostdictionButton.interactable)
+        private void UpdateButtonVisual()
         {
-            btnImage.color = Color.white;           // ��� ���� ���������� ����
-        }
-        else
-        {
-            btnImage.color = new Color(0.65f, 0.65f, 0.65f, 1f);  // ����������, alpha = 1
-        }
+            if (makePostdictionButton == null) return;
 
+            Image btnImage = makePostdictionButton.GetComponent<Image>();
+            if (btnImage == null) return;
+
+            if (makePostdictionButton.interactable)
+            {
+                btnImage.color = Color.white;
+            }
+            else
+            {
+                btnImage.color = new Color(0.65f, 0.65f, 0.65f, 1f);
+            }
+        }
     }
 }
