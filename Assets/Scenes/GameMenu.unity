@@ -129,7 +129,6 @@ GameObject:
   m_Component:
   - component: {fileID: 340832600}
   - component: {fileID: 340832599}
-  - component: {fileID: 340832598}
   - component: {fileID: 340832597}
   m_Layer: 0
   m_Name: Main Camera
@@ -182,14 +181,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!81 &340832598
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 340832596}
-  m_Enabled: 1
 --- !u!20 &340832599
 Camera:
   m_ObjectHideFlags: 0
@@ -854,7 +845,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 2c7391fdb83eb9c4fbb834ff1dda0c8b, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -2474,7 +2465,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 2c7391fdb83eb9c4fbb834ff1dda0c8b, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
