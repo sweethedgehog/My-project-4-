@@ -4,8 +4,7 @@
       "Bash(ls:*)",
       "Bash(cd:*)",
       "Bash(echo:*)",
-      "Bash(grep:*)",
-      "Bash(python3:*)"
+      "Bash(grep:*)"
     ]
   }
 }
