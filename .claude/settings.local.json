@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(cd:*)",
+      "Bash(echo:*)",
+      "Bash(grep:*)",
+      "Bash(python3:*)"
     ]
   }
 }
