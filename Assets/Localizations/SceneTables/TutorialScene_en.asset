@@ -106,6 +106,46 @@ MonoBehaviour:
     m_Localized: "Here is also a description of how cards of different suits work."
     m_Metadata:
       m_Items: []
+  - m_Id: 100000000023
+    m_Localized: "Coin Suit:\nif a coin card is adjacent to another coin, its value doubles."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000024
+    m_Localized: "the number needed to win each round can be seen here"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000025
+    m_Localized: "the crystal shows your dominant suit"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000026
+    m_Localized: "Rose Suit:\ncards double if placed between any two cards (including cards of the same suit)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000027
+    m_Localized: "Crown Suit:\ncards double if they are not adjacent to other crowns."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000028
+    m_Localized: "Skull Suit:\ncards at the edges of the spread double their value."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000029
+    m_Localized: "so be it"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000030
+    m_Localized: "rules"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000031
+    m_Localized: "the ball color shows the suit required in this round"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000032
+    m_Localized: "you can track your score here"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

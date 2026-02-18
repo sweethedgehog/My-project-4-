@@ -254,6 +254,47 @@ Both scenes have:
 - PascalCased 14 methods: `setTexture`→`SetTexture`, `setVisibility`→`SetVisibility`, `clickOn`→`ClickOn`, `setHistoryVisibility`→`SetHistoryVisibility`, `changeSuccessSprites`→`ChangeSuccessSprites`, `setIndex`→`SetIndex`, `setFailerColor`→`SetFailColor`, `clearSelection`→`ClearSelection`, `select`→`Select`, `backToGame`→`BackToGame`, `makePostdiction`→`MakePostdiction`, `returnToMainMenu`→`ReturnToMainMenu`, `returnToGame`→`ReturnToGame`
 - PascalCased 8 button callbacks + updated 7 scene `m_MethodName` refs: `onPlayButtonClick`→`OnPlayButtonClick`, `onTutorialButtonClick`→`OnTutorialButtonClick`, `onRulesButtonClick`→`OnRulesButtonClick`, `onCreatorsButtonClick`→`OnCreatorsButtonClick`, `onMainMenuClick`→`OnMainMenuClick`, `onContinueClick`→`OnContinueClick`, `exit`→`Exit` (CreatorsManager + RulesManager)
 
+## Localization Implementation
+
+### Architecture (ESTABLISHED — do not change)
+
+All localization uses Unity's built-in **`LocalizeStringEvent`** component placed on the **same GameObject as the TMP component**. It fires `set_text` on locale change. Do NOT use `LocalizationSettings.StringDatabase.GetLocalizedString()` in manager scripts — the component approach is already wired in all scenes.
+
+**LocalizeStringEvent script GUID:** `56eb0353ae6e5124bb35b17aff880f16`
+
+**Table reference format in scene YAML:**
+```yaml
+m_TableCollectionName: GUID:<shared_data_guid>
+m_KeyId: 100000000001   # long ID from shared data asset
+```
+
+**Tables and their shared data GUIDs:**
+| Table | Shared Data GUID |
+|-------|-----------------|
+| PostdictionScene | `c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5` |
+| GameMenu | `a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9` |
+| EndingScenes | `e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3` |
+| TutorialScene | `e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1` |
+| MainScene | (check `MainScene Shared Data.asset`) |
+| MainMenu | (check `MainMenu Shared Data.asset`) |
+
+### What Is Done
+
+- ✅ All `_en.asset` files filled: PostdictionScene (3), GameMenu (5), EndingScenes (5), TutorialScene (22)
+- ✅ `TutorialScene.asset` collection + `TutorialScene_en.asset` + `.meta` files created
+- ✅ PostdictionScene.unity — 3 TMP objects wired (IDs 2100000001–2100000003)
+- ✅ GameMenu.unity — 5 TMP objects wired (IDs 2100000001–2100000005)
+- ✅ All 4 EndingScenes — narrative + button text wired (IDs 2100000001–2100000002)
+- ✅ TutorialScene.unity — 21 bubble TMP objects wired (IDs 2200000001–2200000022, skip 2200000016)
+- ✅ TutorialScene.unity — 11 rules panel TMP objects wired (IDs 2200000016, 2200000030–2200000039)
+- ✅ TutorialScene table extended with 10 new keys (rules_01–rules_10, IDs 100000000023–100000000032)
+- ✅ tutor_16 ("скорая встреча") now wired — LSE ID 2200000016, GO 1259542633, key 100000000016
+- ✅ `Assets/Scripts/UI/LocalizedText.cs` created (available for one-off use if needed)
+
+### Remaining Work — TutorialManager goalSuitText
+
+`TutorialManager.cs` line ~678: `goalSuitText.text = tutorialGoalSuit.ToString()` — outputs the C# enum name (e.g., "Coins"). This is not a localized string but may need translating if suit names should appear in the target language. Low priority; assess during testing.
+
 ### Phase D: Long-term (requires planning)
 
 **D1. Add unit test framework**

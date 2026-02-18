@@ -103,6 +103,46 @@ MonoBehaviour:
     m_Key: tutor_22
     m_Metadata:
       m_Items: []
+  - m_Id: 100000000023
+    m_Key: rules_01
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000024
+    m_Key: rules_02
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000025
+    m_Key: rules_03
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000026
+    m_Key: rules_04
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000027
+    m_Key: rules_05
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000028
+    m_Key: rules_06
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000029
+    m_Key: rules_07
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000030
+    m_Key: rules_08
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000031
+    m_Key: rules_09
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000032
+    m_Key: rules_10
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
