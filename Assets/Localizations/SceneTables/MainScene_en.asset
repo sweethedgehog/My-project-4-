@@ -167,11 +167,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 100000000029
-    m_Localized: 'This horror is beyond words!
-
-      The drunken fog vanished the
-      instant I saw her lying on the wet ground. Her gown was soiled, her fur matted,
-      her eyes fixed and lifeless.
+    m_Localized: 'This horror is beyond words! The drunken fog vanished the instant
+      I saw her lying on the wet ground. Her gown was soiled, her fur matted, her
+      eyes fixed and lifeless.
 
       How - how am I to live with this now?'
     m_Metadata:

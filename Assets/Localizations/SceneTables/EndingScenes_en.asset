@@ -19,23 +19,49 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 100000000001
-    m_Localized: "back to menu"
+    m_Localized: main menu
     m_Metadata:
       m_Items: []
   - m_Id: 100000000002
-    m_Localized: "The cards did not lie \u2013 the revelation proved true.\nThe evidence against Sir Blackmore was so overwhelming\nthat even money could not save him from arrest.\n\nThe motive was despicable: often performing at the badger's manor,\nthe fox accidentally discovered secret tunnels\nwhere he ran an underground fur trade.\n\nWithout telling anyone, the Fox tried to blackmail Blackmore.\nIn response, Sir Blackmore invited her to perform at an evening event\nto \u00ABdiscuss the details\u00BB. And killed her.\n\nThe verdict for all these villanies was hailed\nas a \u00ABtriumph of justice\u00BB \u2013 the badger awaited\nthe death penalty by hanging.\n"
+    m_Localized: "The cards did not lie \u2013 the revelation proved true. The evidence
+      against Sir Blackmore was so overwhelming\nthat even money could not save him
+      from arrest.\n\nThe motive was despicable: often performing at the badger's
+      manor,\nthe fox accidentally discovered secret tunnels where he ran an underground
+      fur trade.\n\nWithout telling anyone, the Fox tried to blackmail Blackmore.\nIn
+      response, Sir Blackmore invited her to perform at an evening event to \xABdiscuss
+      the details\xBB. And killed her.\n\nThe verdict for all these villanies was
+      hailed as a \xABtriumph of justice\xBB \u2013 the badger awaited the death
+      penalty by hanging.\n"
     m_Metadata:
       m_Items: []
   - m_Id: 100000000003
-    m_Localized: "The cards pointed to Doctor Murli \u2014\nand you, of course, informed him of this.\n\nHis reaction was explosive: he overturned the table, smashed\nthe crystal ball and several rare crystals.\n\nOnly later did you realize the cards were wrong.\nBut by then the doctor's rage had already turned\ninto conviction.\n\nHe dedicated his life to convincing his contemporaries\nthat fortune-telling is a dangerous and utterly\nsenseless delusion \u2014 which drove away many of your clients."
+    m_Localized: "The cards pointed to Doctor Murli \u2014 and you, of course, informed
+      him of this.\n\nHis reaction was explosive: he overturned the table, smashed
+      the crystal ball and several rare crystals.\n\nOnly later did you realize the
+      cards were wrong. But by then the doctor's rage had already turned into conviction.\n\nHe
+      dedicated his life to convincing his contemporaries that fortune-telling is
+      a dangerous and utterly senseless delusion \u2014 which drove away many of
+      your clients."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000004
-    m_Localized: "The cards pointed to Theodore Lapwood \u2013 alas, incorrectly.\nBut this was discovered too late.\n\nThe scant and circumstantial evidence was enough to send\nthe poor poet to prison for a decade.\n\nIn prison his talent blossomed and, upon release, Lapwood\npublished a collection of poems dedicated to Lisitsia \u2013\nso sincere and sorrowful that it immediately made\nTheodore a celebrated poet.\n\nThe rest of Theodore's life was spent famous and wealthy \u2013\nas if fate had decided to make a public apology."
+    m_Localized: "The cards pointed to Theodore Lapwood \u2013 alas, incorrectly.
+      But this was discovered too late.\n\nThe scant and circumstantial evidence
+      was enough to send the poor poet to prison for a decade.\n\nIn prison his talent
+      blossomed and, upon release, Lapwood published a collection of poems dedicated
+      to Lisitsia \u2013 so sincere and sorrowful that it immediately made Theodore
+      a celebrated poet.\n\nThe rest of Theodore's life was spent famous and wealthy
+      \u2013 as if fate had decided to make a public apology."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000005
-    m_Localized: "The cards pointed to Lady Nottingham \u2013 and, alas, were wrong.\n\nNo evidence of her guilt was found, and the family's wealth\nallowed them to quickly silence the police and the press,\nthen ruin Doctor Murli with counter-suits.\n\nHaving lost his reputation, Murli was forced to leave\nLapdon and became a country doctor in a distant, forgotten village.\n\nLady Bella, finally disillusioned with men,\ninvested the money raised from the scandal\ninto opening Lapdon's first school for girls \u2014\nand thereby gained a new fame, far more favorable.\n"
+    m_Localized: "The cards pointed to Lady Nottingham \u2013 and, alas, were wrong.\n\nNo
+      evidence of her guilt was found, and the family's wealth allowed them to quickly
+      silence the police and the press, then ruin Doctor Murli with counter-suits.\n\nHaving
+      lost his reputation, Murli was forced to leave Lapdon and became a country
+      doctor in a distant, forgotten village.\n\nLady Bella, finally disillusioned
+      with men, invested the money raised from the scandal into opening Lapdon's
+      first school for girls \u2014 and thereby gained a new fame, far more favorable.\n"
     m_Metadata:
       m_Items: []
   references:
