@@ -25,6 +25,26 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9
+    m_Address: Assets/Localizations/SceneTables/GameMenu Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5
+    m_Address: Assets/Localizations/SceneTables/PostdictionScene Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1
+    m_Address: Assets/Localizations/SceneTables/TutorialScene Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3
+    m_Address: Assets/Localizations/SceneTables/EndingScenes Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 195ab409d6447fd43b61b74c6e7b1f68, type: 2}
   m_SchemaSet:

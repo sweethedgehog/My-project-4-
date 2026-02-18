@@ -19,131 +19,173 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 100000000001
-    m_Localized: "This is a picture of the past. It will help you reconstruct events and learn the truth."
+    m_Localized: This is a picture of the past. It will help you reconstruct events
+      and learn the truth.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000002
-    m_Localized: "This is the spread zone. Here you can place cards from your hand."
+    m_Localized: This is the spread zone. Here you can place cards from your hand.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000003
-    m_Localized: "Since your spread was perfect. Both the required number and suit matched \u2014 you can see an additional hint."
+    m_Localized: "Since your spread was perfect. Both the required number and suit
+      matched \u2014 you can see an additional hint."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000004
-    m_Localized: "Excellent! Now I'll tell you how to make a spread to look into the past. See the magic ball? It changed color and revealed a number. Using cards you must fulfill the condition it indicates."
+    m_Localized: Excellent! Now I'll tell you how to make a spread to look into the
+      past. See the magic ball? It changed color and revealed a number. Using cards
+      you must fulfill the condition it indicates.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000005
-    m_Localized: "Super! Look, the number of your spread matches the number in the ball. And the dominant suit of the cards matches the color of the ball. That means you did great!"
+    m_Localized: Super! Look, the number of your spread matches the number in the
+      ball. And the dominant suit of the cards matches the color of the ball. That
+      means you did great!
     m_Metadata:
       m_Items: []
   - m_Id: 100000000006
-    m_Localized: "Take the second card of the <color=#387545>Coin</color> suit and place it in the spread zone."
+    m_Localized: Take the second card of the <color=#387545>Coin</color> suit and
+      place it in the spread zone.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000007
-    m_Localized: "Here is shown your current spread result. Simply make this number match the number\nin the magic ball."
+    m_Localized: 'Here is shown your current spread result. Simply make this number
+      match the number
+
+      in the magic ball.'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000008
-    m_Localized: "To make a spread and look into the past, you will need these cards \u2014 they read traces invisible to the eye."
+    m_Localized: "To make a spread and look into the past, you will need these cards
+      \u2014 they read traces invisible to the eye."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000009
-    m_Localized: "Allow me to introduce myself \u2014 Madame Quaking. My cards will tell not just your fortune, but a history hidden in the patterns."
+    m_Localized: "Allow me to introduce myself \u2014 Madame Quaking. My cards will
+      tell not just your fortune, but a history hidden in the patterns."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000010
-    m_Localized: "At any moment you can open the rules scroll to remember how everything works here."
+    m_Localized: At any moment you can open the rules scroll to remember how everything
+      works here.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000011
-    m_Localized: "Try placing this green card in the spread zone."
+    m_Localized: Try placing this green card in the spread zone.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000012
-    m_Localized: "These are your cards. Each with its own value and suit \u2014 but more on that in a moment."
+    m_Localized: "These are your cards. Each with its own value and suit \u2014 but
+      more on that in a moment."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000013
-    m_Localized: "Nice! As you can see the cards lit up \u2014 meaning the special rule for this suit's spread is met. Lit cards multiply their value by 2."
+    m_Localized: "Nice! As you can see the cards lit up \u2014 meaning the special
+      rule for this suit's spread is met. Lit cards multiply their value by 2."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000014
-    m_Localized: "And a final tip for the future: to get the required number, you don't always need to place a card in the ideal position. Good luck!"
+    m_Localized: 'And a final tip for the future: to get the required number, you
+      don''t always need to place a card in the ideal position. Good luck!'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000015
-    m_Localized: "Press the button to confirm your spread."
+    m_Localized: Press the button to confirm your spread.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000016
-    m_Localized: "coming soon"
+    m_Localized: coming soon
     m_Metadata:
       m_Items: []
   - m_Id: 100000000017
-    m_Localized: "Make the correct spread and the true picture of the past will be revealed to you. Fulfill the condition of the crystal ball.\n\nThis first time I will help you."
+    m_Localized: 'Make the correct spread and the true picture of the past will be
+      revealed to you. Fulfill the condition of the crystal ball.
+
+
+      This first
+      time I will help you.'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000018
-    m_Localized: "Note that your spread can have a dominant suit \u2014 this will help you get an additional hint. The dominant suit is determined by the total of cards of different suits in the spread."
+    m_Localized: "Note that your spread can have a dominant suit \u2014 this will
+      help you get an additional hint. The dominant suit is determined by the total
+      of cards of different suits in the spread."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000019
-    m_Localized: "Draw cards from the deck."
+    m_Localized: Draw cards
     m_Metadata:
       m_Items: []
   - m_Id: 100000000020
-    m_Localized: "Now about suits. There are 4 in the game: <color=#387545>Coin</color>, <color=#EB1C24>Rose</color>, <color=#ffbd00>Crown</color> and <color=#5691b4>Skull</color>. Each suit has a special property in the spread."
+    m_Localized: 'Now about suits. There are 4 in the game: <color=#387545>Coin</color>,
+      <color=#EB1C24>Rose</color>, <color=#ffbd00>Crown</color> and <color=#5691b4>Skull</color>.
+      Each suit has a special property in the spread.'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000021
-    m_Localized: "Look in the rules scroll."
+    m_Localized: Look in the rules scroll.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000022
-    m_Localized: "Here is also a description of how cards of different suits work."
+    m_Localized: Here is also a description of how cards of different suits work.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000023
-    m_Localized: "Coin Suit:\nif a coin card is adjacent to another coin, its value doubles."
+    m_Localized: 'Coin Suit:
+
+      If a coin card is next to another coin, its value
+      doubles'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000024
-    m_Localized: "the number needed to win each round can be seen here"
+    m_Localized: you can see the number needed to win each round here
     m_Metadata:
       m_Items: []
   - m_Id: 100000000025
-    m_Localized: "the crystal shows your dominant suit"
+    m_Localized: crystal shows your dominant suit
     m_Metadata:
       m_Items: []
   - m_Id: 100000000026
-    m_Localized: "Rose Suit:\ncards double if placed between any two cards (including cards of the same suit)"
+    m_Localized: "Rose Suit:\n\u0441ards double if they lie between any two cards
+      (including cards of their own suit)"
     m_Metadata:
       m_Items: []
   - m_Id: 100000000027
-    m_Localized: "Crown Suit:\ncards double if they are not adjacent to other crowns."
+    m_Localized: 'Crown Suit:
+
+      Cards double if not next to other crowns'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000028
-    m_Localized: "Skull Suit:\ncards at the edges of the spread double their value."
+    m_Localized: 'Skull Suit:
+
+      Cards at the edges of the spread double their
+      value'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000029
-    m_Localized: "so be it"
+    m_Localized: fine
     m_Metadata:
       m_Items: []
   - m_Id: 100000000030
-    m_Localized: "rules"
+    m_Localized: rules
     m_Metadata:
       m_Items: []
   - m_Id: 100000000031
-    m_Localized: "the ball color shows the suit required in this round"
+    m_Localized: the color of the ball shows the suit required for this round
     m_Metadata:
       m_Items: []
   - m_Id: 100000000032
-    m_Localized: "you can track your score here"
+    m_Localized: you can track your score here
+    m_Metadata:
+      m_Items: []
+  - m_Id: 313344549691392
+    m_Localized: main menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 313408500244480
+    m_Localized: to history
     m_Metadata:
       m_Items: []
   references:

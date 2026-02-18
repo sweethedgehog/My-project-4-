@@ -19,23 +19,23 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 100000000001
-    m_Localized: "music volume"
+    m_Localized: music volume
     m_Metadata:
       m_Items: []
   - m_Id: 100000000002
-    m_Localized: "sound effects volume"
+    m_Localized: sfx volume
     m_Metadata:
       m_Items: []
   - m_Id: 100000000003
-    m_Localized: "continue"
+    m_Localized: continue
     m_Metadata:
       m_Items: []
   - m_Id: 100000000004
-    m_Localized: "main menu"
+    m_Localized: main menu
     m_Metadata:
       m_Items: []
   - m_Id: 100000000005
-    m_Localized: "PAUSE"
+    m_Localized: PAUSE
     m_Metadata:
       m_Items: []
   references:

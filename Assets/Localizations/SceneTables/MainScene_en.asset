@@ -19,7 +19,7 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 100000000001
-    m_Localized: Let's do like that
+    m_Localized: fine
     m_Metadata:
       m_Items: []
   - m_Id: 100000000002
@@ -27,39 +27,48 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 100000000003
-    m_Localized: 
+    m_Localized: I'm ready to answer
     m_Metadata:
       m_Items: []
   - m_Id: 100000000004
-    m_Localized: 
+    m_Localized: "Rose Suit:\n\u0441ards double if they lie between any two cards
+      (including cards of their own suit)"
     m_Metadata:
       m_Items: []
   - m_Id: 100000000005
-    m_Localized: 
+    m_Localized: 'Skull Suit:
+
+      Cards at the edges of the spread double their
+      value'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000006
-    m_Localized: 
+    m_Localized: 'Coin Suit:
+
+      If a coin card is next to another coin, its value
+      doubles'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000007
-    m_Localized: 
+    m_Localized: 'Crown Suit:
+
+      Cards double if not next to other crowns'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000008
-    m_Localized: 
+    m_Localized: crystal shows your dominant suit
     m_Metadata:
       m_Items: []
   - m_Id: 100000000009
-    m_Localized: 
+    m_Localized: the color of the ball shows the suit required for this round
     m_Metadata:
       m_Items: []
   - m_Id: 100000000010
-    m_Localized: 
+    m_Localized: you can track your score here
     m_Metadata:
       m_Items: []
   - m_Id: 100000000011
-    m_Localized: Value goal can spotted here
+    m_Localized: you can see the number needed to win each round here
     m_Metadata:
       m_Items: []
   - m_Id: 100000000012
@@ -107,83 +116,131 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 100000000023
-    m_Localized: "Shalom \u043B\u044F\u0433\u0443\u0448\u043A\u0430"
+    m_Localized: "Madame Quacking!\nI scarce know how to express my deep obligation
+      for receiving me. As a gentleman of rational mind, I clung until this very
+      hour to the hope that I might avoid\u2026 these occult superfluities. Pray,
+      madam, look into the past and tell me\u2014who was the villain that murdered
+      my wife?"
     m_Metadata:
       m_Items: []
   - m_Id: 100000000024
-    m_Localized: 
+    m_Localized: "It was a gloomy, overcast evening. Mrs. Foxington and I set forth
+      in the carriage towards the estate of Sir Oswald Blackmore \u2014 the wealthiest
+      badger in all the kingdom. He was hosting a charitable supper, at which Miss
+      Foxington was to perform."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000025
-    m_Localized: 
+    m_Localized: 'The reception was splendid, with a great many guests.
+
+      Yet
+      in the first part of the evening, Miss Foxington and I were parted. As the
+      celebrated pianist, she was much approached by admirers.
+
+      I, meanwhile,
+      met Lady Bella Nottingham, and we became quite absorbed in reminiscences.'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000026
-    m_Localized: 
+    m_Localized: 'When the guests had wearied of talk, Sir Oswald Blackmore rose
+      and gave a short, rather empty speech on the virtues of patronage.
+
+      Then
+      Miss Foxington took the floor: a stately polonaise and several familiar nocturnes
+      followed; the company applauded warmly.'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000027
-    m_Localized: 
+    m_Localized: 'Miss Foxington was soon surrounded by an admiring circle of guests,
+      while I gave myself over to a growing ennui.
+
+      I daresay I had indulged
+      rather too freely in the wine, for I failed altogether to mark the moment when
+      she slipped away.'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000028
-    m_Localized: 
+    m_Localized: I know not how much time had passed, but presently Sir Oswald Blackmore
+      proposed that we stroll into the winter garden and smoke a cigar apiece. My
+      head was ringing from the wine I had taken, yet Blackmore spoke readily and
+      required no reply from me.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000029
-    m_Localized: 
+    m_Localized: 'This horror is beyond words!
+
+      The drunken fog vanished the
+      instant I saw her lying on the wet ground. Her gown was soiled, her fur matted,
+      her eyes fixed and lifeless.
+
+      How - how am I to live with this now?'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000030
-    m_Localized:
+    m_Localized: 
     m_Metadata:
       m_Items: []
   - m_Id: 100000000031
-    m_Localized:
+    m_Localized: "Doctor Nicholas Moorley and Madame Foxington rode in the carriage
+      towards the estate of Sir Oswald Blackmore \u2014 the wealthiest badger in
+      all the kingdom"
     m_Metadata:
       m_Items: []
   - m_Id: 100000000032
-    m_Localized:
+    m_Localized: 'The grand reception at the estate was in full splendour.
+
+      Doctor
+      Moorley met his old acquaintance, Lady Bella Nottingham, and they soon fell
+      into reminiscences.
+
+      Sir Oswald Blackmore then presented the young romantic
+      poet Theodore Lapwood to the guests.'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000033
-    m_Localized:
+    m_Localized: Madame Foxington played a solemn polonaise and several well-known
+      nocturnes. The guests were captivated.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000034
-    m_Localized:
+    m_Localized: 'Doctor Moorley retired to a quiet corner, there to drown his thoughts
+      in wine.
+
+      Madame Foxington excused herself and vanished from the assembly.'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000035
-    m_Localized:
+    m_Localized: Doctor Moorley and Sir Oswald Blackmore strolled together through
+      the winter garden.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000036
-    m_Localized:
+    m_Localized: All the guests now stood gathered in the winter garden, frozen in
+      horrified silence over the lifeless form of Madame Foxington.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000037
-    m_Localized:
+    m_Localized: look at the items they're holding
     m_Metadata:
       m_Items: []
   - m_Id: 100000000038
-    m_Localized:
+    m_Localized: there is a murder weapon in the scene
     m_Metadata:
       m_Items: []
   - m_Id: 100000000039
-    m_Localized:
+    m_Localized: there is a murder motive here
     m_Metadata:
       m_Items: []
   - m_Id: 100000000040
-    m_Localized:
+    m_Localized: Something is missing in this scene.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000041
-    m_Localized:
+    m_Localized: proof of innocence for one of the Characters
     m_Metadata:
       m_Items: []
   - m_Id: 100000000042
-    m_Localized:
+    m_Localized: changes in Characters appearance
     m_Metadata:
       m_Items: []
   references:

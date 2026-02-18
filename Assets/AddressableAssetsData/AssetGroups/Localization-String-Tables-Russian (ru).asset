@@ -15,17 +15,47 @@ MonoBehaviour:
   m_GroupName: Localization-String-Tables-Russian (ru)
   m_GUID: d0c5c2c9673ca9c4eb1a6606ec012397
   m_SerializeEntries:
+  - m_GUID: 6940e21c522c46e43b31f6cce4505752
+    m_Address: TutorialScene_ru
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ru
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8
     m_Address: MainScene_ru
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ru
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0
+    m_Address: GameMenu_ru
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ru
+    - Preload
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bf5c5321cc3d50244b9ab56efcf7ce6b
     m_Address: MainMenu_ru
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ru
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6
+    m_Address: PostdictionScene_ru
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ru
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4
+    m_Address: EndingScenes_ru
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ru
+    - Preload
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 195ab409d6447fd43b61b74c6e7b1f68, type: 2}
