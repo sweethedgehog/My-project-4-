@@ -464,7 +464,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   continueButton: {fileID: 1921787685}
-  audioClip: {fileID: 8300000, guid: f04fc375fda0d034bb19d842b51f6dbf, type: 3}
+  audioClip: {fileID: 8300000, guid: 2b57e74828b6dd44aa7b68e5d353ea72, type: 3}
 --- !u!82 &1146040528
 AudioSource:
   m_ObjectHideFlags: 0
