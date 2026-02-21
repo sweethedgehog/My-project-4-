@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 80bf7ca177743ab46977ccfd538b6cc1
+    m_Address: Assets/Localizations/SceneTables/Text_AutoTrack Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7
     m_Address: Assets/Localizations/SceneTables/MainScene Shared Data.asset
     m_ReadOnly: 1
