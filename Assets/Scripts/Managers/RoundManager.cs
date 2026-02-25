@@ -484,6 +484,7 @@ namespace CardGame.Managers
             if (onlyPossibleSetsMode)
             {
                 newSetOfCards = GetPossibleSetOfCards(cardsToDeal);
+                UpdateGoalDisplay(); // sync display: search loop may have decremented goal value without updating UI
             }
             
             yield return StartCoroutine(DrawCardsToBoard(newSetOfCards));
