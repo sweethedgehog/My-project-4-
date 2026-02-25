@@ -31,6 +31,7 @@ namespace CardGame.Managers
             makePostdictionButton.onClick.AddListener(MakePostdiction);
             backToGameButton.onClick.AddListener(BackToGame);
             makePostdictionButton.interactable = false;
+            UpdateButtonVisual();
         }
 
         private void BackToGame()
@@ -99,7 +100,7 @@ namespace CardGame.Managers
             }
             else
             {
-                btnImage.color = new Color(0.65f, 0.65f, 0.65f, 1f);
+                btnImage.color = new Color(0.5f, 0.5f, 0.5f, 1f);
             }
         }
     }

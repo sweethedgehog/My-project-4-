@@ -77,7 +77,7 @@ namespace CardGame.GameObjects
             if (overlayTransform != null)
             {
                 SpriteRenderer osr = overlayTransform.GetComponent<SpriteRenderer>();
-                if (osr != null) osr.sortingOrder = dragSortingOrder + 1;
+                if (osr != null) osr.sortingOrder = dragSortingOrder - 1;
             }
 
             // Disable collider so it doesn't block board detection
@@ -116,7 +116,7 @@ namespace CardGame.GameObjects
             if (overlayTransform != null)
             {
                 SpriteRenderer osr = overlayTransform.GetComponent<SpriteRenderer>();
-                if (osr != null) osr.sortingOrder = originalSortingOrder + 1;
+                if (osr != null) osr.sortingOrder = originalSortingOrder - 1;
             }
 
             // Re-enable collider
