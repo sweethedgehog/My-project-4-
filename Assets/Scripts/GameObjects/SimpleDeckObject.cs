@@ -201,8 +201,15 @@ namespace CardGame.GameObjects
 
         public void SetAdviceGlow(bool visible)
         {
-            if (adviceGlow != null)
-                adviceGlow.SetActive(visible);
+            if (adviceGlow == null) return;
+            if (visible)
+            {
+                // Reset SpriteRenderer before activating so the Animator captures
+                // m_Enabled=1 as the Write Defaults value, not 0 from a previous run.
+                var sr = adviceGlow.GetComponent<SpriteRenderer>();
+                if (sr != null) sr.enabled = true;
+            }
+            adviceGlow.SetActive(visible);
         }
     }
 }

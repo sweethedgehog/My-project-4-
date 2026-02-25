@@ -74,10 +74,10 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       m_PreInfinity: 2
-      m_PostInfinity: 2
+      m_PostInfinity: 8
       m_RotationOrder: 4
     attribute: m_Enabled
-    path: 
+    path:
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -230,10 +230,10 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       m_PreInfinity: 2
-      m_PostInfinity: 2
+      m_PostInfinity: 8
       m_RotationOrder: 4
     attribute: m_Enabled
-    path: 
+    path:
     classID: 212
     script: {fileID: 0}
     flags: 0
