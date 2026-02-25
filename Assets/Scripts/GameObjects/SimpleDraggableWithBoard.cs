@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using CardGame.Cards;
 using CardGame.UI;
@@ -20,16 +21,24 @@ namespace CardGame.GameObjects
         private SpriteRenderer spriteRenderer;
         private int originalSortingOrder;
         private CardBoard[] cachedBoards;
+        private Vector3 originalScale;
+        private Coroutine scaleCoroutine;
 
         [Header("Drag Settings")]
         [SerializeField] private int dragSortingOrder = 100;
         [SerializeField] private bool showDebugInfo = false;
+
+        [Header("Drag Effects")]
+        [SerializeField] private Vector3 dragScale = new Vector3(1.15f, 1.15f, 1f);
+        [SerializeField] private float scaleTime = 0.1f;
+        [SerializeField] private GameObject shadowObject;
 
         void Awake()
         {
             simpleCard = GetComponent<SimpleCard>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             cachedBoards = FindObjectsOfType<CardBoard>();
+            originalScale = transform.localScale;
         }
 
         void OnMouseDown()
@@ -75,6 +84,11 @@ namespace CardGame.GameObjects
             BoxCollider2D col = GetComponent<BoxCollider2D>();
             if (col != null) col.enabled = false;
 
+            // Scale up and show shadow
+            if (scaleCoroutine != null) StopCoroutine(scaleCoroutine);
+            scaleCoroutine = StartCoroutine(ScaleTo(dragScale));
+            if (shadowObject != null) shadowObject.SetActive(true);
+
             // Play pickup sound
             CardSound cardSound = GetComponent<CardSound>();
             if (cardSound != null) cardSound.PlayPickup();
@@ -108,6 +122,11 @@ namespace CardGame.GameObjects
             // Re-enable collider
             BoxCollider2D col = GetComponent<BoxCollider2D>();
             if (col != null) col.enabled = true;
+
+            // Scale back and hide shadow
+            if (scaleCoroutine != null) StopCoroutine(scaleCoroutine);
+            scaleCoroutine = StartCoroutine(ScaleTo(originalScale));
+            if (shadowObject != null) shadowObject.SetActive(false);
 
             // Play drop sound
             CardSound cardSound = GetComponent<CardSound>();
@@ -197,6 +216,19 @@ namespace CardGame.GameObjects
             }
 
             return nearestBoard;
+        }
+
+        private IEnumerator ScaleTo(Vector3 target)
+        {
+            Vector3 start = transform.localScale;
+            float elapsed = 0f;
+            while (elapsed < scaleTime)
+            {
+                elapsed += Time.deltaTime;
+                transform.localScale = Vector3.Lerp(start, target, elapsed / scaleTime);
+                yield return null;
+            }
+            transform.localScale = target;
         }
     }
 }
