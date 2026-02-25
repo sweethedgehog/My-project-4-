@@ -64,6 +64,9 @@ namespace CardGame.Managers
         [Header("Audio")]
         [SerializeField] private AudioClip cardsShuffle;
 
+        // Discard pile — accumulates played cards across all rounds (Бита)
+        private readonly CardDeck discardPile = new CardDeck(startEmpty: true);
+
         // Runtime state
         private int currentRound = 0;
         private int currentGoalValue;
@@ -252,6 +255,13 @@ namespace CardGame.Managers
         {
             // Copy to array since we're destroying objects while the source list shrinks
             var targetCards = new List<SimpleCard>(targetBoard.GetCards());
+
+            // Record played cards into the discard pile before destroying
+            foreach (var card in targetCards)
+                discardPile.PutCardIntoDeck(card.GetCardData());
+
+            Debug.Log($"[DiscardPile] Round {currentRound} ended. Added {targetCards.Count} cards. Total in pile: {discardPile.RemainingCards}");
+
             foreach (var card in targetCards)
             {
                 if (card != null) Destroy(card.gameObject);
@@ -444,11 +454,31 @@ namespace CardGame.Managers
             UpdateAvailabilityField();
         }
 
+        /// <summary>
+        /// If the main deck is short, move random cards from the discard pile to fill the gap.
+        /// </summary>
+        private void TopUpDeckFromDiscard(int cardsNeeded)
+        {
+            int shortage = cardsNeeded - deck.GetRemainingCards();
+            if (shortage <= 0 || discardPile.IsEmpty()) return;
+
+            discardPile.Shuffle();
+            int toTransfer = Mathf.Min(shortage, discardPile.RemainingCards);
+            for (int i = 0; i < toTransfer; i++)
+            {
+                CardData card = discardPile.Draw();
+                if (card != null)
+                    deck.ShuffleCardIntoDeck(card);
+            }
+        }
+
         private IEnumerator DealCardsToBoard()
         {
             // Calculate how many cards to deal
             int currentCards = handBoard.CardCount + targetBoard.CardCount;
             int cardsToDeal = config.CardsPerRound - currentCards;
+
+            TopUpDeckFromDiscard(cardsToDeal);
 
             List<CardData> newSetOfCards = GetNewSetOfCards(cardsToDeal);
             if (onlyPossibleSetsMode)
@@ -728,7 +758,8 @@ namespace CardGame.Managers
             isRoundActive = false;
             
             ClearPreviousRoundCards();
-            
+            discardPile.Clear();
+
             UpdateRoundDisplay();
             UpdateScoreHistoryDisplay();
             
