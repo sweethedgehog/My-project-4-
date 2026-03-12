@@ -626,6 +626,10 @@ namespace CardGame.Managers
             }
 
             UpdateButtonStates();
+
+            // Сбрасываем выбранный UI-элемент, иначе кнопка застревает в highlighted-состоянии
+            if (EventSystem.current != null)
+                EventSystem.current.SetSelectedGameObject(null);
         }
 
 

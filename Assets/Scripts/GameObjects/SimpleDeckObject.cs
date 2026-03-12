@@ -3,6 +3,7 @@ using UnityEngine.Events;
 using TMPro;
 using CardGame.Core;
 using CardGame.Cards;
+using CardGame.Managers;
 using System.Collections.Generic;
 
 namespace CardGame.GameObjects
@@ -58,6 +59,7 @@ namespace CardGame.GameObjects
 
         void OnMouseDown()
         {
+            if (RoundManager.inGameMenu || TutorialManager.inGameMenu) return;
             onClick?.Invoke();
         }
 

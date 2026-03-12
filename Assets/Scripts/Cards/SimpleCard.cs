@@ -1,5 +1,6 @@
 using UnityEngine;
 using CardGame.Core;
+using CardGame.Managers;
 using System.Collections.Generic;
 using CardGame.GameObjects;
 
@@ -115,6 +116,7 @@ namespace CardGame.Cards
         public bool CanInteract()
         {
             if (individualFreeze) return false;
+            if (RoundManager.inGameMenu || TutorialManager.inGameMenu) return false;
 
             CardBoard board = GetComponentInParent<CardBoard>();
             if (board != null)

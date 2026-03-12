@@ -42,19 +42,23 @@ namespace CardGame.Scoring
 
         private bool valueGoalComplete = false;
         private bool suitGoalComplete = false;
+        private bool isGoalSet = false;
 
         public void SetGoal(Suits _goalSuit, int _goalValue)
         {
             goalSuit = _goalSuit;
             goalValue = _goalValue;
-            
+            isGoalSet = true;
+
             // Reset goal completion flags when new goal is set
             valueGoalComplete = false;
             suitGoalComplete = false;
         }
-        
+
         public void UpdateScore(Score score)
         {
+            if (!isGoalSet) return;
+
             int currentValue = score.GetFullScore();
             Suits? dominantSuit = score.GetDominantSuit();
             
