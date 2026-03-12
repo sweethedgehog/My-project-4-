@@ -19,15 +19,19 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 100000000001
-    m_Localized: "The cards have spoken. It's time to answer the question."
+    m_Localized: The cards have spoken. It's time to answer the question.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000002
-    m_Localized: "Who killed Fox Murly?"
+    m_Localized: Who killed Fox Murly?
     m_Metadata:
       m_Items: []
   - m_Id: 100000000003
-    m_Localized: "name the killer"
+    m_Localized: name the killer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8336485028962304
+    m_Localized: not sure yet
     m_Metadata:
       m_Items: []
   references:
