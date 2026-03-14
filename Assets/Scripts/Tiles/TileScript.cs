@@ -11,6 +11,7 @@ namespace DefaultNamespace.Tiles
         [SerializeField] private Sprite spriteSuccess;
         [SerializeField] private Sprite spriteLose;
         [SerializeField] private TilesManager tilesManager;
+        [SerializeField] private GameObject selectedHighlight;
         private Image thisImage;
         private Color failColor = new (1f, 1f, 1f, 0.5f);
         private int index;
@@ -36,5 +37,9 @@ namespace DefaultNamespace.Tiles
         public void SetIndex(int index) => this.index = index;
         public void OnPointerClick(PointerEventData eventData) => tilesManager.ClickOn(index);
         public void SetFailColor(Color color) => failColor = color;
+        public void SetSelected(bool selected)
+        {
+            if (selectedHighlight != null) selectedHighlight.SetActive(selected);
+        }
     }
 }

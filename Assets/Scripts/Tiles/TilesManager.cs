@@ -47,6 +47,7 @@ namespace DefaultNamespace.Tiles
                 }
             }
             statuses[index] = status;
+            currentHistoryIndex = index;
             sumScore += (int)status;
             tiles[index].SetVisibility(status);
             SetHistoryVisibility(index);
@@ -93,6 +94,8 @@ namespace DefaultNamespace.Tiles
 
         private void SetHistoryVisibility(int index)
         {
+            foreach (var tile in tiles) tile.SetSelected(false);
+            if (index >= 0 && index < tiles.Length) tiles[index].SetSelected(true);
             bigTile.ChangeSuccessSprites(storySprites[index]);
             bigTile.SetVisibility(statuses[index]);
             failerText.text = statuses[index] == SuccessCodes.Failer
