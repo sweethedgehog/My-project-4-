@@ -6,5 +6,6 @@
       "Bash(echo:*)",
       "Bash(grep:*)"
     ]
-  }
+  },
+  "outputStyle": "Explanatory"
 }

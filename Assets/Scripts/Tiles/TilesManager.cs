@@ -18,6 +18,7 @@ namespace DefaultNamespace.Tiles
         public bool isActive = true;
         private int sumScore = 0;
         private int index = 0;
+        private int currentHistoryIndex = -1;
         [SerializeField] private Color succesTextColor;
         [SerializeField] private Color failerTextColor;
         private SuccessCodes[] statuses = { SuccessCodes.None, SuccessCodes.None, SuccessCodes.None, SuccessCodes.None, SuccessCodes.None, SuccessCodes.None};
@@ -55,7 +56,39 @@ namespace DefaultNamespace.Tiles
         public void ClickOn(int index)
         {
             if (index == -1) return;
+            currentHistoryIndex = index;
             SetHistoryVisibility(index);
+        }
+
+        public void NavigateLeft()
+        {
+            int next = FindPrevRevealedIndex(currentHistoryIndex);
+            if (next >= 0) ClickOn(next);
+        }
+
+        public void NavigateRight()
+        {
+            int next = FindNextRevealedIndex(currentHistoryIndex);
+            if (next >= 0) ClickOn(next);
+        }
+
+        private int FindNextRevealedIndex(int from)
+        {
+            for (int i = from + 1; i < statuses.Length; i++)
+                if (statuses[i] != SuccessCodes.None) return i;
+            for (int i = 0; i <= from; i++)
+                if (statuses[i] != SuccessCodes.None) return i;
+            return -1;
+        }
+
+        private int FindPrevRevealedIndex(int from)
+        {
+            int start = from < 0 ? statuses.Length : from;
+            for (int i = start - 1; i >= 0; i--)
+                if (statuses[i] != SuccessCodes.None) return i;
+            for (int i = statuses.Length - 1; i >= start; i--)
+                if (statuses[i] != SuccessCodes.None) return i;
+            return -1;
         }
 
         private void SetHistoryVisibility(int index)
