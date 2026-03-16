@@ -325,6 +325,7 @@ MonoBehaviour:
   squirrel: {fileID: 1208126028}
   makePostdictionButton: {fileID: 842564914}
   backToGameButton: {fileID: 1291206096}
+  backToGameButton2: {fileID: 1191117769}
 --- !u!1 &631688842
 GameObject:
   m_ObjectHideFlags: 0

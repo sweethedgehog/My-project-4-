@@ -23,6 +23,7 @@ namespace CardGame.Managers
         [SerializeField] private FinalImage squirrel;
         [SerializeField] private Button makePostdictionButton;
         [SerializeField] private Button backToGameButton;
+        [SerializeField] private Button backToGameButton2;
         private bool rightChoice = false;
         private ImageType lastChoice;
 
@@ -30,6 +31,7 @@ namespace CardGame.Managers
         {
             makePostdictionButton.onClick.AddListener(MakePostdiction);
             backToGameButton.onClick.AddListener(BackToGame);
+			backToGameButton2.onClick.AddListener(BackToGame);
             makePostdictionButton.interactable = false;
             UpdateButtonVisual();
         }
