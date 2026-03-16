@@ -288,24 +288,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3230daa8863bbdf42b44229c88c3aa3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardGame.Cards.SimpleCard
-  suit: 3
-  cardValue: 3
-  RoseSprites:
-  - {fileID: 8780223486780014698, guid: 2175d95439deb7c4692ff08ea7af39eb, type: 3}
-  - {fileID: -1294032757066018705, guid: 9183f2d0e6f08de40895280873062e2c, type: 3}
-  - {fileID: 8829707018280246255, guid: 26b3b0a4fe48fc043bc0ce5b4dce2b53, type: 3}
-  SkullSprites:
-  - {fileID: -8768589767460613871, guid: e5e912dc4b67bcb46989db26835681f6, type: 3}
-  - {fileID: -5330585344726765429, guid: 199a46a207369354daa492d95e95b012, type: 3}
-  - {fileID: 3472717973524337287, guid: 7f5ff10528a9a6a48b37e72a787251ac, type: 3}
-  CrownSprites:
-  - {fileID: 8440420461366907834, guid: e035946c5d84713498c5d5795eeaf829, type: 3}
-  - {fileID: -682615878411397951, guid: bce00574cfb6eb844a82106dd6db3b8b, type: 3}
-  - {fileID: -7709417792415313579, guid: 8cabff40763ad9b4d910e22820154183, type: 3}
-  CoinSprites:
-  - {fileID: 4840735777579599281, guid: 3369fa8dcee713d409c085cfdfdd4d81, type: 3}
-  - {fileID: 3501689478382954987, guid: 95168b9e9d6ed1448ad6d79d90d5f5bd, type: 3}
-  - {fileID: -5185680815138586352, guid: 0f68ea0947337cd4596edcf4aac9ca7d, type: 3}
+  suit: 2
+  cardValue: 1
+  roseSprite: {fileID: 0}
+  skullSprite: {fileID: 0}
+  crownSprite: {fileID: 0}
+  coinSprite: {fileID: 0}
+  topValueText: {fileID: 0}
+  bottomValueText: {fileID: 0}
+  valueFontSize: 3.5
+  topValuePosition: {x: -0.33, y: 0.7}
+  bottomValuePosition: {x: 0.33, y: -0.7}
   cardRenderer: {fileID: 3534586443680530740}
   overlay: {fileID: 0}
 --- !u!114 &277713664788608693

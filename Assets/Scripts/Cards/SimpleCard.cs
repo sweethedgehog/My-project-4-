@@ -1,14 +1,14 @@
 using UnityEngine;
 using CardGame.Core;
 using CardGame.Managers;
-using System.Collections.Generic;
 using CardGame.GameObjects;
+using TMPro;
 
 namespace CardGame.Cards
 {
     /// <summary>
-    /// Simple card that displays suit color and value number
-    /// Uses SpriteRenderer for world-space rendering
+    /// Simple card that displays a suit sprite and dynamically rendered value number.
+    /// Uses SpriteRenderer for world-space rendering, TextMeshPro for value text.
     /// </summary>
     public class SimpleCard : MonoBehaviour
     {
@@ -16,16 +16,25 @@ namespace CardGame.Cards
         public Suits suit;
         public int cardValue;
 
-        public List<Sprite> RoseSprites;
-        public List<Sprite> SkullSprites;
-        public List<Sprite> CrownSprites;
-        public List<Sprite> CoinSprites;
+        [Header("Suit Sprites (one per suit)")]
+        public Sprite roseSprite;
+        public Sprite skullSprite;
+        public Sprite crownSprite;
+        public Sprite coinSprite;
+
+        [Header("Value Text")]
+        [SerializeField] private TextMeshPro topValueText;
+        [SerializeField] private TextMeshPro bottomValueText;
+        [SerializeField] private float valueFontSize = 3.5f;
+        [SerializeField] private Vector2 topValuePosition = new Vector2(-0.33f, 0.70f);
+        [SerializeField] private Vector2 bottomValuePosition = new Vector2(0.33f, -0.70f);
 
         [Header("References")]
         public SpriteRenderer cardRenderer;
         public GameObject overlay;
 
         private bool glowable = false;
+        private SpriteRenderer shadowRenderer;
 
         void Awake()
         {
@@ -40,6 +49,13 @@ namespace CardGame.Cards
 
             cardRenderer.sortingLayerName = "Cards";
             cardRenderer.sortingOrder = 0;
+
+            // Cache shadow renderer for visual updates
+            Transform shadowTransform = transform.Find("Shadow");
+            if (shadowTransform != null)
+                shadowRenderer = shadowTransform.GetComponent<SpriteRenderer>();
+
+            EnsureValueTexts();
         }
 
         public void SetCardData(CardData cardData)
@@ -63,31 +79,85 @@ namespace CardGame.Cards
 
         void UpdateVisual()
         {
-            List<Sprite> cardSet = new List<Sprite> {} ;
-
-            switch (suit)
+            Sprite suitSprite = suit switch
             {
-                case Suits.Roses:
-                    cardSet = RoseSprites;
-                    break;
-                case Suits.Skulls:
-                    cardSet = SkullSprites;
-                    break;
-                case Suits.Coins:
-                    cardSet = CoinSprites;
-                    break;
-                case Suits.Crowns:
-                    cardSet = CrownSprites;
-                    break;
-            }
+                Suits.Roses => roseSprite,
+                Suits.Skulls => skullSprite,
+                Suits.Coins => coinSprite,
+                Suits.Crowns => crownSprite,
+                _ => null
+            };
 
-            if (cardSet == null || cardSet.Count < cardValue)
+            if (suitSprite == null)
             {
-                Debug.LogError($"[SimpleCard] {name}: Sprite list is null or too small! suit={suit}, count={cardSet?.Count}, needed index={cardValue - 1}");
+                Debug.LogError($"[SimpleCard] {name}: No sprite assigned for suit {suit}!");
                 return;
             }
 
-            cardRenderer.sprite = cardSet[cardValue - 1];
+            cardRenderer.sprite = suitSprite;
+
+            // Update shadow silhouette to match current suit
+            if (shadowRenderer != null)
+                shadowRenderer.sprite = suitSprite;
+
+            // Set value text on both corners
+            string valueStr = cardValue.ToString();
+            if (topValueText != null) topValueText.text = valueStr;
+            if (bottomValueText != null) bottomValueText.text = valueStr;
+        }
+
+        /// <summary>
+        /// Creates TextMeshPro children for value display if not already assigned.
+        /// Top-left and bottom-right (rotated 180°) like a playing card.
+        /// </summary>
+        private void EnsureValueTexts()
+        {
+            if (topValueText == null)
+                topValueText = CreateValueText("TopValue", topValuePosition, 0f);
+
+            if (bottomValueText == null)
+                bottomValueText = CreateValueText("BottomValue", bottomValuePosition, 180f);
+        }
+
+        private TextMeshPro CreateValueText(string objName, Vector2 localPos, float zRotation)
+        {
+            GameObject textObj = new GameObject(objName);
+            textObj.transform.SetParent(transform, false);
+            textObj.transform.localPosition = new Vector3(localPos.x, localPos.y, -0.01f);
+            textObj.transform.localRotation = Quaternion.Euler(0, 0, zRotation);
+
+            TextMeshPro tmp = textObj.AddComponent<TextMeshPro>();
+            tmp.fontSize = valueFontSize;
+            tmp.color = Color.black;
+            tmp.alignment = TextAlignmentOptions.Center;
+            tmp.enableWordWrapping = false;
+            tmp.overflowMode = TextOverflowModes.Overflow;
+
+            // Match the card's sorting layer, one order above the card sprite
+            MeshRenderer meshRenderer = textObj.GetComponent<MeshRenderer>();
+            meshRenderer.sortingLayerName = "Cards";
+            meshRenderer.sortingOrder = cardRenderer.sortingOrder + 1;
+
+            // Small rect to contain a single digit
+            RectTransform rect = textObj.GetComponent<RectTransform>();
+            rect.sizeDelta = new Vector2(0.5f, 0.5f);
+
+            return tmp;
+        }
+
+        /// <summary>
+        /// Sets sorting order for all card visuals (sprite + value text).
+        /// Called by SimpleDraggableWithBoard during drag.
+        /// </summary>
+        public void SetSortingOrder(int order)
+        {
+            cardRenderer.sortingOrder = order;
+
+            int textOrder = order + 1;
+            if (topValueText != null)
+                topValueText.GetComponent<MeshRenderer>().sortingOrder = textOrder;
+            if (bottomValueText != null)
+                bottomValueText.GetComponent<MeshRenderer>().sortingOrder = textOrder;
         }
 
         public void TurnOffGlow()
@@ -144,6 +214,11 @@ namespace CardGame.Cards
             {
                 cardRenderer.color = frozen ? new Color(0.5f, 0.5f, 0.5f, 1f) : Color.white;
             }
+
+            // Dim value text to match
+            Color textColor = frozen ? new Color(0.3f, 0.3f, 0.3f, 1f) : Color.black;
+            if (topValueText != null) topValueText.color = textColor;
+            if (bottomValueText != null) bottomValueText.color = textColor;
         }
 
         public bool IsIndividuallyFrozen() => individualFreeze;

@@ -68,9 +68,9 @@ namespace CardGame.GameObjects
             // Reparent to scene root for free dragging
             transform.SetParent(null);
 
-            // Raise sorting order so dragged card is on top
+            // Raise sorting order so dragged card is on top (sprite + value text)
             originalSortingOrder = spriteRenderer.sortingOrder;
-            spriteRenderer.sortingOrder = dragSortingOrder;
+            simpleCard.SetSortingOrder(dragSortingOrder);
 
             // Also raise overlay child
             Transform overlayTransform = transform.Find("Overlay");
@@ -110,8 +110,8 @@ namespace CardGame.GameObjects
             if (!isDragging) return;
             isDragging = false;
 
-            // Restore sorting order
-            spriteRenderer.sortingOrder = originalSortingOrder;
+            // Restore sorting order (sprite + value text)
+            simpleCard.SetSortingOrder(originalSortingOrder);
             Transform overlayTransform = transform.Find("Overlay");
             if (overlayTransform != null)
             {
