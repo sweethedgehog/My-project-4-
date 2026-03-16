@@ -147,6 +147,7 @@ namespace CardGame.Cards
             {
                 overlay.SetActive(false);
             }
+            SetDoubledValue(false);
         }
 
         public void TurnOnGlow()
@@ -155,6 +156,31 @@ namespace CardGame.Cards
             {
                 overlay.SetActive(true);
             }
+            SetDoubledValue(true);
+        }
+
+        private bool isDoubled = false;
+
+        private void SetDoubledValue(bool doubled)
+        {
+            if (isDoubled == doubled) return;
+            isDoubled = doubled;
+
+            string valueStr = doubled ? (cardValue * 2).ToString() : cardValue.ToString();
+            if (topValueText != null) topValueText.text = valueStr;
+            if (bottomValueText != null) bottomValueText.text = valueStr;
+
+            // Trigger animation on the text objects (Animator must be added in prefab)
+            PlayTextAnimation(topValueText, doubled);
+            PlayTextAnimation(bottomValueText, doubled);
+        }
+
+        private static void PlayTextAnimation(TextMeshPro tmp, bool doubled)
+        {
+            if (tmp == null) return;
+            Animator animator = tmp.GetComponent<Animator>();
+            if (animator != null)
+                animator.SetBool("isDoubled", doubled);
         }
 
         public CardData GetCardData() => new CardData(suit, cardValue);
