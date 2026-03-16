@@ -7,6 +7,7 @@
     <list default="true" id="0256149a-2497-4659-b2d6-196da940d533" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Objects/CardNew.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Objects/CardNew.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Cards/SimpleCard.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Cards/SimpleCard.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,7 +148,7 @@
       <workItem from="1770904968986" duration="12964000" />
       <workItem from="1771096885370" duration="5275000" />
       <workItem from="1771358888888" duration="13011000" />
-      <workItem from="1773686176465" duration="1262000" />
+      <workItem from="1773686176465" duration="2657000" />
     </task>
     <servers />
   </component>

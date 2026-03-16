@@ -25,9 +25,6 @@ namespace CardGame.Cards
         [Header("Value Text")]
         [SerializeField] private TextMeshPro topValueText;
         [SerializeField] private TextMeshPro bottomValueText;
-        [SerializeField] private float valueFontSize = 3.5f;
-        [SerializeField] private Vector2 topValuePosition = new Vector2(-0.33f, 0.70f);
-        [SerializeField] private Vector2 bottomValuePosition = new Vector2(0.33f, -0.70f);
 
         [Header("References")]
         public SpriteRenderer cardRenderer;
@@ -55,7 +52,7 @@ namespace CardGame.Cards
             if (shadowTransform != null)
                 shadowRenderer = shadowTransform.GetComponent<SpriteRenderer>();
 
-            EnsureValueTexts();
+            ConfigureValueTextSorting();
         }
 
         public void SetCardData(CardData cardData)
@@ -107,42 +104,26 @@ namespace CardGame.Cards
         }
 
         /// <summary>
-        /// Creates TextMeshPro children for value display if not already assigned.
-        /// Top-left and bottom-right (rotated 180°) like a playing card.
+        /// Ensures TMP value text renderers are on the same sorting layer as the card,
+        /// one order above so they render on top. Needed for both prefab-wired and
+        /// programmatically created TMP objects.
         /// </summary>
-        private void EnsureValueTexts()
+        private void ConfigureValueTextSorting()
         {
-            if (topValueText == null)
-                topValueText = CreateValueText("TopValue", topValuePosition, 0f);
-
-            if (bottomValueText == null)
-                bottomValueText = CreateValueText("BottomValue", bottomValuePosition, 180f);
+            int textOrder = cardRenderer.sortingOrder + 1;
+            SetTmpSorting(topValueText, "Cards", textOrder);
+            SetTmpSorting(bottomValueText, "Cards", textOrder);
         }
 
-        private TextMeshPro CreateValueText(string objName, Vector2 localPos, float zRotation)
+        private static void SetTmpSorting(TextMeshPro tmp, string layerName, int order)
         {
-            GameObject textObj = new GameObject(objName);
-            textObj.transform.SetParent(transform, false);
-            textObj.transform.localPosition = new Vector3(localPos.x, localPos.y, -0.01f);
-            textObj.transform.localRotation = Quaternion.Euler(0, 0, zRotation);
-
-            TextMeshPro tmp = textObj.AddComponent<TextMeshPro>();
-            tmp.fontSize = valueFontSize;
-            tmp.color = Color.black;
-            tmp.alignment = TextAlignmentOptions.Center;
-            tmp.enableWordWrapping = false;
-            tmp.overflowMode = TextOverflowModes.Overflow;
-
-            // Match the card's sorting layer, one order above the card sprite
-            MeshRenderer meshRenderer = textObj.GetComponent<MeshRenderer>();
-            meshRenderer.sortingLayerName = "Cards";
-            meshRenderer.sortingOrder = cardRenderer.sortingOrder + 1;
-
-            // Small rect to contain a single digit
-            RectTransform rect = textObj.GetComponent<RectTransform>();
-            rect.sizeDelta = new Vector2(0.5f, 0.5f);
-
-            return tmp;
+            if (tmp == null) return;
+            MeshRenderer mr = tmp.GetComponent<MeshRenderer>();
+            if (mr != null)
+            {
+                mr.sortingLayerName = layerName;
+                mr.sortingOrder = order;
+            }
         }
 
         /// <summary>
