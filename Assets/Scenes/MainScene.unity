@@ -2437,7 +2437,6 @@ MonoBehaviour:
   skullsSprite: {fileID: 21300000, guid: d3534c1e8e9e4a54da1815d72d663edd, type: 3}
   coinsSprite: {fileID: 21300000, guid: 686f3fca1c730bf48bf972546a6d7ebe, type: 3}
   defaultSprite: {fileID: 5376229596825587429, guid: 372ce9aa148260f42a224399e886582e, type: 3}
-  baseRenderer: {fileID: 556738335}
   colorRenderer: {fileID: 78314454}
   maskAnimator: {fileID: 1877179714}
   flareAnimator: {fileID: 1672154191}
