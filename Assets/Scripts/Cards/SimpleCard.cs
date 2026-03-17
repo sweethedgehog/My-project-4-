@@ -147,40 +147,37 @@ namespace CardGame.Cards
             {
                 overlay.SetActive(false);
             }
-            SetDoubledValue(false);
         }
+
+        private const float OverlayLoopDuration = 1f;
 
         public void TurnOnGlow()
         {
             if (glowable)
             {
                 overlay.SetActive(true);
+                SyncGlowAnimations();
             }
-            SetDoubledValue(true);
         }
 
-        private bool isDoubled = false;
-
-        private void SetDoubledValue(bool doubled)
+        private void SyncGlowAnimations()
         {
-            if (isDoubled == doubled) return;
-            isDoubled = doubled;
+            float normalizedTime = Time.time % OverlayLoopDuration;
 
-            string valueStr = doubled ? (cardValue * 2).ToString() : cardValue.ToString();
-            if (topValueText != null) topValueText.text = valueStr;
-            if (bottomValueText != null) bottomValueText.text = valueStr;
+            Animator overlayAnimator = overlay.GetComponent<Animator>();
+            if (overlayAnimator != null)
+                overlayAnimator.Play("card_overlay_loop", 0, normalizedTime);
 
-            // Trigger animation on the text objects (Animator must be added in prefab)
-            PlayTextAnimation(topValueText, doubled);
-            PlayTextAnimation(bottomValueText, doubled);
+            SyncTextAnimation(topValueText, normalizedTime);
+            SyncTextAnimation(bottomValueText, normalizedTime);
         }
 
-        private static void PlayTextAnimation(TextMeshPro tmp, bool doubled)
+        private static void SyncTextAnimation(TextMeshPro tmp, float normalizedTime)
         {
             if (tmp == null) return;
             Animator animator = tmp.GetComponent<Animator>();
             if (animator != null)
-                animator.SetBool("isDoubled", doubled);
+                animator.Play("card_text_loop", 0, normalizedTime);
         }
 
         public CardData GetCardData() => new CardData(suit, cardValue);
