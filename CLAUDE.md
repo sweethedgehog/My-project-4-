@@ -254,6 +254,35 @@ Both scenes have:
 - PascalCased 14 methods: `setTexture`→`SetTexture`, `setVisibility`→`SetVisibility`, `clickOn`→`ClickOn`, `setHistoryVisibility`→`SetHistoryVisibility`, `changeSuccessSprites`→`ChangeSuccessSprites`, `setIndex`→`SetIndex`, `setFailerColor`→`SetFailColor`, `clearSelection`→`ClearSelection`, `select`→`Select`, `backToGame`→`BackToGame`, `makePostdiction`→`MakePostdiction`, `returnToMainMenu`→`ReturnToMainMenu`, `returnToGame`→`ReturnToGame`
 - PascalCased 8 button callbacks + updated 7 scene `m_MethodName` refs: `onPlayButtonClick`→`OnPlayButtonClick`, `onTutorialButtonClick`→`OnTutorialButtonClick`, `onRulesButtonClick`→`OnRulesButtonClick`, `onCreatorsButtonClick`→`OnCreatorsButtonClick`, `onMainMenuClick`→`OnMainMenuClick`, `onContinueClick`→`OnContinueClick`, `exit`→`Exit` (CreatorsManager + RulesManager)
 
+## Mirror Display System
+
+`MirrorDisplay` (`Assets/Scripts/UI/MirrorDisplay.cs`) shows the current dominant suit as a colored overlay on the mirror, with a SpriteMask-based reveal animation when the dominant suit changes.
+
+### Scene Hierarchy (under ScoreDisplay)
+```
+ScoreDisplay (CardScorer + MirrorDisplay components)
+  mirror_main        — SpriteRenderer, order 1, decorative frame (NOT managed by MirrorDisplay)
+  mirror_suit        — SpriteRenderer, order 2, VisibleInsideMask (colorRenderer — new color)
+  mirror_previous    — SpriteRenderer, order 2, VisibleOutsideMask (created at runtime — old color)
+  mirror_green_mask  — SpriteMask + Animator (Mirror_mask animation)
+  mirror_flare       — SpriteRenderer + Animator (Mirror_flare animation)
+```
+
+### How the Transition Works
+
+Uses complementary SpriteMask interactions at the **same sorting order**:
+- `colorRenderer` (mirror_suit): `VisibleInsideMask` — shows **new** suit where the mask has opened
+- `previousRenderer` (mirror_previous, runtime): `VisibleOutsideMask` — shows **old** suit where the mask hasn't reached
+
+Both at sorting order 2, above `mirror_main` (order 1, the static frame). The `Mirror_mask` animation expands the SpriteMask to reveal new over old.
+
+### Key Rules
+- `mirror_main` is the decorative frame — MirrorDisplay does not touch it
+- `previousRenderer` is created dynamically in `Awake()` as a sibling of `colorRenderer`
+- When `currentSuit` is null (start of round), `previousRenderer` shows `defaultSprite` (grey)
+- `ResetMirror()` is called from `CardScorer.SetGoal()` between rounds — disables both color layers, resets `currentSuit` to null
+- `SetSuit()` is called from `CardScorer.DisplayScore()` on every score update with the current dominant suit
+
 ## Localization Implementation
 
 ### Architecture (ESTABLISHED — do not change)

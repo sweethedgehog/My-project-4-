@@ -509,7 +509,7 @@ GameObject:
   - component: {fileID: 78314453}
   - component: {fileID: 78314454}
   m_Layer: 0
-  m_Name: mirror_green
+  m_Name: mirror_suit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2360,6 +2360,7 @@ GameObject:
   m_Component:
   - component: {fileID: 436903098}
   - component: {fileID: 436903099}
+  - component: {fileID: 436903100}
   m_Layer: 0
   m_Name: ScoreDisplay
   m_TagString: Untagged
@@ -2411,6 +2412,7 @@ MonoBehaviour:
   coinsScoreText: {fileID: 1615203948}
   dominantSuitText: {fileID: 0}
   crystal: {fileID: 1477387297}
+  mirror: {fileID: 436903100}
   showBreakdown: 1
   valueGoalCompleteSound: {fileID: 8300000, guid: 21d5c89fdf0b7194f91c37194c8e9960, type: 3}
   roseSuitCompleteSound: {fileID: 8300000, guid: ac11ed0744aadf04d90c4e263fe1b2c6, type: 3}
@@ -2418,6 +2420,27 @@ MonoBehaviour:
   skullSuitCompleteSound: {fileID: 8300000, guid: ac11ed0744aadf04d90c4e263fe1b2c6, type: 3}
   coinSuitCompleteSound: {fileID: 8300000, guid: ac11ed0744aadf04d90c4e263fe1b2c6, type: 3}
   dualGoalDelay: 0.5
+--- !u!114 &436903100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436903097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35c59e5ef08ecf34fa296c589d0296a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardGame.UI.MirrorDisplay
+  rosesSprite: {fileID: 21300000, guid: 57795df2a8849444abf20e03b1a0dc2d, type: 3}
+  crownsSprite: {fileID: 21300000, guid: d7bd93c8d8e887f4dade67cc418b31e0, type: 3}
+  skullsSprite: {fileID: 21300000, guid: d3534c1e8e9e4a54da1815d72d663edd, type: 3}
+  coinsSprite: {fileID: 21300000, guid: 686f3fca1c730bf48bf972546a6d7ebe, type: 3}
+  defaultSprite: {fileID: 5376229596825587429, guid: 372ce9aa148260f42a224399e886582e, type: 3}
+  baseRenderer: {fileID: 556738335}
+  colorRenderer: {fileID: 78314454}
+  maskAnimator: {fileID: 1877179714}
+  flareAnimator: {fileID: 1672154191}
 --- !u!1 &554735599
 GameObject:
   m_ObjectHideFlags: 0

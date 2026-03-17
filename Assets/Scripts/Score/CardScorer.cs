@@ -23,6 +23,7 @@ namespace CardGame.Scoring
         [SerializeField] private TextMeshPro coinsScoreText;
         [SerializeField] private TextMeshPro dominantSuitText;
         [SerializeField] private CrystalDisplay crystal;
+        [SerializeField] private MirrorDisplay mirror;
         
         [Header("Display Format")]
         [SerializeField] private bool showBreakdown = true;
@@ -53,6 +54,8 @@ namespace CardGame.Scoring
             // Reset goal completion flags when new goal is set
             valueGoalComplete = false;
             suitGoalComplete = false;
+
+            if (mirror != null) mirror.ResetMirror();
         }
 
         public void UpdateScore(Score score)
@@ -204,6 +207,7 @@ namespace CardGame.Scoring
             }
             
             if (crystal != null) crystal.SetTexture(score.GetDominantSuit());
+            if (mirror != null) mirror.SetSuit(score.GetDominantSuit());
         }
     }
 }
