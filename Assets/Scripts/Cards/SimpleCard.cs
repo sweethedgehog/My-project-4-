@@ -31,7 +31,18 @@ namespace CardGame.Cards
         public GameObject overlay;
 
         private bool glowable = false;
+        private bool glowActive = false;
         private SpriteRenderer shadowRenderer;
+        private SpriteRenderer overlayRenderer;
+        private GameObject overlayX2Text;
+
+        // Glow pulse parameters (match the original animation curves)
+        private const float GlowLoopDuration = 1f;
+        private const float OverlayPulseAmplitude = 0.015f;
+        private const float TextPulseAmplitude = 0.15f;
+
+        // Base scale of the overlay from the prefab
+        private Vector3 overlayBaseScale;
 
         void Awake()
         {
@@ -69,7 +80,20 @@ namespace CardGame.Cards
             if (overlayTransform != null)
             {
                 overlay = overlayTransform.gameObject;
+                overlayRenderer = overlay.GetComponent<SpriteRenderer>();
+                overlayBaseScale = overlay.transform.localScale;
+
+                Transform x2 = overlay.transform.Find("x2_text");
+                if (x2 != null) overlayX2Text = x2.gameObject;
+
+                // Disable the prefab Animator — scale is now driven by code
+                Animator overlayAnimator = overlay.GetComponent<Animator>();
+                if (overlayAnimator != null) overlayAnimator.enabled = false;
+
                 glowable = true;
+
+                // Keep overlay GameObject active (Animator-free), hide visuals
+                overlay.SetActive(true);
             }
             TurnOffGlow();
         }
@@ -143,41 +167,64 @@ namespace CardGame.Cards
 
         public void TurnOffGlow()
         {
-            if (glowable)
-            {
-                overlay.SetActive(false);
-            }
+            glowActive = false;
+            SetGlowVisible(false);
+            ResetGlowScales();
         }
-
-        private const float OverlayLoopDuration = 1f;
 
         public void TurnOnGlow()
         {
-            if (glowable)
+            glowActive = true;
+            SetGlowVisible(true);
+        }
+
+        private void SetGlowVisible(bool visible)
+        {
+            if (!glowable) return;
+
+            if (overlayRenderer != null)
+                overlayRenderer.enabled = visible;
+
+            if (overlayX2Text != null)
+                overlayX2Text.SetActive(visible);
+        }
+
+        private void ResetGlowScales()
+        {
+            if (overlay != null)
+                overlay.transform.localScale = overlayBaseScale;
+
+            if (topValueText != null)
+                topValueText.transform.localScale = Vector3.one;
+            if (bottomValueText != null)
+                bottomValueText.transform.localScale = Vector3.one;
+        }
+
+        void LateUpdate()
+        {
+            if (!glowActive) return;
+
+            // Sinusoidal pulse synced to global Time.time
+            float t = (Time.time % GlowLoopDuration) / GlowLoopDuration;
+            float pulse = Mathf.Sin(t * Mathf.PI * 2f) * 0.5f + 0.5f; // 0→1→0 over the cycle
+
+            // Overlay border scale
+            if (overlay != null)
             {
-                overlay.SetActive(true);
-                SyncGlowAnimations();
+                float overlayScale = 1f + OverlayPulseAmplitude * pulse;
+                overlay.transform.localScale = new Vector3(
+                    overlayBaseScale.x * overlayScale,
+                    overlayBaseScale.y * overlayScale,
+                    overlayBaseScale.z);
             }
-        }
 
-        private void SyncGlowAnimations()
-        {
-            float normalizedTime = Time.time % OverlayLoopDuration;
-
-            Animator overlayAnimator = overlay.GetComponent<Animator>();
-            if (overlayAnimator != null)
-                overlayAnimator.Play("card_overlay_loop", 0, normalizedTime);
-
-            SyncTextAnimation(topValueText, normalizedTime);
-            SyncTextAnimation(bottomValueText, normalizedTime);
-        }
-
-        private static void SyncTextAnimation(TextMeshPro tmp, float normalizedTime)
-        {
-            if (tmp == null) return;
-            Animator animator = tmp.GetComponent<Animator>();
-            if (animator != null)
-                animator.Play("card_text_loop", 0, normalizedTime);
+            // Text scale
+            float textScale = 1f + TextPulseAmplitude * pulse;
+            Vector3 ts = new Vector3(textScale, textScale, 1f);
+            if (topValueText != null)
+                topValueText.transform.localScale = ts;
+            if (bottomValueText != null)
+                bottomValueText.transform.localScale = ts;
         }
 
         public CardData GetCardData() => new CardData(suit, cardValue);
