@@ -241,6 +241,10 @@ MonoBehaviour:
     m_Localized: changes in Characters appearance
     m_Metadata:
       m_Items: []
+  - m_Id: 100000000043
+    m_Localized: read the spread
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

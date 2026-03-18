@@ -45,6 +45,12 @@ namespace CardGame.Scoring
         private bool suitGoalComplete = false;
         private bool isGoalSet = false;
 
+        /// <summary>
+        /// Fired when the value-goal completion state changes.
+        /// Parameter is true when value goal is met, false when lost.
+        /// </summary>
+        public event System.Action<bool> OnValueGoalChanged;
+
         public void SetGoal(Suits _goalSuit, int _goalValue)
         {
             goalSuit = _goalSuit;
@@ -64,16 +70,18 @@ namespace CardGame.Scoring
 
             int currentValue = score.GetFullScore();
             Suits? dominantSuit = score.GetDominantSuit();
-            
+
+            bool wasValueGoalComplete = valueGoalComplete;
+
             // Check if value goal is currently met (EXACT MATCH ONLY)
             bool valueGoalMet = currentValue == goalValue;
-            
+
             // Check if value goal was just completed
             bool valueJustCompleted = !valueGoalComplete && valueGoalMet;
-            
+
             // Check if suit goal was just completed (BUT ONLY IF VALUE IS ALSO MET)
             bool suitJustCompleted = !suitGoalComplete && dominantSuit == goalSuit && goalSuit != null && valueGoalMet;
-            
+
             // Handle sound playback based on what completed
             if (valueJustCompleted && suitJustCompleted)
             {
@@ -94,7 +102,7 @@ namespace CardGame.Scoring
                 PlaySuitGoalSound(goalSuit);
                 suitGoalComplete = true;
             }
-            
+
             // Reset flags if goals are no longer met
             if (!valueGoalMet)
             {
@@ -104,6 +112,12 @@ namespace CardGame.Scoring
             else if (dominantSuit != goalSuit)
             {
                 suitGoalComplete = false;
+            }
+
+            // Notify listeners when value goal completion state changes
+            if (valueGoalComplete != wasValueGoalComplete)
+            {
+                OnValueGoalChanged?.Invoke(valueGoalComplete);
             }
 
             DisplayScore(score);

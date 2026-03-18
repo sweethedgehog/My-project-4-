@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "pandoc": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-pandoc"]
+    }
+  }
+}

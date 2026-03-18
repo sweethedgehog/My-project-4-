@@ -6,6 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="0256149a-2497-4659-b2d6-196da940d533" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Localizations/SceneTables/EndingScenes_ru.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Localizations/SceneTables/EndingScenes_ru.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Localizations/SceneTables/MainScene Shared Data.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Localizations/SceneTables/MainScene Shared Data.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Localizations/SceneTables/MainScene_en.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Localizations/SceneTables/MainScene_en.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Localizations/SceneTables/MainScene_ru.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Localizations/SceneTables/MainScene_ru.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Localizations/SceneTables/PostdictionScene_ru.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Localizations/SceneTables/PostdictionScene_ru.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Localizations/SceneTables/TutorialScene_ru.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Localizations/SceneTables/TutorialScene_ru.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/EndingScenes/BadgerEndingScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/EndingScenes/BadgerEndingScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/TutorialScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TutorialScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/RoundTips.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/RoundTips.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameObjects/CardBoard.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameObjects/CardBoard.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/RoundManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/RoundManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Score/CardScorer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Score/CardScorer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tiles/HintsAndFailers.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tiles/HintsAndFailers.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +66,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Rules/RulesPanel.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scenes/MenuManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Score/CardScorer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Tiles/HintsAndFailers.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Tiles/HintsAndFailers.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/CardSound.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/RulesPanelSound.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/UISound.cs" root0="SKIP_HIGHLIGHTING" />
@@ -70,31 +83,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Attach to Unity Editor.Attach to Unity Editor.executor": "Debug",
-    "Attach to Unity Player.Unity.exe (AssetImportWorker0).executor": "Debug",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "XThreadsFramesViewSplitterKey": "0.26015472",
-    "git-widget-placeholder": "claude/5",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Attach to Unity Editor.Attach to Unity Editor.executor&quot;: &quot;Debug&quot;,
+    &quot;Attach to Unity Player.Unity.exe (AssetImportWorker0).executor&quot;: &quot;Debug&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.26015472&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;claude/5&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="17840">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="17840" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
-        <list />
+        <list>
+          <MonoRuntime />
+        </list>
       </option>
       <option name="selectedOptions">
         <list />
@@ -147,6 +162,7 @@
       <workItem from="1771096885370" duration="5275000" />
       <workItem from="1771358888888" duration="13011000" />
       <workItem from="1773686176465" duration="4722000" />
+      <workItem from="1773875407084" duration="744000" />
     </task>
     <servers />
   </component>

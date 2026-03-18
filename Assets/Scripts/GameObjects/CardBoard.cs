@@ -49,6 +49,8 @@ namespace CardGame.GameObjects
             }
         }
 
+        public CardScorer Scorer => scorer;
+
         public void SetGoal(Suits suit, int value)
         {
             scorer.SetGoal(suit, value);

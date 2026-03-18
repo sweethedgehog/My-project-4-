@@ -112,6 +112,10 @@ namespace CardGame.Managers
             if (rerollCardsButton != null)
                 rerollCardsButton.onClick.AddListener(RerollCards);
 
+            // Подписываемся на изменение состояния выполнения цели по значению
+            if (targetBoard != null && targetBoard.Scorer != null)
+                targetBoard.Scorer.OnValueGoalChanged += OnValueGoalChanged;
+
             ResetSuitGoalRestrictions();
 
             UpdateRoundDisplay();
@@ -206,6 +210,21 @@ namespace CardGame.Managers
 
         }
 
+        private void OnDestroy()
+        {
+            if (targetBoard != null && targetBoard.Scorer != null)
+                targetBoard.Scorer.OnValueGoalChanged -= OnValueGoalChanged;
+        }
+
+        private void OnValueGoalChanged(bool isValueGoalMet)
+        {
+            if (isReadyForPrediction || makePredictionText == null) return;
+
+            makePredictionText.text = isValueGoalMet
+                ? LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "end_round_button_goal_met")
+                : LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "end_round_button");
+        }
+
         public void RulesToggle()
         {
             if (rulesPanel == null) return;
@@ -243,6 +262,10 @@ namespace CardGame.Managers
             SetIsWaitingToDeal(false);
             if (AudioManager.Instance != null)
                 AudioManager.Instance.PlaySFX(cardsShuffle);
+
+            // Сбрасываем текст кнопки на дефолтный при старте раунда
+            if (makePredictionText != null)
+                makePredictionText.text = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "end_round_button");
 
             GenerateGoal();
             StartCoroutine(DealCardsToBoard());
