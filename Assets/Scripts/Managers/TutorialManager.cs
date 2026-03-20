@@ -340,6 +340,9 @@ namespace CardGame.Managers
             HideAllBubbles();
             HideAllHighlights();
 
+            // Activate scorer now (goal display was shown in Step 6, but scoring starts here)
+            ActivateScorer();
+
             // Goal display is already visible from Step 6
             ShowHighlight(highlight_CurrentScore);
             ShowBubble(bubble7_ExplainGoalNumber);
@@ -704,8 +707,13 @@ namespace CardGame.Managers
             {
                 ballImage.sprite = coinBallSprite;
             }
+        }
 
-            // Activate CardScorer + MirrorDisplay for the target board
+        /// <summary>
+        /// Activate CardScorer + MirrorDisplay for the target board (called separately from ShowGoalDisplay)
+        /// </summary>
+        private void ActivateScorer()
+        {
             targetBoard.SetGoal(tutorialGoalSuit, tutorialGoalValue);
         }
         

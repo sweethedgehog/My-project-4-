@@ -55,6 +55,7 @@ namespace CardGame.GameObjects
         public void SetGoal(Suits suit, int value)
         {
             scorer.SetGoal(suit, value);
+            UpdateScore();
         }
 
         void SetupBoardVisual()
