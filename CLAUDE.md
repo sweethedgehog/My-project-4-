@@ -61,6 +61,35 @@ DefaultNamespace.Tiles - Story tiles, hints, TileScript, TilesManager
 - 17-step progressive tutorial with individual card freezing
 - Step validation via coroutines
 - Spawns predefined cards for guided learning
+- Predefined cards (left→right in hand): Coin-3, Rose-1, Crown-2, Skull-1, Coin-1
+- Tutorial goal: suit=Coins, value=8
+
+**Tutorial Step Flow:**
+| Step | Method | What happens | Player action |
+|------|--------|-------------|---------------|
+| 1 | `Step1_Introduction` | Welcome bubble | Click to continue |
+| 2 | `Step2_PointToDeck` | Highlight deck | Click deck |
+| 3 | `Step3_DealCards` | Spawn 5 predefined cards to hand board | Click to continue |
+| 4 | `Step4_ExplainSpreadZone` | Highlight target board | Click to continue |
+| 5 | `Step5_PromptPlaceCard` | Unfreeze Coin-1 only, highlight it | Drag Coin-1 to target board |
+| 6 | `Step6_WaitForCardPlacement` | Wait for card on target, show goal display (text + ball), highlight crystal ball | Click to continue |
+| 7 | `Step7_ExplainGoalNumber` | **Activate scorer** (`SetGoal`), highlight score display | Click to continue |
+| 8 | `Step8_ExplainSuits` | Highlight card in spread, explain suits | Click to continue |
+| 9 | `Step9_PromptSpecificCard` | Unfreeze Coin-3 only | Drag Coin-3 to target board |
+| 10 | `Step10_ExplainMultiplier` | Wait for placement, explain multiplier glow | Click to continue |
+| 11 | `Step11_ReferToRules` | Highlight rules scroll, unlock rules panel | Open then close rules panel |
+| 12 | `Step12_ExplainDominantSuit` | Highlight crystal, explain dominant suit, unfreeze all cards | Click to continue |
+| 13 | `Step13_ExplainGoal` | Explain full goal (value + suit match) | Click to continue |
+| 14 | `Step14_WaitForCorrectSpread` | Show end turn button, wait for `IsSpreadCorrect()` | Arrange cards correctly, click end turn |
+| 15 | `Step15_ShowPicture` | Show picture display | Click to continue |
+| 16 | `Step16_ShowHint` | Show hint display | Click to continue |
+| 17 | `Step17_FinalAdvice` | Final bubble with navigation buttons | Click play/menu buttons |
+
+**Key design notes:**
+- Goal display (text + ball sprite) is shown in Step 6, but the **scorer is activated in Step 7** — this lets the player see the goal before live scoring begins
+- `CardBoard.SetGoal()` calls `UpdateScore()` immediately so the score display refreshes even when cards are already on the board
+- Cards are individually frozen/unfrozen via `FreezeAllCardsExcept()` to guide specific card placement
+- Bubble 13 persists into Step 14 (not hidden between steps) to keep the goal explanation visible while arranging
 
 ### Scene Flow
 ```

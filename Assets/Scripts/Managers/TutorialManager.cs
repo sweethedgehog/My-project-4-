@@ -84,8 +84,6 @@ namespace CardGame.Managers
         [Header("Audio")]
         [SerializeField] private AudioClip tutorialCompleteSound;
         [SerializeField] private AudioClip cardDrawSound;
-        [SerializeField] private AudioClip goalValueCompleteSound;
-        [SerializeField] private AudioClip goalSuitCompleteSound;
         [SerializeField] private float cardDrawDelay = 0.2f;
         
         private int currentStep = 0;
@@ -93,7 +91,6 @@ namespace CardGame.Managers
         private bool stepInProgress = false;
         private bool isRulesOpened = false;
         private float bubbleShowTime;
-        private bool goalSoundPlayed = false;
 
         public static bool inGameMenu = false;
 
@@ -484,9 +481,6 @@ namespace CardGame.Managers
                 yield return new WaitForSeconds(0.5f);
             }
 
-            // Play goal completion sounds
-            PlayGoalCompleteSounds();
-
             // Goal reached - now hide the goal bubble and freeze all cards
             HideBubble(bubble13_ExplainGoal);
             FreezeAllCards();
@@ -750,31 +744,6 @@ namespace CardGame.Managers
             if (cardDrawSound != null && AudioManager.Instance != null)
             {
                 AudioManager.Instance.PlaySFX(cardDrawSound);
-            }
-        }
-
-        private void PlayGoalCompleteSounds()
-        {
-            if (goalSoundPlayed) return;
-            goalSoundPlayed = true;
-
-            StartCoroutine(PlayGoalSoundsSequence());
-        }
-
-        private IEnumerator PlayGoalSoundsSequence()
-        {
-            // Play value complete sound
-            if (goalValueCompleteSound != null && AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlaySFX(goalValueCompleteSound);
-            }
-
-            yield return new WaitForSeconds(0.5f);
-
-            // Play suit complete sound
-            if (goalSuitCompleteSound != null && AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlaySFX(goalSuitCompleteSound);
             }
         }
 
