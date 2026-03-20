@@ -108,9 +108,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 100000000018
-    m_Localized: "Note that your spread can have a dominant suit \u2014 this will
-      help you get an additional hint. The dominant suit is determined by the total
-      of cards of different suits in the spread."
+    m_Localized: Pay attention to the color of the mirror. It indicates the dominant
+      suit in the spread. To get a hint, make the color of the mirror match the color
+      of the ball.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000019
@@ -165,7 +165,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 100000000029
-    m_Localized: fine
+    m_Localized: read the spread
     m_Metadata:
       m_Items: []
   - m_Id: 100000000030
