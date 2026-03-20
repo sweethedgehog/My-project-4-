@@ -238,10 +238,6 @@ namespace CardGame.Cards
                 cardRenderer.color = frozen ? new Color(0.5f, 0.5f, 0.5f, 1f) : Color.white;
             }
 
-            // Dim value text to match
-            Color textColor = frozen ? new Color(0.3f, 0.3f, 0.3f, 1f) : Color.black;
-            if (topValueText != null) topValueText.color = textColor;
-            if (bottomValueText != null) bottomValueText.color = textColor;
         }
 
         public bool IsIndividuallyFrozen() => individualFreeze;

@@ -9,6 +9,7 @@ using CardGame.GameObjects;
 using CardGame.Scoring;
 using CardGame.UI;
 using DefaultNamespace.Tiles;
+using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 
 namespace CardGame.Managers
@@ -62,6 +63,7 @@ namespace CardGame.Managers
         
         [Header("UI Elements")]
         [SerializeField] private Button endTurnButton;
+        [SerializeField] private TextMeshProUGUI endTurnButtonText;
         [SerializeField] private GameObject pictureDisplay;
         [SerializeField] private GameObject hintDisplay;
         [SerializeField] private RulesPanel rulesPanel;
@@ -75,7 +77,7 @@ namespace CardGame.Managers
         [SerializeField] private Sprite coinBallSprite;
 
         [Header("Tutorial Settings")]
-        [SerializeField] private int tutorialGoalValue = 5;
+        [SerializeField] private int tutorialGoalValue = 11;
         [SerializeField] private Suits tutorialGoalSuit = Suits.Coins;
         [SerializeField] private float bubbleSkipDelay = 0.5f;
         
@@ -124,10 +126,29 @@ namespace CardGame.Managers
             handBoard.SetFreeze(true);
             targetBoard.SetFreeze(true);
             
+            // Subscribe to goal value changes for dynamic button text
+            if (targetBoard != null && targetBoard.Scorer != null)
+                targetBoard.Scorer.OnValueGoalChanged += OnValueGoalChanged;
+
             // Start tutorial
             StartCoroutine(RunTutorial());
         }
         
+        private void OnDestroy()
+        {
+            if (targetBoard != null && targetBoard.Scorer != null)
+                targetBoard.Scorer.OnValueGoalChanged -= OnValueGoalChanged;
+        }
+
+        private void OnValueGoalChanged(bool isValueGoalMet)
+        {
+            if (endTurnButtonText == null) return;
+
+            endTurnButtonText.text = isValueGoalMet
+                ? LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "end_round_button_goal_met")
+                : LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "end_round_button");
+        }
+
         void Update()
         {
             // Block input while in game menu
@@ -683,6 +704,9 @@ namespace CardGame.Managers
             {
                 ballImage.sprite = coinBallSprite;
             }
+
+            // Activate CardScorer + MirrorDisplay for the target board
+            targetBoard.SetGoal(tutorialGoalSuit, tutorialGoalValue);
         }
         
         /// <summary>

@@ -4895,6 +4895,7 @@ MonoBehaviour:
   targetBoard: {fileID: 1897014650}
   scorer: {fileID: 0}
   endTurnButton: {fileID: 1187628346}
+  endTurnButtonText: {fileID: 0}
   pictureDisplay: {fileID: 936391631}
   hintDisplay: {fileID: 1259542633}
   rulesPanel: {fileID: 1715484306}
@@ -4904,7 +4905,7 @@ MonoBehaviour:
   goalSuitText: {fileID: 0}
   ballImage: {fileID: 105626192}
   coinBallSprite: {fileID: 21300000, guid: a3627142246dedf44b65e9051bba93ac, type: 3}
-  tutorialGoalValue: 16
+  tutorialGoalValue: 11
   tutorialGoalSuit: 1
   bubbleSkipDelay: 1
   tutorialCompleteSound: {fileID: 0}
