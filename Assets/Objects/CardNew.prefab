@@ -78,7 +78,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 3
   m_SortingLayer: 3
-  m_SortingOrder: 2
+  m_SortingOrder: -2
   m_Sprite: {fileID: -8768589767460613871, guid: e5e912dc4b67bcb46989db26835681f6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0.78431374}
   m_FlipX: 0
@@ -576,6 +576,7 @@ GameObject:
   - component: {fileID: 277713664788608693}
   - component: {fileID: 2817381396480771465}
   - component: {fileID: 2311298964352315904}
+  - component: {fileID: 1027554141667293368}
   m_Layer: 0
   m_Name: CardNew
   m_TagString: Untagged
@@ -682,6 +683,9 @@ MonoBehaviour:
   bottomValueText: {fileID: 3290227677681786460}
   cardRenderer: {fileID: 3534586443680530740}
   overlay: {fileID: 0}
+  glowLoopDuration: 1
+  overlayPulseAmplitude: 0.015
+  x2TextPulseAmplitude: 0.15
 --- !u!114 &277713664788608693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -761,6 +765,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1.8}
   m_EdgeRadius: 0
+--- !u!210 &1027554141667293368
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5889644064418851523}
+  m_Enabled: 1
+  m_SortingLayerID: 3
+  m_SortingLayer: 3
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &7390869577631371117
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 using CardGame.Core;
 using CardGame.Managers;
 using CardGame.GameObjects;
@@ -35,11 +36,12 @@ namespace CardGame.Cards
         private SpriteRenderer shadowRenderer;
         private SpriteRenderer overlayRenderer;
         private GameObject overlayX2Text;
+        private SortingGroup sortingGroup;
 
-        // Glow pulse parameters (match the original animation curves)
-        private const float GlowLoopDuration = 1f;
-        private const float OverlayPulseAmplitude = 0.015f;
-        private const float TextPulseAmplitude = 0.15f;
+        [Header("Glow Pulse")]
+        [SerializeField] private float glowLoopDuration = 1f;
+        [SerializeField] private float overlayPulseAmplitude = 0.015f;
+        [SerializeField] private float x2TextPulseAmplitude = 0.15f;
 
         // Base scale of the overlay from the prefab
         private Vector3 overlayBaseScale;
@@ -55,15 +57,17 @@ namespace CardGame.Cards
                 Debug.LogWarning($"SimpleCard '{name}': SpriteRenderer was missing, added one. Add SpriteRenderer to prefab to fix this.");
             }
 
-            cardRenderer.sortingLayerName = "Cards";
-            cardRenderer.sortingOrder = 0;
+            // SortingGroup makes all child renderers sort as one unit
+            sortingGroup = GetComponent<SortingGroup>();
+            if (sortingGroup == null)
+                sortingGroup = gameObject.AddComponent<SortingGroup>();
+            sortingGroup.sortingLayerName = "Cards";
+            sortingGroup.sortingOrder = 0;
 
             // Cache shadow renderer for visual updates
             Transform shadowTransform = transform.Find("Shadow");
             if (shadowTransform != null)
                 shadowRenderer = shadowTransform.GetComponent<SpriteRenderer>();
-
-            ConfigureValueTextSorting();
         }
 
         public void SetCardData(CardData cardData)
@@ -86,13 +90,9 @@ namespace CardGame.Cards
                 Transform x2 = overlay.transform.Find("x2_text");
                 if (x2 != null) overlayX2Text = x2.gameObject;
 
-                // Disable the prefab Animator — scale is now driven by code
-                Animator overlayAnimator = overlay.GetComponent<Animator>();
-                if (overlayAnimator != null) overlayAnimator.enabled = false;
-
                 glowable = true;
 
-                // Keep overlay GameObject active (Animator-free), hide visuals
+                // Keep overlay GameObject active, hide visuals
                 overlay.SetActive(true);
             }
             TurnOffGlow();
@@ -128,41 +128,17 @@ namespace CardGame.Cards
         }
 
         /// <summary>
-        /// Ensures TMP value text renderers are on the same sorting layer as the card,
-        /// one order above so they render on top. Needed for both prefab-wired and
-        /// programmatically created TMP objects.
-        /// </summary>
-        private void ConfigureValueTextSorting()
-        {
-            int textOrder = cardRenderer.sortingOrder + 1;
-            SetTmpSorting(topValueText, "Cards", textOrder);
-            SetTmpSorting(bottomValueText, "Cards", textOrder);
-        }
-
-        private static void SetTmpSorting(TextMeshPro tmp, string layerName, int order)
-        {
-            if (tmp == null) return;
-            MeshRenderer mr = tmp.GetComponent<MeshRenderer>();
-            if (mr != null)
-            {
-                mr.sortingLayerName = layerName;
-                mr.sortingOrder = order;
-            }
-        }
-
-        /// <summary>
-        /// Sets sorting order for all card visuals (sprite + value text).
-        /// Called by SimpleDraggableWithBoard during drag.
+        /// Sets sorting order for the entire card (SortingGroup sorts all children as one unit).
         /// </summary>
         public void SetSortingOrder(int order)
         {
-            cardRenderer.sortingOrder = order;
+            if (sortingGroup != null)
+                sortingGroup.sortingOrder = order;
+        }
 
-            int textOrder = order + 1;
-            if (topValueText != null)
-                topValueText.GetComponent<MeshRenderer>().sortingOrder = textOrder;
-            if (bottomValueText != null)
-                bottomValueText.GetComponent<MeshRenderer>().sortingOrder = textOrder;
+        public int GetSortingOrder()
+        {
+            return sortingGroup != null ? sortingGroup.sortingOrder : 0;
         }
 
         public void TurnOffGlow()
@@ -193,11 +169,8 @@ namespace CardGame.Cards
         {
             if (overlay != null)
                 overlay.transform.localScale = overlayBaseScale;
-
-            if (topValueText != null)
-                topValueText.transform.localScale = Vector3.one;
-            if (bottomValueText != null)
-                bottomValueText.transform.localScale = Vector3.one;
+            if (overlayX2Text != null)
+                overlayX2Text.transform.localScale = Vector3.one;
         }
 
         void LateUpdate()
@@ -205,26 +178,25 @@ namespace CardGame.Cards
             if (!glowActive) return;
 
             // Sinusoidal pulse synced to global Time.time
-            float t = (Time.time % GlowLoopDuration) / GlowLoopDuration;
+            float t = (Time.time % glowLoopDuration) / glowLoopDuration;
             float pulse = Mathf.Sin(t * Mathf.PI * 2f) * 0.5f + 0.5f; // 0→1→0 over the cycle
 
             // Overlay border scale
             if (overlay != null)
             {
-                float overlayScale = 1f + OverlayPulseAmplitude * pulse;
+                float overlayScale = 1f + overlayPulseAmplitude * pulse;
                 overlay.transform.localScale = new Vector3(
                     overlayBaseScale.x * overlayScale,
                     overlayBaseScale.y * overlayScale,
                     overlayBaseScale.z);
-            }
 
-            // Text scale
-            float textScale = 1f + TextPulseAmplitude * pulse;
-            Vector3 ts = new Vector3(textScale, textScale, 1f);
-            if (topValueText != null)
-                topValueText.transform.localScale = ts;
-            if (bottomValueText != null)
-                bottomValueText.transform.localScale = ts;
+                // x2 text: own pulse at bigger amplitude, compensate for parent scale
+                if (overlayX2Text != null)
+                {
+                    float x2Scale = (1f + x2TextPulseAmplitude * pulse) / overlayScale;
+                    overlayX2Text.transform.localScale = new Vector3(x2Scale, x2Scale, 1f);
+                }
+            }
         }
 
         public CardData GetCardData() => new CardData(suit, cardValue);

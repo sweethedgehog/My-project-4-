@@ -18,7 +18,6 @@ namespace CardGame.GameObjects
         private bool isDragging = false;
         private Vector3 offset;
         private Camera mainCamera;
-        private SpriteRenderer spriteRenderer;
         private int originalSortingOrder;
         private CardBoard[] cachedBoards;
         private Vector3 originalScale;
@@ -36,7 +35,6 @@ namespace CardGame.GameObjects
         void Awake()
         {
             simpleCard = GetComponent<SimpleCard>();
-            spriteRenderer = GetComponent<SpriteRenderer>();
             cachedBoards = FindObjectsOfType<CardBoard>();
             originalScale = transform.localScale;
         }
@@ -68,17 +66,9 @@ namespace CardGame.GameObjects
             // Reparent to scene root for free dragging
             transform.SetParent(null);
 
-            // Raise sorting order so dragged card is on top (sprite + value text)
-            originalSortingOrder = spriteRenderer.sortingOrder;
+            // Raise sorting order so dragged card renders on top of everything
+            originalSortingOrder = simpleCard.GetSortingOrder();
             simpleCard.SetSortingOrder(dragSortingOrder);
-
-            // Also raise overlay child
-            Transform overlayTransform = transform.Find("Overlay");
-            if (overlayTransform != null)
-            {
-                SpriteRenderer osr = overlayTransform.GetComponent<SpriteRenderer>();
-                if (osr != null) osr.sortingOrder = dragSortingOrder - 1;
-            }
 
             // Disable collider so it doesn't block board detection
             BoxCollider2D col = GetComponent<BoxCollider2D>();
@@ -110,14 +100,8 @@ namespace CardGame.GameObjects
             if (!isDragging) return;
             isDragging = false;
 
-            // Restore sorting order (sprite + value text)
+            // Restore sorting order (sprite, value text, overlay, x2)
             simpleCard.SetSortingOrder(originalSortingOrder);
-            Transform overlayTransform = transform.Find("Overlay");
-            if (overlayTransform != null)
-            {
-                SpriteRenderer osr = overlayTransform.GetComponent<SpriteRenderer>();
-                if (osr != null) osr.sortingOrder = originalSortingOrder - 1;
-            }
 
             // Re-enable collider
             BoxCollider2D col = GetComponent<BoxCollider2D>();

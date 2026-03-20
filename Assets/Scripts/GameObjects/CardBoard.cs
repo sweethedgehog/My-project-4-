@@ -38,6 +38,7 @@ namespace CardGame.GameObjects
         private ReadOnlyCollection<SimpleCard> cardsReadOnly;
         [SerializeField] private CardScorer scorer;
         [SerializeField] private bool neverGlow;
+        private SimpleCard lastAddedCard;
 
         void Awake()
         {
@@ -215,6 +216,7 @@ namespace CardGame.GameObjects
             }
 
             card.transform.SetParent(transform);
+            lastAddedCard = card;
 
             SetCardInteractable(card, !freeze);
 
@@ -263,10 +265,13 @@ namespace CardGame.GameObjects
         /// </summary>
         private void RebaseAllCards()
         {
+            int topOrder = cards.Count;
             for (int i = 0; i < cards.Count; i++)
             {
                 Vector2 targetPos = new Vector2(GetCardXPosition(i), yPosition);
                 SetCardTargetPosition(cards[i], targetPos);
+                // Last placed card always renders on top
+                cards[i].SetSortingOrder(cards[i] == lastAddedCard ? topOrder : i);
             }
 
             UpdateScore();

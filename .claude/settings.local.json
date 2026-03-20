@@ -5,7 +5,8 @@
       "Bash(cd:*)",
       "Bash(echo:*)",
       "Bash(grep:*)",
-      "Bash(python generate_changes_pdf.py)"
+      "Bash(python generate_changes_pdf.py)",
+      "WebSearch"
     ]
   },
   "outputStyle": "Explanatory"
