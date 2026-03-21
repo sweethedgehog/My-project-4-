@@ -49,6 +49,13 @@ MonoBehaviour:
     - Locale-en
     - Preload
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9
+    m_Address: MainScene_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7
     m_Address: PostdictionScene_en
     m_ReadOnly: 1
