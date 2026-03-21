@@ -99,12 +99,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 100000000017
-    m_Localized: 'Make the correct spread and the true picture of the past will be
-      revealed to you. Fulfill the condition of the crystal ball.
-
-
-      This first
-      time I will help you.'
+    m_Localized: "Make the correct spread and the true picture of the past will be
+      revealed to you. Keep in mind that you don\u2019t always need to play all the
+      cards in your hand.\n\nThis first time I will help you."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000018
@@ -143,7 +140,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 100000000025
-    m_Localized: crystal shows your dominant suit
+    m_Localized: the color of the mirror shows your dominant suit
     m_Metadata:
       m_Items: []
   - m_Id: 100000000026

@@ -4676,7 +4676,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11, y: -96}
+  m_AnchoredPosition: {x: -11, y: -106}
   m_SizeDelta: {x: 419, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &612042343
@@ -4910,8 +4910,6 @@ MonoBehaviour:
   bubbleSkipDelay: 1
   tutorialCompleteSound: {fileID: 0}
   cardDrawSound: {fileID: 8300000, guid: 9fd50fdf7c7242d48916ca521003a8ea, type: 3}
-  goalValueCompleteSound: {fileID: 8300000, guid: 21d5c89fdf0b7194f91c37194c8e9960, type: 3}
-  goalSuitCompleteSound: {fileID: 8300000, guid: ac11ed0744aadf04d90c4e263fe1b2c6, type: 3}
   cardDrawDelay: 0.2
 --- !u!1 &685826639
 GameObject:
@@ -11535,7 +11533,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.475}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9, y: 13}
+  m_AnchoredPosition: {x: 9, y: 32}
   m_SizeDelta: {x: 555.5911, y: 235.913}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1577402070
@@ -12146,8 +12144,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 312, y: 159}
-  m_SizeDelta: {x: 620, y: 336.92}
+  m_AnchoredPosition: {x: 300, y: 200}
+  m_SizeDelta: {x: 620, y: 377.46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1679038251
 MonoBehaviour:

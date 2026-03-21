@@ -56,7 +56,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 100000000008
-    m_Localized: crystal shows your dominant suit
+    m_Localized: the color of the mirror shows your dominant suit
     m_Metadata:
       m_Items: []
   - m_Id: 100000000009
