@@ -386,13 +386,13 @@ namespace CardGame.Managers
         private IEnumerator Step10_ExplainMultiplier()
         {
             currentStep = 10;
-            FreezeAllCards();
-            // Wait for player to place the coin card
+            // Wait for player to place the coin card on the target board
             int initialCount = targetBoard.CardCount;
             while (targetBoard.CardCount <= initialCount)
             {
                 yield return null;
             }
+            FreezeAllCards();
 
             // Small delay to let glow effect show
             yield return new WaitForSeconds(0.5f);
