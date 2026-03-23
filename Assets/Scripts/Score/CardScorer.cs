@@ -24,6 +24,7 @@ namespace CardGame.Scoring
         [SerializeField] private TextMeshPro dominantSuitText;
         [SerializeField] private CrystalDisplay crystal;
         [SerializeField] private MirrorDisplay mirror;
+        [SerializeField] private BallParticleController ballParticle;
         
         [Header("Display Format")]
         [SerializeField] private bool showBreakdown = true;
@@ -62,6 +63,11 @@ namespace CardGame.Scoring
             suitGoalComplete = false;
 
             if (mirror != null) mirror.ResetMirror();
+            if (ballParticle != null)
+            {
+                ballParticle.SetSuitColor(_goalSuit);
+                ballParticle.SetGoalComplete(false);
+            }
         }
 
         public void UpdateScore(Score score)
@@ -222,6 +228,7 @@ namespace CardGame.Scoring
             
             if (crystal != null) crystal.SetTexture(score.GetDominantSuit());
             if (mirror != null) mirror.SetSuit(score.GetDominantSuit());
+            if (ballParticle != null) ballParticle.SetGoalComplete(valueGoalComplete && suitGoalComplete);
         }
     }
 }

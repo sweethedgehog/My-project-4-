@@ -130,8 +130,9 @@ GameObject:
   - component: {fileID: 5110273}
   - component: {fileID: 5110275}
   - component: {fileID: 5110274}
+  - component: {fileID: 5110276}
   m_Layer: 0
-  m_Name: Ball_partical
+  m_Name: BallPartical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,11 +147,11 @@ Transform:
   m_GameObject: {fileID: 5110272}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.02, y: -0.03, z: 0}
+  m_LocalPosition: {x: -0.008999981, y: 0.201, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2024086397}
+  m_Father: {fileID: 650745554}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!73398921 &5110274
 VFXRenderer:
@@ -242,6 +243,24 @@ VisualEffect:
       m_Array: []
     m_Bool:
       m_Array: []
+--- !u!114 &5110276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5110272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5467349cb503bfa45847a96f0093ba69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardGame.UI.BallParticleController
+  coinsColor: {r: 0, g: 1, b: 0, a: 1}
+  crownsColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  skullsColor: {r: 0, g: 0, b: 1, a: 1}
+  rosesColor: {r: 1, g: 0, b: 0, a: 1}
+  passedRate: 50
+  unpassedRate: 5
 --- !u!1 &19158673
 GameObject:
   m_ObjectHideFlags: 0
@@ -2413,6 +2432,7 @@ MonoBehaviour:
   dominantSuitText: {fileID: 0}
   crystal: {fileID: 1477387297}
   mirror: {fileID: 436903100}
+  ballParticle: {fileID: 5110276}
   showBreakdown: 1
   valueGoalCompleteSound: {fileID: 8300000, guid: 21d5c89fdf0b7194f91c37194c8e9960, type: 3}
   roseSuitCompleteSound: {fileID: 8300000, guid: ac11ed0744aadf04d90c4e263fe1b2c6, type: 3}
@@ -3210,7 +3230,8 @@ Transform:
   m_LocalPosition: {x: -0.011, y: -0.231, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5110273}
   m_Father: {fileID: 2024086397}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &650745557
@@ -8888,7 +8909,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 650745554}
-  - {fileID: 5110273}
   - {fileID: 1984961630}
   m_Father: {fileID: 1386615786}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
