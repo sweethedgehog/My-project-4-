@@ -13,6 +13,9 @@ namespace CardGame.Managers
         private void Start()
         {
             ApplyCustomCursor();
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayMenuMusic();
         }
     
         private void ApplyCustomCursor()

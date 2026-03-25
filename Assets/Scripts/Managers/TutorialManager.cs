@@ -111,7 +111,7 @@ namespace CardGame.Managers
             // Start music through AudioManager
             if (AudioManager.Instance != null)
             {
-                AudioManager.Instance.PlayMenuMusic();
+                AudioManager.Instance.PlayTutorialMusic();
             }
 
             // Hide all UI elements initially

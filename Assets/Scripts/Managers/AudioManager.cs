@@ -14,6 +14,7 @@ namespace CardGame.Managers
 
         [Header("Music Clips")]
         [SerializeField] private AudioClip menuMusic;
+        [SerializeField] private AudioClip tutorialMusic;
         [SerializeField] private AudioClip gameplayMusic;
         [SerializeField] private AudioClip victoryMusic;
 
@@ -56,6 +57,7 @@ namespace CardGame.Managers
         }
 
         public void PlayMenuMusic() => PlayMusic(menuMusic);
+        public void PlayTutorialMusic() => PlayMusic(tutorialMusic);
         public void PlayGameplayMusic() => PlayMusic(gameplayMusic);
         public void PlayVictoryMusic() => PlayMusic(victoryMusic);
         public void StopMusic() => musicSource.Stop();

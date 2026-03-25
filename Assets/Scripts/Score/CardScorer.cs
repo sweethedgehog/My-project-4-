@@ -1,8 +1,5 @@
 using UnityEngine;
 using UnityEngine.Localization.Settings;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
 using CardGame.Core;
 using CardGame.Cards;
 using CardGame.GameObjects;
@@ -36,8 +33,6 @@ namespace CardGame.Scoring
         [SerializeField] private AudioClip skullSuitCompleteSound;
         [SerializeField] private AudioClip coinSuitCompleteSound;
         
-        [Header("Sound Settings")]
-        [SerializeField] private float dualGoalDelay = 0.5f;
 
         private Suits goalSuit;
         private int goalValue;
@@ -91,8 +86,8 @@ namespace CardGame.Scoring
             // Handle sound playback based on what completed
             if (valueJustCompleted && suitJustCompleted)
             {
-                // Both goals completed at the same time - play with delay
-                StartCoroutine(PlayBothGoalSounds());
+                // Both goals completed at the same time - suit sound takes priority
+                PlaySuitGoalSound(goalSuit);
                 valueGoalComplete = true;
                 suitGoalComplete = true;
             }
@@ -173,20 +168,6 @@ namespace CardGame.Scoring
             }
         }
         
-        /// <summary>
-        /// Play both goal completion sounds with a delay
-        /// </summary>
-        private IEnumerator PlayBothGoalSounds()
-        {
-            // Play value goal sound first
-            PlayValueGoalSound();
-            
-            // Wait for delay
-            yield return new WaitForSeconds(dualGoalDelay);
-            
-            // Play suit goal sound
-            PlaySuitGoalSound(goalSuit);
-        }
 
         private void DisplayScore(Score score)
         {

@@ -7,6 +7,7 @@ namespace CardGame.Managers
         void PlaySFX(AudioClip clip);
         void PlayMusic(AudioClip clip);
         void PlayMenuMusic();
+        void PlayTutorialMusic();
         void PlayGameplayMusic();
         void PlayVictoryMusic();
         void StopMusic();
