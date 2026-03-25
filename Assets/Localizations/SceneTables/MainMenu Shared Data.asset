@@ -27,6 +27,14 @@ MonoBehaviour:
     m_Key: exit_game_button
     m_Metadata:
       m_Items: []
+  - m_Id: 13042768600604672
+    m_Key: settings_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13042859684110336
+    m_Key: authors_button
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

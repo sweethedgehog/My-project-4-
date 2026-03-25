@@ -5116,6 +5116,7 @@ MonoBehaviour:
   dominantSuitText: {fileID: 0}
   crystal: {fileID: 1179959038}
   mirror: {fileID: 698065417}
+  ballParticle: {fileID: 0}
   showBreakdown: 1
   valueGoalCompleteSound: {fileID: 8300000, guid: 21d5c89fdf0b7194f91c37194c8e9960, type: 3}
   roseSuitCompleteSound: {fileID: 8300000, guid: ac11ed0744aadf04d90c4e263fe1b2c6, type: 3}
@@ -11332,7 +11333,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1575251012}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11341,8 +11342,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0102, y: -0.0451}
-  m_SizeDelta: {x: 24.0059, y: 23.4275}
+  m_AnchoredPosition: {x: -0.0072, y: -0.0392}
+  m_SizeDelta: {x: 28.138, y: 23.6637}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!210 &1575251014
 SortingGroup:
