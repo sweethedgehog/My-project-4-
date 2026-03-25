@@ -2434,11 +2434,11 @@ MonoBehaviour:
   mirror: {fileID: 436903100}
   ballParticle: {fileID: 5110276}
   showBreakdown: 1
-  valueGoalCompleteSound: {fileID: 8300000, guid: 21d5c89fdf0b7194f91c37194c8e9960, type: 3}
-  roseSuitCompleteSound: {fileID: 8300000, guid: ac11ed0744aadf04d90c4e263fe1b2c6, type: 3}
-  crownSuitCompleteSound: {fileID: 8300000, guid: ac11ed0744aadf04d90c4e263fe1b2c6, type: 3}
-  skullSuitCompleteSound: {fileID: 8300000, guid: ac11ed0744aadf04d90c4e263fe1b2c6, type: 3}
-  coinSuitCompleteSound: {fileID: 8300000, guid: ac11ed0744aadf04d90c4e263fe1b2c6, type: 3}
+  valueGoalCompleteSound: {fileID: 8300000, guid: 35966c276b54c71439f7db3173b987c0, type: 3}
+  roseSuitCompleteSound: {fileID: 8300000, guid: 5ff10ed03e532ce4fbc3e781ff3b6769, type: 3}
+  crownSuitCompleteSound: {fileID: 8300000, guid: 5ff10ed03e532ce4fbc3e781ff3b6769, type: 3}
+  skullSuitCompleteSound: {fileID: 8300000, guid: 5ff10ed03e532ce4fbc3e781ff3b6769, type: 3}
+  coinSuitCompleteSound: {fileID: 8300000, guid: 5ff10ed03e532ce4fbc3e781ff3b6769, type: 3}
   dualGoalDelay: 0.5
 --- !u!114 &436903100
 MonoBehaviour:
@@ -6220,8 +6220,8 @@ MonoBehaviour:
   - {fileID: -2256143041605606172, guid: 83d999a72f2343d4dad2a5b848afd3a0, type: 3}
   failerText: {fileID: 1045997825}
   successText: {fileID: 228302365}
-  audioClipFail: {fileID: 8300000, guid: a31b448df0df6834baed2047618dae7a, type: 3}
-  audioClipSuccess: {fileID: 8300000, guid: 3621c490b5cfe644ea8983c7a4f3bd8c, type: 3}
+  audioClipFail: {fileID: 8300000, guid: cbfe6568731376745a595bc0550478c2, type: 3}
+  audioClipSuccess: {fileID: 8300000, guid: 8725786a237a8374186327a7f53985e6, type: 3}
   audioClipFullSuccess: {fileID: 8300000, guid: 7a14175337faf0342b5a97edbb854b7c, type: 3}
   isActive: 1
   succesTextColor: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
