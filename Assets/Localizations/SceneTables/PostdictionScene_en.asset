@@ -23,7 +23,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 100000000002
-    m_Localized: Who killed Fox Murly?
+    m_Localized: Who killed Foxicia Purrley?
     m_Metadata:
       m_Items: []
   - m_Id: 100000000003
@@ -31,7 +31,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 8336485028962304
-    m_Localized: not sure yet
+    m_Localized: let me think
     m_Metadata:
       m_Items: []
   references:

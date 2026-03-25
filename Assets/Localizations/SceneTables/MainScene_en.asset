@@ -19,11 +19,11 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 100000000001
-    m_Localized: fine
+    m_Localized: let it be
     m_Metadata:
       m_Items: []
   - m_Id: 100000000002
-    m_Localized: rules
+    m_Localized: the rules
     m_Metadata:
       m_Items: []
   - m_Id: 100000000003
@@ -31,44 +31,39 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 100000000004
-    m_Localized: "Rose Suit:\n\u0441ards double if they lie between any two cards
-      (including cards of their own suit)"
+    m_Localized: 'Suit: Roses
+
+      Cards double when placed between any two cards,
+      even of the same suit.'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000005
-    m_Localized: 'Skull Suit:
-
-      Cards at the edges of the spread double their
-      value'
+    m_Localized: 'Suit: Skulls Cards at the edges of the spread double their value'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000006
-    m_Localized: 'Coin Suit:
-
-      If a coin card is next to another coin, its value
-      doubles'
+    m_Localized: 'Suit: Coins A card doubles its value if it is next to another coin
+      card'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000007
-    m_Localized: 'Crown Suit:
-
-      Cards double if not next to other crowns'
+    m_Localized: 'Suit: Crowns Cards double if they are not next to other crowns'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000008
-    m_Localized: the color of the mirror shows your dominant suit
+    m_Localized: 'Mirror color: shows your dominant suit.'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000009
-    m_Localized: the color of the ball shows the suit required for this round
+    m_Localized: 'Crystal Ball Color: shows the suit required for this round.'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000010
-    m_Localized: you can track your score here
+    m_Localized: Track your score here
     m_Metadata:
       m_Items: []
   - m_Id: 100000000011
-    m_Localized: you can see the number needed to win each round here
+    m_Localized: Check the number needed to win each round
     m_Metadata:
       m_Items: []
   - m_Id: 100000000012
@@ -116,62 +111,64 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 100000000023
-    m_Localized: "Madame Quacking!\nI scarce know how to express my deep obligation
-      for receiving me. As a gentleman of rational mind, I clung until this very
-      hour to the hope that I might avoid\u2026 these occult superfluities. Pray,
-      madam, look into the past and tell me\u2014who was the villain that murdered
-      my wife?"
+    m_Localized: "Madame Quacking!\nI cannot express in words how grateful I am\nfor
+      your reception. As a man of science, I had hoped until the last\nthat I could
+      manage without\u2026 esoteric indulgences, yet the police are powerless.\nI
+      beg you, madame, look into the past\nand tell me who killed\nmy wife!"
     m_Metadata:
       m_Items: []
   - m_Id: 100000000024
-    m_Localized: "It was a gloomy, overcast evening. Mrs. Foxington and I set forth
-      in the carriage towards the estate of Sir Oswald Blackmore \u2014 the wealthiest
-      badger in all the kingdom. He was hosting a charitable supper, at which Miss
-      Foxington was to perform."
+    m_Localized: "It was a gloomy evening.\nFoxicia and I set forth by carriage\nfor
+      the estate of Sir Oswald Blackmore \u2014 the wealthiest badger in the kingdom.\nHe
+      was hosting a charity dinner, at which Foxicia was to perform."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000025
-    m_Localized: 'The reception was splendid, with a great many guests.
+    m_Localized: 'The reception was splendid, and the guests numerous.
 
       Yet
-      in the first part of the evening, Miss Foxington and I were parted. As the
-      celebrated pianist, she was much approached by admirers.
+      Foxicia and I spent the first part of the evening apart.
 
-      I, meanwhile,
-      met Lady Bella Nottingham, and we became quite absorbed in reminiscences.'
+      Many approached
+      her, as one would a celebrated pianist.
+
+      I, meanwhile, encountered Lady
+      Bella Nottingham,
+
+      and we lost ourselves in memories.'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000026
-    m_Localized: 'When the guests had wearied of talk, Sir Oswald Blackmore rose
-      and gave a short, rather empty speech on the virtues of patronage.
-
-      Then
-      Miss Foxington took the floor: a stately polonaise and several familiar nocturnes
-      followed; the company applauded warmly.'
+    m_Localized: "Once the guests had grown tired of conversation,\nSir Blackmore
+      gave a brief, rather empty speech on the virtues of patrons.\nThen it was Foxicia\u2019s
+      turn: a stately polonaise,\nfollowed by a couple of her usual nocturnes \u2014
+      the audience applauded."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000027
-    m_Localized: 'Miss Foxington was soon surrounded by an admiring circle of guests,
-      while I gave myself over to a growing ennui.
+    m_Localized: 'Foxicia was surrounded by guests while I succumbed to boredom.
 
-      I daresay I had indulged
-      rather too freely in the wine, for I failed altogether to mark the moment when
-      she slipped away.'
+      I
+      had likely overindulged in drink and failed to notice when she slipped away.'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000028
-    m_Localized: I know not how much time had passed, but presently Sir Oswald Blackmore
-      proposed that we stroll into the winter garden and smoke a cigar apiece. My
-      head was ringing from the wine I had taken, yet Blackmore spoke readily and
-      required no reply from me.
+    m_Localized: 'I do not know how much time had passed,
+
+      but at some point,
+      Sir Blackmore suggested a walk in the winter garden and a cigar.
+
+      My
+      head throbbed from the drink I had taken.
+
+      Fortunately, Blackmore spoke
+      freely and demanded no reply.'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000029
-    m_Localized: 'This horror is beyond words! The drunken fog vanished the instant
-      I saw her lying on the wet ground. Her gown was soiled, her fur matted, her
-      eyes fixed and lifeless.
-
-      How - how am I to live with this now?'
+    m_Localized: "This horror is beyond words!\nThe haze of drink cleared when I
+      saw her lying\non the wet ground.\nHer dress was soiled, her fur matted, and
+      her eyes motionless.\nHow\u2026 how am I to live with this now!"
     m_Metadata:
       m_Items: []
   - m_Id: 100000000030
@@ -179,54 +176,45 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 100000000031
-    m_Localized: "Doctor Nicholas Moorley and Madame Foxington rode in the carriage
-      towards the estate of Sir Oswald Blackmore \u2014 the wealthiest badger in
-      all the kingdom"
+    m_Localized: "Dr. Nicholas Purrley and Madame Foxicia are riding in a carriage
+      to the estate of Sir Oswald Blackmore \u2014 the wealthiest badger in the kingdom."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000032
-    m_Localized: 'The grand reception at the estate was in full splendour.
-
-      Doctor
-      Moorley met his old acquaintance, Lady Bella Nottingham, and they soon fell
-      into reminiscences.
-
-      Sir Oswald Blackmore then presented the young romantic
-      poet Theodore Lapwood to the guests.'
+    m_Localized: A grand reception at the estate. Doctor Purrley meets his old acquaintance,
+      Lady Bella Nottingham. The guests are introduced to a young romantic poet,
+      Theodore Pawwood.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000033
-    m_Localized: Madame Foxington played a solemn polonaise and several well-known
-      nocturnes. The guests were captivated.
+    m_Localized: "Madame Foxicia plays a solemn polonaise and a couple of familiar
+      nocturnes \u2014 the audience is enchanted."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000034
-    m_Localized: 'Doctor Moorley retired to a quiet corner, there to drown his thoughts
-      in wine.
-
-      Madame Foxington excused herself and vanished from the assembly.'
+    m_Localized: Dr. Purrley retreats into solitude and alcoholic drink, while Madame
+      Foxicia withdraws from the hall.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000035
-    m_Localized: Doctor Moorley and Sir Oswald Blackmore strolled together through
-      the winter garden.
+    m_Localized: Dr. Purrley and Sir Blackmore stroll through the winter garden.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000036
-    m_Localized: All the guests now stood gathered in the winter garden, frozen in
-      horrified silence over the lifeless form of Madame Foxington.
+    m_Localized: All the guests stand over the body of the deceased Madame Foxicia
+      in the winter garden.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000037
-    m_Localized: look at the items they're holding
+    m_Localized: Focus on the items they're holding
     m_Metadata:
       m_Items: []
   - m_Id: 100000000038
-    m_Localized: there is a murder weapon in the scene
+    m_Localized: The scene contains a murder weapon
     m_Metadata:
       m_Items: []
   - m_Id: 100000000039
-    m_Localized: there is a murder motive here
+    m_Localized: Focus on the wall
     m_Metadata:
       m_Items: []
   - m_Id: 100000000040
@@ -234,11 +222,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 100000000041
-    m_Localized: proof of innocence for one of the Characters
+    m_Localized: "Demonstrating a character\u2019s innocence"
     m_Metadata:
       m_Items: []
   - m_Id: 100000000042
-    m_Localized: changes in Characters appearance
+    m_Localized: "The characters\u2019 appearances have changed"
     m_Metadata:
       m_Items: []
   - m_Id: 100000000043

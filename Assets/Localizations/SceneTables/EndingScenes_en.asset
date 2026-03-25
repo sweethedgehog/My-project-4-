@@ -19,49 +19,49 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 100000000001
-    m_Localized: main menu
+    m_Localized: the main menu
     m_Metadata:
       m_Items: []
   - m_Id: 100000000002
-    m_Localized: "The cards did not lie \u2013 the revelation proved true. The evidence
-      against Sir Blackmore was so overwhelming\nthat even money could not save him
-      from arrest.\n\nThe motive was despicable: often performing at the badger's
-      manor,\nthe fox accidentally discovered secret tunnels where he ran an underground
-      fur trade.\n\nWithout telling anyone, the Fox tried to blackmail Blackmore.\nIn
-      response, Sir Blackmore invited her to perform at an evening event to \xABdiscuss
-      the details\xBB. And killed her.\n\nThe verdict for all these villanies was
-      hailed as a \xABtriumph of justice\xBB \u2013 the badger awaited the death
-      penalty by hanging.\n"
+    m_Localized: "The cards did not lie \u2014 the insight had proved correct.\nThere
+      was so much evidence against Sir Blackmore\nthat not even money could save
+      him from arrest.\n\nThe motive was vile: while often performing in the estate\nof
+      the badger, Foxicia had accidentally discovered secret\ntunnels where he conducted
+      an illicit fur trade.\n\nWithout telling anyone, Foxicia attempted to blackmail
+      Blackmore.\nIn response, Sir Blackmore invited her to perform at the next soir\xE9e,\nonly
+      to \u201Cdiscuss the details\u201D afterward. And he killed her.\n\nThe sentence
+      for all these nefarious deeds was hailed\nby the newspapers as a \u201Ctriumph
+      of justice\u201D \u2014\nthe badger faced the death penalty by hanging.\n"
     m_Metadata:
       m_Items: []
   - m_Id: 100000000003
-    m_Localized: "The cards pointed to Doctor Murli \u2014 and you, of course, informed
-      him of this.\n\nHis reaction was explosive: he overturned the table, smashed
-      the crystal ball and several rare crystals.\n\nOnly later did you realize the
-      cards were wrong. But by then the doctor's rage had already turned into conviction.\n\nHe
-      dedicated his life to convincing his contemporaries that fortune-telling is
-      a dangerous and utterly senseless delusion \u2014 which drove away many of
-      your clients."
+    m_Localized: "The cards pointed to Dr. Purrley \u2014\nand, of course, you told
+      him.\n\nHis reaction was furious: he overturned the table,\nshattered the crystal
+      ball, and broke several rare crystals.\n\nLater, you realized the cards had
+      been mistaken.\nBut by then, the doctor\u2019s anger had grown into obsession.\n\nHe
+      devoted his life to convincing others\nthat fortune-telling was dangerous and
+      utterly meaningless,\nwhich drove many clients away from you."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000004
-    m_Localized: "The cards pointed to Theodore Lapwood \u2013 alas, incorrectly.
-      But this was discovered too late.\n\nThe scant and circumstantial evidence
-      was enough to send the poor poet to prison for a decade.\n\nIn prison his talent
-      blossomed and, upon release, Lapwood published a collection of poems dedicated
-      to Lisitsia \u2013 so sincere and sorrowful that it immediately made Theodore
-      a celebrated poet.\n\nThe rest of Theodore's life was spent famous and wealthy
-      \u2013 as if fate had decided to make a public apology."
+    m_Localized: "The cards pointed to Theodore Pawood \u2014 unfortunately, mistakenly.\nBut
+      this was discovered too late.\n\nThe sparse and circumstantial evidence was
+      enough\nto send the poor poet to prison for a decade.\n\nIn prison, his talent
+      flourished. Upon release, Lapwood\npublished a collection of poems dedicated
+      to Foxicia \u2014\nso sincere and mournful that the public immediately\nrecognized
+      Theodore as a star poet.\n\nThe rest of his life, Theodore lived famous and
+      wealthy \u2014\nas if fate itself had publicly apologized."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000005
-    m_Localized: "The cards pointed to Lady Nottingham \u2013 and, alas, were wrong.\n\nNo
-      evidence of her guilt was found, and the family's wealth allowed them to quickly
-      silence the police and the press, then ruin Doctor Murli with counter-suits.\n\nHaving
-      lost his reputation, Murli was forced to leave Lapdon and became a country
-      doctor in a distant, forgotten village.\n\nLady Bella, finally disillusioned
-      with men, invested the money raised from the scandal into opening Lapdon's
-      first school for girls \u2014 and thereby gained a new fame, far more favorable.\n"
+    m_Localized: "The cards pointed to Lady Nottingham \u2014 and, alas, they were
+      mistaken.\n\nNo evidence of her guilt was found, and the family\u2019s wealth\nquickly
+      silenced the police and the press,\nthen ruined Dr. Purrley with counter-lawsuits.\n\nHaving
+      lost his reputation, Purrley was forced to leave Pawdon\nand became a country
+      doctor in a distant, forgotten village.\n\nLady Bella, disappointed in men
+      once and for all,\ninvested the money gained from the scandal\nin founding
+      Lapdon\u2019s first school for girls \u2014\nthus earning a new fame, far more
+      favorable."
     m_Metadata:
       m_Items: []
   references:

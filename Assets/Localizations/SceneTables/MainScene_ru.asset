@@ -91,17 +91,20 @@ MonoBehaviour:
   - m_Id: 100000000012
     m_Localized: 'MISS!
 
+
 '
     m_Metadata:
       m_Items: []
   - m_Id: 100000000013
     m_Localized: 'PARTIAL!
 
+
 '
     m_Metadata:
       m_Items: []
   - m_Id: 100000000014
     m_Localized: 'PERFECT!
+
 
 '
     m_Metadata:
@@ -111,7 +114,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 100000000016
-    m_Localized: 'Scores: '
+    m_Localized: 'Scores:'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000017
