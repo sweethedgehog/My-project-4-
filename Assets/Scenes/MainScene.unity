@@ -230,7 +230,7 @@ VisualEffect:
       m_Array: []
     m_Int:
       m_Array:
-      - m_Value: 5
+      - m_Value: 3
         m_Name: Partical_rate
         m_Overridden: 1
     m_Matrix4x4f:
@@ -255,12 +255,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5467349cb503bfa45847a96f0093ba69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardGame.UI.BallParticleController
-  coinsColor: {r: 0, g: 1, b: 0, a: 1}
-  crownsColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  skullsColor: {r: 0, g: 0, b: 1, a: 1}
-  rosesColor: {r: 1, g: 0, b: 0, a: 1}
-  passedRate: 50
-  unpassedRate: 5
+  coinsColor: {r: 0.23455065, g: 0.7681514, b: 0.33716366, a: 1}
+  crownsColor: {r: 0.9911022, g: 0.83879924, b: 0.2581829, a: 1}
+  skullsColor: {r: 0.31398875, g: 0.6795426, b: 0.8879232, a: 1}
+  rosesColor: {r: 0.91764706, g: 0.11372549, b: 0.14117648, a: 1}
+  passedRate: 15
+  unpassedRate: 3
 --- !u!1 &19158673
 GameObject:
   m_ObjectHideFlags: 0
@@ -5509,7 +5509,7 @@ GameObject:
   - component: {fileID: 1243914500}
   - component: {fileID: 1243914503}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Button_Pause
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

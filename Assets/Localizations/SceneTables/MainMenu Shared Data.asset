@@ -35,6 +35,42 @@ MonoBehaviour:
     m_Key: authors_button
     m_Metadata:
       m_Items: []
+  - m_Id: 13238077563592704
+    m_Key: kostya_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238186787463168
+    m_Key: vitya_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238469605187584
+    m_Key: kolya_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238705048248320
+    m_Key: asya_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238811638095872
+    m_Key: kirill_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238992412598272
+    m_Key: back_but
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13239140156956672
+    m_Key: music_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13239417551446016
+    m_Key: sfx_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13239553706942464
+    m_Key: language_text
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

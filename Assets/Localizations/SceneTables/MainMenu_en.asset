@@ -38,6 +38,42 @@ MonoBehaviour:
     m_Localized: settings
     m_Metadata:
       m_Items: []
+  - m_Id: 13238077563592704
+    m_Localized: Kostya Potapov
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238186787463168
+    m_Localized: Vitya Parfenov
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238469605187584
+    m_Localized: Kolya Shikhachevsky
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238705048248320
+    m_Localized: Asya Novikova
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238811638095872
+    m_Localized: Kirill Lomeyko
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238992412598272
+    m_Localized: < back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13239140156956672
+    m_Localized: music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13239417551446016
+    m_Localized: sfx
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13239553706942464
+    m_Localized: language
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
