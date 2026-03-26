@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 58560502}
   - component: {fileID: 58560501}
   m_Layer: 5
-  m_Name: Authors_panel
+  m_Name: AuthorsPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -297,11 +297,11 @@ RectTransform:
   - {fileID: 1779344709}
   - {fileID: 286616201}
   - {fileID: 303549028}
-  m_Father: {fileID: 670073072}
+  m_Father: {fileID: 774139168}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -696, y: -215}
+  m_AnchoredPosition: {x: -706, y: -219}
   m_SizeDelta: {x: 798, y: 927}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &58560501
@@ -935,7 +935,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 856771012}
-  m_Father: {fileID: 670073072}
+  m_Father: {fileID: 1418899318}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1413,7 +1413,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 303549030}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1721206148}
+        m_TargetAssemblyTypeName: CardGame.Managers.MenuManager, Assembly-CSharp
+        m_MethodName: OnAuthorsBackClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &303549030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1670,7 +1682,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 336841344}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1721206148}
+        m_TargetAssemblyTypeName: CardGame.Managers.MenuManager, Assembly-CSharp
+        m_MethodName: OnSettingsBackClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &336841344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2016,6 +2040,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 670073072}
+  - {fileID: 1418899318}
+  - {fileID: 774139168}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2153,7 +2179,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 883162768}
-  m_Father: {fileID: 670073072}
+  m_Father: {fileID: 1418899318}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2418,13 +2444,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1124921722}
-  - {fileID: 1732051336}
-  - {fileID: 1208198117}
-  - {fileID: 1450739766}
-  - {fileID: 518837218}
-  - {fileID: 200000001}
-  - {fileID: 1818311196}
-  - {fileID: 58560500}
   m_Father: {fileID: 459715126}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2470,6 +2489,43 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 670073071}
   m_CullTransparentMesh: 1
+--- !u!1 &774139167
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 774139168}
+  m_Layer: 5
+  m_Name: PopupPanels
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &774139168
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774139167}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1818311196}
+  - {fileID: 58560500}
+  m_Father: {fileID: 459715126}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &856771011
 GameObject:
   m_ObjectHideFlags: 0
@@ -3434,7 +3490,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1746000071}
-  m_Father: {fileID: 670073072}
+  m_Father: {fileID: 1418899318}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3506,7 +3562,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1208198120}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1721206148}
+        m_TargetAssemblyTypeName: CardGame.Managers.MenuManager, Assembly-CSharp
+        m_MethodName: OnSettingsButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1208198120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4046,6 +4114,59 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1408233222}
   m_CullTransparentMesh: 1
+--- !u!1 &1418899316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1418899318}
+  - component: {fileID: 1418899317}
+  m_Layer: 5
+  m_Name: Buttons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!225 &1418899317
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418899316}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!224 &1418899318
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418899316}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 200000001}
+  - {fileID: 518837218}
+  - {fileID: 1208198117}
+  - {fileID: 1450739766}
+  - {fileID: 1732051336}
+  m_Father: {fileID: 459715126}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1442631736
 GameObject:
   m_ObjectHideFlags: 0
@@ -4290,7 +4411,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 121704643}
-  m_Father: {fileID: 670073072}
+  m_Father: {fileID: 1418899318}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4362,7 +4483,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1450739769}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1721206148}
+        m_TargetAssemblyTypeName: CardGame.Managers.MenuManager, Assembly-CSharp
+        m_MethodName: OnAuthorsButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1450739769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5037,7 +5170,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1721206150}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CardGame.Managers.LanguageSwitcher, Assembly-CSharp
         m_MethodName: SetEnglish
         m_Mode: 1
@@ -5118,7 +5251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1721206149}
   - component: {fileID: 1721206148}
-  - component: {fileID: 1721206150}
+  - component: {fileID: 1721206151}
   m_Layer: 0
   m_Name: MenuManager
   m_TagString: Untagged
@@ -5140,6 +5273,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   cursorTexture: {fileID: 2800000, guid: 86a29f2ee24b7354598b3985fb1d8a67, type: 3}
   hotspot: {x: 0, y: 0}
+  settingsPanel: {fileID: 1818311195}
+  authorsPanel: {fileID: 58560499}
+  musicSlider: {fileID: 1453318262}
+  sfxSlider: {fileID: 951894819}
+  ruButton: {fileID: 2104226027}
+  enButton: {fileID: 1652471075}
 --- !u!4 &1721206149
 Transform:
   m_ObjectHideFlags: 0
@@ -5155,7 +5294,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1721206150
+--- !u!114 &1721206151
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5164,11 +5303,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1721206147}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cbb1ba6214dc874d8eae89329b59ec8, type: 3}
+  m_Script: {fileID: 11500000, guid: 036986d6c1009994c9e03d4f9c4de211, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardGame.Managers.LanguageSwitcher
-  ruButton: {fileID: 2104226027}
-  enButton: {fileID: 1652471075}
+  m_EditorClassIdentifier: Assembly-CSharp::CardGame.UI.LocalizationReadyRevealer
+  groups:
+  - {fileID: 1418899317}
+  fadeDuration: 0.3
 --- !u!1 &1732051335
 GameObject:
   m_ObjectHideFlags: 0
@@ -5202,7 +5342,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1732420090}
-  m_Father: {fileID: 670073072}
+  m_Father: {fileID: 1418899318}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5274,7 +5414,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1732051339}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1721206148}
+        m_TargetAssemblyTypeName: CardGame.Managers.MenuManager, Assembly-CSharp
+        m_MethodName: OnExitButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1732051339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5951,7 +6103,7 @@ GameObject:
   - component: {fileID: 1818311198}
   - component: {fileID: 1818311197}
   m_Layer: 5
-  m_Name: Settings_panel
+  m_Name: SettingsPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5964,7 +6116,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1818311195}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.0014648836, w: 0.999999}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
@@ -5982,11 +6134,11 @@ RectTransform:
   - {fileID: 2104226024}
   - {fileID: 1652471078}
   - {fileID: 336841342}
-  m_Father: {fileID: 670073072}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Father: {fileID: 774139168}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.168}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -696, y: -215}
+  m_AnchoredPosition: {x: -706, y: -219}
   m_SizeDelta: {x: 798, y: 927}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1818311197
@@ -6571,7 +6723,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1721206150}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CardGame.Managers.LanguageSwitcher, Assembly-CSharp
         m_MethodName: SetRussian
         m_Mode: 1

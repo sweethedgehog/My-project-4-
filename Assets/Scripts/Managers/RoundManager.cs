@@ -159,7 +159,7 @@ namespace CardGame.Managers
         {
             if (inGameMenu) return;
             if (isRulesOpened && Input.GetMouseButton(0)) RulesToggle();
-            if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene(SceneNames.GameMenu, LoadSceneMode.Additive);
+            if (Input.GetKeyDown(KeyCode.Escape)) OpenPauseMenu();
 
             // Continuously update end button state based on card count (user can drag cards)
             if (!isWaitingToDeal && endRoundButton != null)
@@ -744,6 +744,15 @@ namespace CardGame.Managers
             {
                 catAnimationController.CatTalkForDuration(config.CatTalkDuration);
             }
+        }
+
+        // ===== Pause =====
+
+        public void OpenPauseMenu()
+        {
+            if (inGameMenu) return;
+            inGameMenu = true;
+            SceneManager.LoadScene(SceneNames.GameMenu, LoadSceneMode.Additive);
         }
 
         // ===== Helpers =====

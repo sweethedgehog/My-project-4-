@@ -154,8 +154,7 @@ namespace CardGame.Managers
             // Open game menu on Escape
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                inGameMenu = true;
-                SceneManager.LoadScene(SceneNames.GameMenu, LoadSceneMode.Additive);
+                OpenPauseMenu();
                 return;
             }
 
@@ -231,6 +230,17 @@ namespace CardGame.Managers
             yield return Step17_FinalAdvice();
         }
         
+        // ====================================================================
+        // PAUSE
+        // ====================================================================
+
+        public void OpenPauseMenu()
+        {
+            if (inGameMenu) return;
+            inGameMenu = true;
+            SceneManager.LoadScene(SceneNames.GameMenu, LoadSceneMode.Additive);
+        }
+
         // ====================================================================
         // TUTORIAL STEPS
         // ====================================================================

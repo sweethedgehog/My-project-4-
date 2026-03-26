@@ -2440,7 +2440,6 @@ MonoBehaviour:
   crownSuitCompleteSound: {fileID: 8300000, guid: 5ff10ed03e532ce4fbc3e781ff3b6769, type: 3}
   skullSuitCompleteSound: {fileID: 8300000, guid: 5ff10ed03e532ce4fbc3e781ff3b6769, type: 3}
   coinSuitCompleteSound: {fileID: 8300000, guid: 5ff10ed03e532ce4fbc3e781ff3b6769, type: 3}
-  dualGoalDelay: 0.5
 --- !u!114 &436903100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5578,7 +5577,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1243914501}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 780156730}
+        m_TargetAssemblyTypeName: CardGame.Managers.RoundManager, Assembly-CSharp
+        m_MethodName: OpenPauseMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1243914501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6107,6 +6118,7 @@ MonoBehaviour:
   musicGroup: {fileID: 0}
   sfxGroup: {fileID: 0}
   menuMusic: {fileID: 0}
+  tutorialMusic: {fileID: 0}
   gameplayMusic: {fileID: 0}
   victoryMusic: {fileID: 0}
 --- !u!1 &1505598445
