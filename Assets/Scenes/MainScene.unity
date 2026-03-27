@@ -2435,11 +2435,11 @@ MonoBehaviour:
   mirror: {fileID: 436903100}
   ballParticle: {fileID: 5110276}
   showBreakdown: 1
-  valueGoalCompleteSound: {fileID: 8300000, guid: 35966c276b54c71439f7db3173b987c0, type: 3}
-  roseSuitCompleteSound: {fileID: 8300000, guid: 5ff10ed03e532ce4fbc3e781ff3b6769, type: 3}
-  crownSuitCompleteSound: {fileID: 8300000, guid: 5ff10ed03e532ce4fbc3e781ff3b6769, type: 3}
-  skullSuitCompleteSound: {fileID: 8300000, guid: 5ff10ed03e532ce4fbc3e781ff3b6769, type: 3}
-  coinSuitCompleteSound: {fileID: 8300000, guid: 5ff10ed03e532ce4fbc3e781ff3b6769, type: 3}
+  valueGoalCompleteSound: {fileID: 8300000, guid: 51499a7bba129ae4dbec7b1c5b40ea8a, type: 3}
+  roseSuitCompleteSound: {fileID: 8300000, guid: b28ca21871fd1374c9838d3b33276794, type: 3}
+  crownSuitCompleteSound: {fileID: 8300000, guid: 635c1f5eeceb19844ae09af6593a172d, type: 3}
+  skullSuitCompleteSound: {fileID: 8300000, guid: 3dce0f5dddc549744a33bcbfbc7844f6, type: 3}
+  coinSuitCompleteSound: {fileID: 8300000, guid: 2d9381e85ebc40e4abcc8e8589b50afc, type: 3}
 --- !u!114 &436903100
 MonoBehaviour:
   m_ObjectHideFlags: 0
