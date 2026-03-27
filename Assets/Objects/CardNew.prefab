@@ -716,7 +716,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardGame.UI.CardSound
   cardHoverEnterSound: {fileID: 8300000, guid: a637d3c591f645a4fb5f5a389497b47d, type: 3}
-  cardClickSound: {fileID: 8300000, guid: a571f4cc45344b042be23cbbb94fee1a, type: 3}
+  cardClickSound: {fileID: 8300000, guid: edeb843518b5ce94fbe2ee397c994550, type: 3}
   cardPickupSound: {fileID: 0}
   cardDropSound: {fileID: 8300000, guid: 6b9c4691a32ea7248990e0b6e111f45d, type: 3}
 --- !u!61 &2311298964352315904

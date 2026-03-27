@@ -725,6 +725,7 @@ GameObject:
   - component: {fileID: 118624466}
   - component: {fileID: 118624465}
   - component: {fileID: 118624464}
+  - component: {fileID: 118624468}
   m_Layer: 5
   m_Name: LeftArrow_Button
   m_TagString: Untagged
@@ -867,6 +868,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 118624462}
   m_CullTransparentMesh: 1
+--- !u!114 &118624468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118624462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be3c5a2a8d842dc96511ab4a1e03424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardGame.UI.UISound
+  clickSound: {fileID: 8300000, guid: 893eb7835f6980c4788e6e9cf79b496e, type: 3}
+  hoverEnterSound: {fileID: 0}
 --- !u!1 &124921537
 GameObject:
   m_ObjectHideFlags: 0
@@ -1135,6 +1150,7 @@ GameObject:
   - component: {fileID: 211328962}
   - component: {fileID: 211328961}
   - component: {fileID: 211328960}
+  - component: {fileID: 211328964}
   m_Layer: 5
   m_Name: RightArrow_Button
   m_TagString: Untagged
@@ -1277,6 +1293,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 211328958}
   m_CullTransparentMesh: 1
+--- !u!114 &211328964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211328958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be3c5a2a8d842dc96511ab4a1e03424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardGame.UI.UISound
+  clickSound: {fileID: 8300000, guid: 893eb7835f6980c4788e6e9cf79b496e, type: 3}
+  hoverEnterSound: {fileID: 0}
 --- !u!1 &228302363
 GameObject:
   m_ObjectHideFlags: 0
@@ -2435,6 +2465,7 @@ MonoBehaviour:
   mirror: {fileID: 436903100}
   ballParticle: {fileID: 5110276}
   showBreakdown: 1
+  dualGoalDelay: 0.5
   valueGoalCompleteSound: {fileID: 8300000, guid: 51499a7bba129ae4dbec7b1c5b40ea8a, type: 3}
   roseSuitCompleteSound: {fileID: 8300000, guid: b28ca21871fd1374c9838d3b33276794, type: 3}
   crownSuitCompleteSound: {fileID: 8300000, guid: 635c1f5eeceb19844ae09af6593a172d, type: 3}
@@ -6121,6 +6152,8 @@ MonoBehaviour:
   tutorialMusic: {fileID: 0}
   gameplayMusic: {fileID: 0}
   victoryMusic: {fileID: 0}
+  winSound: {fileID: 0}
+  loseSound: {fileID: 0}
 --- !u!1 &1505598445
 GameObject:
   m_ObjectHideFlags: 0
