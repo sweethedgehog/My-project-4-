@@ -10,6 +10,8 @@ namespace CardGame.Managers
         void PlayTutorialMusic();
         void PlayGameplayMusic();
         void PlayVictoryMusic();
+        void PlayWinSound();
+        void PlayLoseSound();
         void StopMusic();
         void PauseMusic();
         void ResumeMusic();

@@ -18,6 +18,10 @@ namespace CardGame.Managers
         [SerializeField] private AudioClip gameplayMusic;
         [SerializeField] private AudioClip victoryMusic;
 
+        [Header("Ending SFX")]
+        [SerializeField] private AudioClip winSound;
+        [SerializeField] private AudioClip loseSound;
+
         private AudioSource musicSource;
         private AudioSource sfxSource;
 
@@ -60,6 +64,8 @@ namespace CardGame.Managers
         public void PlayTutorialMusic() => PlayMusic(tutorialMusic);
         public void PlayGameplayMusic() => PlayMusic(gameplayMusic);
         public void PlayVictoryMusic() => PlayMusic(victoryMusic);
+        public void PlayWinSound() => PlaySFX(winSound);
+        public void PlayLoseSound() => PlaySFX(loseSound);
         public void StopMusic() => musicSource.Stop();
         public void PauseMusic() => musicSource.Pause();
         public void ResumeMusic() => musicSource.UnPause();

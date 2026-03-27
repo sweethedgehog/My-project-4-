@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 using CardGame.Core;
@@ -27,6 +28,7 @@ namespace CardGame.Scoring
         [SerializeField] private bool showBreakdown = true;
         
         [Header("Goal Completion Sounds")]
+        [SerializeField] private float dualGoalDelay = 0.5f;
         [SerializeField] private AudioClip valueGoalCompleteSound;
         [SerializeField] private AudioClip roseSuitCompleteSound;
         [SerializeField] private AudioClip crownSuitCompleteSound;
@@ -86,8 +88,8 @@ namespace CardGame.Scoring
             // Handle sound playback based on what completed
             if (valueJustCompleted && suitJustCompleted)
             {
-                // Both goals completed at the same time - suit sound takes priority
-                PlaySuitGoalSound(goalSuit);
+                // Both goals completed at the same time - play value first, then suit after delay
+                StartCoroutine(PlayBothGoalSounds());
                 valueGoalComplete = true;
                 suitGoalComplete = true;
             }
@@ -148,6 +150,13 @@ namespace CardGame.Scoring
             }
         }
         
+        private IEnumerator PlayBothGoalSounds()
+        {
+            PlayValueGoalSound();
+            yield return new WaitForSeconds(dualGoalDelay);
+            PlaySuitGoalSound(goalSuit);
+        }
+
         /// <summary>
         /// Get the appropriate sound clip for a suit
         /// </summary>
