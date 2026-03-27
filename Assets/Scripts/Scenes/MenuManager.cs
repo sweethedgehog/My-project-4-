@@ -23,6 +23,10 @@ namespace CardGame.Managers
         [Header("Settings — Language Buttons")]
         [SerializeField] private Button ruButton;
         [SerializeField] private Button enButton;
+        [SerializeField] private Image ruIndicator;
+        [SerializeField] private Image enIndicator;
+        [SerializeField] private Sprite activeIndicatorSprite;
+        [SerializeField] private Sprite inactiveIndicatorSprite;
 
         private const string LocalePrefKey = "unity.localization";
 
@@ -141,9 +145,12 @@ namespace CardGame.Managers
 
         private void RefreshLanguageButtons()
         {
-            string current = PlayerPrefs.GetString(LocalePrefKey, "ru");
-            if (ruButton != null) ruButton.interactable = current != "ru";
-            if (enButton != null) enButton.interactable = current != "en";
+            var selectedLocale = LocalizationSettings.SelectedLocale;
+            string current = selectedLocale != null ? selectedLocale.Identifier.Code : "ru";
+
+            bool isRussian = current == "ru";
+            if (ruIndicator != null) ruIndicator.sprite = isRussian ? activeIndicatorSprite : inactiveIndicatorSprite;
+            if (enIndicator != null) enIndicator.sprite = isRussian ? inactiveIndicatorSprite : activeIndicatorSprite;
         }
 
         // ===== Cursor =====
