@@ -74,6 +74,14 @@ MonoBehaviour:
     m_Localized: language
     m_Metadata:
       m_Items: []
+  - m_Id: 13985903283511296
+    m_Localized: Maryia Sanko
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13986042572152832
+    m_Localized: Shushan Sarkisian
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

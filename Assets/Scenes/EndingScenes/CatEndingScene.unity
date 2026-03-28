@@ -464,7 +464,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   continueButton: {fileID: 1921787685}
-  audioClip: {fileID: 8300000, guid: 42227975a6cacd64a9fecd8979001e22, type: 3}
+  isWinEnding: 0
 --- !u!82 &1146040528
 AudioSource:
   m_ObjectHideFlags: 0
@@ -855,6 +855,7 @@ GameObject:
   - component: {fileID: 1921787686}
   - component: {fileID: 1921787685}
   - component: {fileID: 1921787689}
+  - component: {fileID: 1921787690}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -986,6 +987,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1921787690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921787684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be3c5a2a8d842dc96511ab4a1e03424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardGame.UI.UISound
+  clickSound: {fileID: 8300000, guid: 893eb7835f6980c4788e6e9cf79b496e, type: 3}
+  hoverEnterSound: {fileID: 0}
 --- !u!114 &2100000001
 MonoBehaviour:
   m_ObjectHideFlags: 0

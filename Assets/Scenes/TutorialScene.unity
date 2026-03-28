@@ -3123,6 +3123,7 @@ GameObject:
   - component: {fileID: 360049161}
   - component: {fileID: 360049160}
   - component: {fileID: 360049159}
+  - component: {fileID: 360049163}
   m_Layer: 5
   m_Name: Button_Pause
   m_TagString: Untagged
@@ -3265,6 +3266,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 360049157}
   m_CullTransparentMesh: 1
+--- !u!114 &360049163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360049157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be3c5a2a8d842dc96511ab4a1e03424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardGame.UI.UISound
+  clickSound: {fileID: 8300000, guid: 893eb7835f6980c4788e6e9cf79b496e, type: 3}
+  hoverEnterSound: {fileID: 0}
 --- !u!1 &393419112
 GameObject:
   m_ObjectHideFlags: 0
@@ -5274,11 +5289,12 @@ MonoBehaviour:
   mirror: {fileID: 698065417}
   ballParticle: {fileID: 0}
   showBreakdown: 1
-  valueGoalCompleteSound: {fileID: 8300000, guid: 21d5c89fdf0b7194f91c37194c8e9960, type: 3}
-  roseSuitCompleteSound: {fileID: 8300000, guid: ac11ed0744aadf04d90c4e263fe1b2c6, type: 3}
-  crownSuitCompleteSound: {fileID: 8300000, guid: ac11ed0744aadf04d90c4e263fe1b2c6, type: 3}
-  skullSuitCompleteSound: {fileID: 8300000, guid: ac11ed0744aadf04d90c4e263fe1b2c6, type: 3}
-  coinSuitCompleteSound: {fileID: 8300000, guid: ac11ed0744aadf04d90c4e263fe1b2c6, type: 3}
+  dualGoalDelay: 0.5
+  valueGoalCompleteSound: {fileID: 8300000, guid: 51499a7bba129ae4dbec7b1c5b40ea8a, type: 3}
+  roseSuitCompleteSound: {fileID: 8300000, guid: b28ca21871fd1374c9838d3b33276794, type: 3}
+  crownSuitCompleteSound: {fileID: 8300000, guid: 635c1f5eeceb19844ae09af6593a172d, type: 3}
+  skullSuitCompleteSound: {fileID: 8300000, guid: 3dce0f5dddc549744a33bcbfbc7844f6, type: 3}
+  coinSuitCompleteSound: {fileID: 8300000, guid: 2d9381e85ebc40e4abcc8e8589b50afc, type: 3}
 --- !u!114 &698065417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8964,6 +8980,7 @@ GameObject:
   - component: {fileID: 1187628347}
   - component: {fileID: 1187628346}
   - component: {fileID: 1187628349}
+  - component: {fileID: 1187628350}
   m_Layer: 5
   m_Name: EndRoundButton
   m_TagString: Untagged
@@ -9095,6 +9112,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1187628350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187628344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be3c5a2a8d842dc96511ab4a1e03424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardGame.UI.UISound
+  clickSound: {fileID: 8300000, guid: 893eb7835f6980c4788e6e9cf79b496e, type: 3}
+  hoverEnterSound: {fileID: 0}
 --- !u!1 &1204185129
 GameObject:
   m_ObjectHideFlags: 0

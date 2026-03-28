@@ -5276,6 +5276,7 @@ GameObject:
   - component: {fileID: 1187628349}
   - component: {fileID: 1187628350}
   - component: {fileID: 1187628351}
+  - component: {fileID: 1187628352}
   m_Layer: 5
   m_Name: EndRoundButton
   m_TagString: Untagged
@@ -5433,6 +5434,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1187628352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187628344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be3c5a2a8d842dc96511ab4a1e03424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardGame.UI.UISound
+  clickSound: {fileID: 8300000, guid: 893eb7835f6980c4788e6e9cf79b496e, type: 3}
+  hoverEnterSound: {fileID: 0}
 --- !u!1 &1225949954
 GameObject:
   m_ObjectHideFlags: 0
@@ -5539,6 +5554,7 @@ GameObject:
   - component: {fileID: 1243914501}
   - component: {fileID: 1243914500}
   - component: {fileID: 1243914503}
+  - component: {fileID: 1243914504}
   m_Layer: 5
   m_Name: Button_Pause
   m_TagString: Untagged
@@ -5681,6 +5697,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1243914504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243914498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be3c5a2a8d842dc96511ab4a1e03424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardGame.UI.UISound
+  clickSound: {fileID: 8300000, guid: 893eb7835f6980c4788e6e9cf79b496e, type: 3}
+  hoverEnterSound: {fileID: 0}
 --- !u!1 &1286681658
 GameObject:
   m_ObjectHideFlags: 0
