@@ -28,9 +28,9 @@ MonoBehaviour:
       him from arrest.\n\nThe motive was vile: while often performing in the estate\nof
       the badger, Foxicia had accidentally discovered secret\ntunnels where he conducted
       an illicit fur trade.\n\nWithout telling anyone, Foxicia attempted to blackmail
-      Blackmore.\nIn response, Sir Blackmore invited her to perform at the next soir\xE9e,\nonly
-      to \u201Cdiscuss the details\u201D afterward. And he killed her.\n\nThe sentence
-      for all these nefarious deeds was hailed\nby the newspapers as a \u201Ctriumph
+      Blackmore. In response, Sir Blackmore invited her to perform at the next soir\xE9e,
+      only to \u201Cdiscuss the details\u201D afterward. And he killed her.\n\nThe
+      sentence for all these nefarious deeds was hailed\nby the newspapers as a \u201Ctriumph
       of justice\u201D \u2014\nthe badger faced the death penalty by hanging.\n"
     m_Metadata:
       m_Items: []
@@ -40,14 +40,14 @@ MonoBehaviour:
       ball, and broke several rare crystals.\n\nLater, you realized the cards had
       been mistaken.\nBut by then, the doctor\u2019s anger had grown into obsession.\n\nHe
       devoted his life to convincing others\nthat fortune-telling was dangerous and
-      utterly meaningless,\nwhich drove many clients away from you."
+      utterly meaningless, which drove many clients away from you."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000004
-    m_Localized: "The cards pointed to Theodore Pawood \u2014 unfortunately, mistakenly.\nBut
-      this was discovered too late.\n\nThe sparse and circumstantial evidence was
-      enough\nto send the poor poet to prison for a decade.\n\nIn prison, his talent
-      flourished. Upon release, Lapwood\npublished a collection of poems dedicated
+    m_Localized: "The cards pointed to Theodore Pawood \u2014 unfortunately, mistakenly.
+      But this was discovered too late.\n\nThe sparse and circumstantial evidence
+      was enough\nto send the poor poet to prison for a decade.\n\nIn prison, his
+      talent flourished. Upon release, Lapwood\npublished a collection of poems dedicated
       to Foxicia \u2014\nso sincere and mournful that the public immediately\nrecognized
       Theodore as a star poet.\n\nThe rest of his life, Theodore lived famous and
       wealthy \u2014\nas if fate itself had publicly apologized."
@@ -55,9 +55,9 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 100000000005
     m_Localized: "The cards pointed to Lady Nottingham \u2014 and, alas, they were
-      mistaken.\n\nNo evidence of her guilt was found, and the family\u2019s wealth\nquickly
-      silenced the police and the press,\nthen ruined Dr. Purrley with counter-lawsuits.\n\nHaving
-      lost his reputation, Purrley was forced to leave Pawdon\nand became a country
+      mistaken.\n\nNo evidence of her guilt was found, and the family\u2019s wealth
+      quickly silenced the police and the press, then ruined Dr. Purrley with counter-lawsuits.\n\nHaving
+      lost his reputation, Purrley was forced to leave Pawdon and became a country
       doctor in a distant, forgotten village.\n\nLady Bella, disappointed in men
       once and for all,\ninvested the money gained from the scandal\nin founding
       Lapdon\u2019s first school for girls \u2014\nthus earning a new fame, far more

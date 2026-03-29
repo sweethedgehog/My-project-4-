@@ -111,37 +111,33 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 100000000023
-    m_Localized: "Madame Quacking!\nI cannot express in words how grateful I am\nfor
-      your reception. As a man of science, I had hoped until the last\nthat I could
-      manage without\u2026 esoteric indulgences, yet the police are powerless.\nI
-      beg you, madame, look into the past\nand tell me who killed\nmy wife!"
+    m_Localized: "Madame Quacking!\nI cannot express in words how grateful I am for
+      your reception. As a man of science, I had hoped until the last that I could
+      manage without\u2026esoteric indulgences, yet the police are powerless. I beg
+      you, madame, look \nnto the past and tell me\nwho killed my wife!"
     m_Metadata:
       m_Items: []
   - m_Id: 100000000024
-    m_Localized: "It was a gloomy evening.\nFoxicia and I set forth by carriage\nfor
-      the estate of Sir Oswald Blackmore \u2014 the wealthiest badger in the kingdom.\nHe
-      was hosting a charity dinner, at which Foxicia was to perform."
+    m_Localized: "It was a gloomy evening.\nFoxicia and I set forth by carriage for
+      the estate of Sir Oswald Blackmore \u2014 the wealthiest badger in the kingdom.
+      He was hosting a charity dinner, at which Foxicia was to perform."
     m_Metadata:
       m_Items: []
   - m_Id: 100000000025
-    m_Localized: 'The reception was splendid, and the guests numerous.
+    m_Localized: 'The reception was splendid, and the guests numerous. Yet Foxicia
 
-      Yet
-      Foxicia and I spent the first part of the evening apart.
+      and
+      I spent the first part of the evening apart.
 
-      Many approached
-      her, as one would a celebrated pianist.
-
-      I, meanwhile, encountered Lady
-      Bella Nottingham,
-
+      Many approached her, as
+      one would a celebrated pianist. I, meanwhile, encountered Lady Bella Nottingham,
       and we lost ourselves in memories.'
     m_Metadata:
       m_Items: []
   - m_Id: 100000000026
-    m_Localized: "Once the guests had grown tired of conversation,\nSir Blackmore
-      gave a brief, rather empty speech on the virtues of patrons.\nThen it was Foxicia\u2019s
-      turn: a stately polonaise,\nfollowed by a couple of her usual nocturnes \u2014
+    m_Localized: "Once the guests had grown tired of conversation, Sir Blackmore
+      gave a brief, rather empty speech on the virtues of patrons. Then it was Foxicia\u2019s
+      turn: a stately polonaise, followed by a couple of her usual nocturnes \u2014
       the audience applauded."
     m_Metadata:
       m_Items: []
@@ -153,21 +149,14 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 100000000028
-    m_Localized: 'I do not know how much time had passed,
-
-      but at some point,
-      Sir Blackmore suggested a walk in the winter garden and a cigar.
-
-      My
-      head throbbed from the drink I had taken.
-
-      Fortunately, Blackmore spoke
-      freely and demanded no reply.'
+    m_Localized: I do not know how much time had passed, but at some point, Sir Blackmore
+      suggested a walk in the winter garden and a cigar. My head throbbed from the
+      drink I had taken. Fortunately, Blackmore spoke freely and demanded no reply.
     m_Metadata:
       m_Items: []
   - m_Id: 100000000029
     m_Localized: "This horror is beyond words!\nThe haze of drink cleared when I
-      saw her lying\non the wet ground.\nHer dress was soiled, her fur matted, and
+      saw her lying on the wet ground.\nHer dress was soiled, her fur matted, and
       her eyes motionless.\nHow\u2026 how am I to live with this now!"
     m_Metadata:
       m_Items: []
