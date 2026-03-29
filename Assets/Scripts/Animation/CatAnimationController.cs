@@ -1,52 +1,55 @@
 using System.Collections;
 using UnityEngine;
 
-public class CatAnimationController : MonoBehaviour
+namespace CardGame.UI
 {
-    public Animator anim;
-
-    private bool isTalking = false;
-
-    void Start()
+    public class CatAnimationController : MonoBehaviour
     {
-        CatIdle();
-    }
+        public Animator anim;
 
-    /// <summary>
-    /// Sets the cat to idle state (default state)
-    /// </summary>
-    public void CatIdle()
-    {
-        isTalking = false;
-        anim.SetBool("AnimSpeech", false);
-    }
+        private bool isTalking = false;
 
-    /// <summary>
-    /// Sets the cat to talking state
-    /// </summary>
-    public void CatTalk()
-    {
-        isTalking = true;
-        anim.SetBool("AnimSpeech", true);
-    }
+        void Start()
+        {
+            CatIdle();
+        }
 
-    /// <summary>
-    /// Makes the cat talk for a specified duration, then returns to idle
-    /// </summary>
-    public void CatTalkForDuration(float duration)
-    {
-        StartCoroutine(TalkForDurationCoroutine(duration));
-    }
+        /// <summary>
+        /// Sets the cat to idle state (default state)
+        /// </summary>
+        public void CatIdle()
+        {
+            isTalking = false;
+            anim.SetBool("AnimSpeech", false);
+        }
 
-    private IEnumerator TalkForDurationCoroutine(float duration)
-    {
-        CatTalk();
-        yield return new WaitForSeconds(duration);
-        CatIdle();
-    }
+        /// <summary>
+        /// Sets the cat to talking state
+        /// </summary>
+        public void CatTalk()
+        {
+            isTalking = true;
+            anim.SetBool("AnimSpeech", true);
+        }
 
-    public bool IsTalking()
-    {
-        return isTalking;
+        /// <summary>
+        /// Makes the cat talk for a specified duration, then returns to idle
+        /// </summary>
+        public void CatTalkForDuration(float duration)
+        {
+            StartCoroutine(TalkForDurationCoroutine(duration));
+        }
+
+        private IEnumerator TalkForDurationCoroutine(float duration)
+        {
+            CatTalk();
+            yield return new WaitForSeconds(duration);
+            CatIdle();
+        }
+
+        public bool IsTalking()
+        {
+            return isTalking;
+        }
     }
 }

@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using TMPro;
-using CardGame.Cards;
+﻿using CardGame.Cards;
 using CardGame.Core;
 using CardGame.GameObjects;
 using CardGame.Scoring;
 using CardGame.UI;
 using DefaultNamespace.Tiles;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.Localization.Settings;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
 using Random = UnityEngine.Random;
@@ -32,9 +35,9 @@ namespace CardGame.Managers
         [SerializeField] private bool onlyPossibleSetsMode = false;
 
         [Header("UI - Goal Display")]
-        [SerializeField] private TextMeshProUGUI goalValueText;
-        [SerializeField] private TextMeshProUGUI goalSuitText;
-        [SerializeField] private Image goalCardImage;
+        [SerializeField] private TextMeshPro goalValueText;
+        [SerializeField] private TextMeshPro goalSuitText;
+        [SerializeField] private SpriteRenderer goalCardImage;
 
         [Header("UI - Round Info")]
         [SerializeField] private TextMeshProUGUI roundNumberText;
@@ -48,29 +51,23 @@ namespace CardGame.Managers
         [SerializeField] private CanvasGroup endButtonCanvasGroup;
         [SerializeField] private Button rerollSuitButton;
         [SerializeField] private Button rerollCardsButton;
-        [SerializeField] private Sprite makePredictionSprite;
+        //[SerializeField] private Sprite makePredictionSprite;
+        [SerializeField] private TextMeshProUGUI makePredictionText;
 
         [Header("Cat Animation")]
         [SerializeField] private CatAnimationController catAnimationController;
-        [SerializeField] private float catTalkDuration = 3f;
         [SerializeField] private Animator catBubbleAnimator;
 
-        [Header("Round Settings")]
-        [SerializeField] private int minGoalValue = 8;
-        [SerializeField] private int maxGoalValue = 14;
-        [SerializeField] private int cardsPerRound = 5;
-        [SerializeField] private float dealDelay = 0.3f;
-        [SerializeField] private float resultDisplayTime = 2f;
-
-        [Header("Game Rules")]
-        [SerializeField] private int maxRounds = 6;
-        [SerializeField] private int maxSameSuitOccurrences = 2;
+        [Header("Configuration")]
+        [SerializeField] private GameConfig config;
 
         [Header("Audio")]
         [SerializeField] private AudioClip cardsShuffle;
 
+        // Discard pile — accumulates played cards across all rounds (Бита)
+        private readonly CardDeck discardPile = new CardDeck(startEmpty: true);
+
         // Runtime state
-        private AudioSource audioSource;
         private int currentRound = 0;
         private int currentGoalValue;
         private Suits currentGoalSuit;
@@ -93,9 +90,10 @@ namespace CardGame.Managers
         private const int MAX_CARD_REROLL_ATTEMPTS = 5;
         private const int MAX_SUIT_REROLL_ATTEMPTS = 5;
 
+        // ===== Lifecycle & Input =====
+
         void Start()
         {
-            audioSource = GetComponent<AudioSource>();
             inGameMenu = false;
             Time.timeScale = 1f;
 
@@ -114,10 +112,11 @@ namespace CardGame.Managers
             if (rerollCardsButton != null)
                 rerollCardsButton.onClick.AddListener(RerollCards);
 
-            foreach (Suits suit in System.Enum.GetValues(typeof(Suits)))
-            {
-                suitUsageCount[suit] = 0;
-            }
+            // Подписываемся на изменение состояния выполнения цели по значению
+            if (targetBoard != null && targetBoard.Scorer != null)
+                targetBoard.Scorer.OnValueGoalChanged += OnValueGoalChanged;
+
+            ResetSuitGoalRestrictions();
 
             UpdateRoundDisplay();
             UpdateScoreHistoryDisplay();
@@ -128,15 +127,21 @@ namespace CardGame.Managers
                 resultText.gameObject.SetActive(false);
             }
             isRulesOpened = false;
+
+            // Show deck glow since deck is clickable at start
+            if (deck != null)
+                deck.SetAdviceGlow(true);
+
+            // Initialize cat replica from localization (overrides hardcoded scene value)
+            if (goalSuitText != null)
+                goalSuitText.text = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "narrative_round_0");
         }
 
-        private void OnStartButtonClicked()
+        public void OnStartButtonClicked()
         {
-            if (currentRound >= maxRounds)
-            {
-                StartPostdiction();
+            if (currentRound >= config.MaxRounds)
                 return;
-            }
+
             StartRound();
         }
 
@@ -154,7 +159,7 @@ namespace CardGame.Managers
         {
             if (inGameMenu) return;
             if (isRulesOpened && Input.GetMouseButton(0)) RulesToggle();
-            if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene("GameMenu", LoadSceneMode.Additive);
+            if (Input.GetKeyDown(KeyCode.Escape)) OpenPauseMenu();
 
             // Continuously update end button state based on card count (user can drag cards)
             if (!isWaitingToDeal && endRoundButton != null)
@@ -189,15 +194,35 @@ namespace CardGame.Managers
 
             if (endButtonCanvasGroup != null)
             {
-                endButtonCanvasGroup.alpha = flag ? 1f : 0.6f;
+                float brightness = flag ? 1f : 0.65f;     
+                endButtonCanvasGroup.alpha = 1f;
+                // endButtonCanvasGroup.alpha = flag ? 1f : 0.6f;
                 endButtonCanvasGroup.interactable = flag;
                 endButtonCanvasGroup.blocksRaycasts = flag;
             }
-            else
+            Image btnImage = endRoundButton.GetComponent<Image>();
+            if (btnImage != null)
             {
-                // Fallback to direct color change when no CanvasGroup assigned
-                endRoundButton.image.color = flag ? Color.white : new Color(0.6f, 0.6f, 0.6f, 0.6f);
+                btnImage.color = flag
+                    ? Color.white
+                    : new Color(0.5f, 0.5f, 0.5f, 1f);   // затемнение без потери alpha
             }
+
+        }
+
+        private void OnDestroy()
+        {
+            if (targetBoard != null && targetBoard.Scorer != null)
+                targetBoard.Scorer.OnValueGoalChanged -= OnValueGoalChanged;
+        }
+
+        private void OnValueGoalChanged(bool isValueGoalMet)
+        {
+            if (isReadyForPrediction || makePredictionText == null) return;
+
+            makePredictionText.text = isValueGoalMet
+                ? LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "end_round_button_goal_met")
+                : LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "end_round_button");
         }
 
         public void RulesToggle()
@@ -207,20 +232,15 @@ namespace CardGame.Managers
             rulesPanel.Toggle();
         }
         
+        // ===== Round Flow =====
+
         /// <summary>
-        /// Start a new round
+        /// Start a new round: clear previous cards, generate goal, deal new hand
         /// </summary>
         public void StartRound()
         {
-            if (isDealing)
+            if (isDealing || isRoundActive)
             {
-                Debug.Log("Already dealing cards!");
-                return;
-            }
-
-            if (isRoundActive)
-            {
-                Debug.Log("Round already in progress! End current round first.");
                 return;
             }
 
@@ -241,7 +261,11 @@ namespace CardGame.Managers
             isRoundActive = true;
             SetIsWaitingToDeal(false);
             if (AudioManager.Instance != null)
-                AudioManager.Instance.PlayCardShuffle(cardsShuffle);
+                AudioManager.Instance.PlaySFX(cardsShuffle);
+
+            // Сбрасываем текст кнопки на дефолтный при старте раунда
+            if (makePredictionText != null)
+                makePredictionText.text = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "end_round_button");
 
             GenerateGoal();
             StartCoroutine(DealCardsToBoard());
@@ -252,7 +276,15 @@ namespace CardGame.Managers
 
         private void ClearPreviousRoundCards()
         {
-            var targetCards = targetBoard.GetCards();
+            // Copy to array since we're destroying objects while the source list shrinks
+            var targetCards = new List<SimpleCard>(targetBoard.GetCards());
+
+            // Record played cards into the discard pile before destroying
+            foreach (var card in targetCards)
+                discardPile.PutCardIntoDeck(card.GetCardData());
+
+            Debug.Log($"[DiscardPile] Round {currentRound} ended. Added {targetCards.Count} cards. Total in pile: {discardPile.RemainingCards}");
+
             foreach (var card in targetCards)
             {
                 if (card != null) Destroy(card.gameObject);
@@ -281,13 +313,13 @@ namespace CardGame.Managers
             switch (result)
             {
                 case AVAILABILITY_FULL_MATCH:
-                    availabilityText.text = "Full";
+                    availabilityText.text = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "availability_full");
                     break;
                 case AVAILABILITY_VALUE_ONLY:
-                    availabilityText.text = "Only value";
+                    availabilityText.text = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "availability_value_only");
                     break;
                 case AVAILABILITY_NO_MATCH:
-                    availabilityText.text = "Nothing Here";
+                    availabilityText.text = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "availability_no_match");
                     break;
             }
         }
@@ -297,19 +329,14 @@ namespace CardGame.Managers
         /// </summary>
         public bool EndRound()
         {
-            if (!isRoundActive)
-            {
-                Debug.Log("No active round to end!");
-                return false;
-            }
+            if (!isRoundActive) return false;
 
             // Check if at least one card is on the board
             if (targetBoard.CardCount == 0)
             {
-                Debug.Log("Cannot end round - at least one card required on board!");
                 if (resultText != null)
                 {
-                    StartCoroutine(ShowTemporaryMessage("Need at least 1 card!", Color.red));
+                    StartCoroutine(ShowTemporaryMessage(LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "error_need_card"), Color.red));
                 }
                 return false;
             }
@@ -321,7 +348,7 @@ namespace CardGame.Managers
             // Calculate round score
             SuccessCodes roundScore = CalculateRoundScore();
             scoreHistory.Add(roundScore);
-            if (tilesManager != null && tilesManager.isActive) tilesManager.setVisibility(roundScore);
+            if (tilesManager != null && tilesManager.isActive) tilesManager.SetVisibility(roundScore);
 
             // Show result
             StartCoroutine(ShowRoundResult(roundScore));
@@ -339,15 +366,25 @@ namespace CardGame.Managers
         private void SetIsWaitingToDeal(bool value)
         {
             isWaitingToDeal = value;
-            startRoundButton.image.enabled = value;
+            if (startRoundButton != null)
+                startRoundButton.image.enabled = value;
+            if (deck != null)
+                deck.SetAdviceGlow(value && currentRound < config.MaxRounds);
         }
 
-        private void StartPostdiction() => SceneManager.LoadScene("PostDictionScene", LoadSceneMode.Additive);
+        private void StartPostdiction() => SceneManager.LoadScene(SceneNames.PostdictionScene, LoadSceneMode.Additive);
         
+        // ===== Goal Generation =====
+
+        private void SetGoalValue(int goalValue)
+        {
+            currentGoalValue = goalValue;
+        }
+
         private void GenerateGoal()
         {
             // Random value between min and max (inclusive)
-            currentGoalValue = Random.Range(minGoalValue, maxGoalValue + 1);
+            SetGoalValue(Random.Range(config.MinGoalValue, config.MaxGoalValue + 1));
             
             // Get available suits (those that haven't reached the limit)
             RollNewSuitGoal();
@@ -363,12 +400,20 @@ namespace CardGame.Managers
             UpdateGoalDisplay();
         }
 
+        private void ResetSuitGoalRestrictions()
+        {
+            foreach (Suits suit in System.Enum.GetValues(typeof(Suits)))
+            {
+                suitUsageCount[suit] = 0;
+            }
+        }
+
         private void RollNewSuitGoal()
         {
             List<Suits> availableSuits = new List<Suits>();
             foreach (Suits suit in System.Enum.GetValues(typeof(Suits)))
             {
-                if (suitUsageCount[suit] < maxSameSuitOccurrences)
+                if (suitUsageCount[suit] < config.MaxSameSuitOccurrences)
                 {
                     availableSuits.Add(suit);
                 }
@@ -377,9 +422,9 @@ namespace CardGame.Managers
             if (availableSuits.Count == 0)
             {
                 Debug.LogWarning("All suits have reached max usage! Resetting suit counters.");
+                ResetSuitGoalRestrictions();
                 foreach (Suits suit in System.Enum.GetValues(typeof(Suits)))
                 {
-                    suitUsageCount[suit] = 0;
                     availableSuits.Add(suit);
                 }
             }
@@ -393,9 +438,11 @@ namespace CardGame.Managers
             StartCoroutine(GetAnotherSetOfCards());
         }
 
+        // ===== Card Dealing =====
+
         private List<SimpleCard> GetActiveCards()
         {
-            List<SimpleCard> result = new List<SimpleCard>();
+            var result = new List<SimpleCard>(handBoard.CardCount + targetBoard.CardCount);
             result.AddRange(handBoard.GetCards());
             result.AddRange(targetBoard.GetCards());
             return result;
@@ -409,7 +456,7 @@ namespace CardGame.Managers
             {
                 deck.ShuffleCardIntoDeck(card.GetCardData());
                 Destroy(card.gameObject);
-                yield return new WaitForSeconds(dealDelay);
+                yield return new WaitForSeconds(config.DealDelay);
             }
             handBoard.ClearBoard();
             targetBoard.ClearBoard();
@@ -423,25 +470,44 @@ namespace CardGame.Managers
             foreach (CardData cardData in cardsToDraw)
             {
                 deck.SpawnCardOnBoard(cardData, true);
-                yield return new WaitForSeconds(dealDelay);
+                yield return new WaitForSeconds(config.DealDelay);
             }
             
             isDealing = false;
-            
-            Debug.Log($"Round {currentRound} started! Board now has {targetBoard.CardCount} cards.");
             UpdateAvailabilityField();
+        }
+
+        /// <summary>
+        /// If the main deck is short, move random cards from the discard pile to fill the gap.
+        /// </summary>
+        private void TopUpDeckFromDiscard(int cardsNeeded)
+        {
+            int shortage = cardsNeeded - deck.GetRemainingCards();
+            if (shortage <= 0 || discardPile.IsEmpty()) return;
+
+            discardPile.Shuffle();
+            int toTransfer = Mathf.Min(shortage, discardPile.RemainingCards);
+            for (int i = 0; i < toTransfer; i++)
+            {
+                CardData card = discardPile.Draw();
+                if (card != null)
+                    deck.ShuffleCardIntoDeck(card);
+            }
         }
 
         private IEnumerator DealCardsToBoard()
         {
             // Calculate how many cards to deal
             int currentCards = handBoard.CardCount + targetBoard.CardCount;
-            int cardsToDeal = cardsPerRound - currentCards;
+            int cardsToDeal = config.CardsPerRound - currentCards;
+
+            TopUpDeckFromDiscard(cardsToDeal);
 
             List<CardData> newSetOfCards = GetNewSetOfCards(cardsToDeal);
             if (onlyPossibleSetsMode)
             {
                 newSetOfCards = GetPossibleSetOfCards(cardsToDeal);
+                UpdateGoalDisplay(); // sync display: search loop may have decremented goal value without updating UI
             }
             
             yield return StartCoroutine(DrawCardsToBoard(newSetOfCards));
@@ -450,19 +516,28 @@ namespace CardGame.Managers
         private List<CardData> GetPossibleSetOfCards(int cardsNum)
         {
             List<CardData> newSetOfCards = GetNewSetOfCards(cardsNum);
-            List<CardData> currentCardSet = handBoard.GetCardsData();
+            IReadOnlyList<CardData> currentCardSet = handBoard.GetCardsData();
 
-            for (int suitAttempt = 0; suitAttempt < MAX_SUIT_REROLL_ATTEMPTS; suitAttempt++)
+            for (int currentGoal = currentGoalValue; currentGoal > 0; currentGoal -= 1)
             {
-                for (int cardAttempt = 0; cardAttempt < MAX_CARD_REROLL_ATTEMPTS; cardAttempt++)
+                for (int suitAttempt = 0; suitAttempt < MAX_SUIT_REROLL_ATTEMPTS; suitAttempt++)
                 {
-                    newSetOfCards = GetNewSetOfCards(cardsNum);
-                    if (CheckAvailability(newSetOfCards.Concat(currentCardSet).ToList()) == AVAILABILITY_FULL_MATCH)
+                    for (int cardAttempt = 0; cardAttempt < MAX_CARD_REROLL_ATTEMPTS; cardAttempt++)
                     {
-                        return newSetOfCards;
+                        newSetOfCards = GetNewSetOfCards(cardsNum);
+                        if (CheckAvailability(newSetOfCards.Concat(currentCardSet).ToList()) == AVAILABILITY_FULL_MATCH)
+                        {
+                            return newSetOfCards;
+                        }
                     }
+                    RerollSuitGoal();
                 }
-                RerollSuitGoal();
+
+                if (currentGoal == config.MinGoalValue)
+                {
+                    ResetSuitGoalRestrictions();   
+                }
+                SetGoalValue(currentGoal - 1); 
             }
 
             return newSetOfCards;
@@ -485,7 +560,9 @@ namespace CardGame.Managers
             }
             
             // Update suit text (cat replica) and trigger cat talk animation
-            SetCatReplica(RoundTips.replica[currentRound]);
+            string replica = LocalizationSettings.StringDatabase.GetLocalizedString(
+                "MainScene", $"narrative_round_{currentRound}");
+            SetCatReplica(replica);
             
             // Update goal card image (if using visual card)
             if (goalCardImage != null)
@@ -497,129 +574,89 @@ namespace CardGame.Managers
             UpdateAvailabilityField();
         }
         
+        // ===== Score Calculation =====
+
         /// <summary>
         /// Calculate score based on goal matching
         /// </summary>
         private SuccessCodes CalculateRoundScore()
         {
-            Score currentScore = CalculateScoreFromBoard();
-            
-            int achievedScore = currentScore.GetFullScore();
-            Suits? dominantSuit = currentScore.GetDominantSuit();
-            
-            Debug.Log($"Goal: {currentGoalSuit} {currentGoalValue} | Achieved: {(dominantSuit.HasValue ? dominantSuit.Value.ToString() : "None")} {achievedScore}");
-            
-            // Check if score matches goal
-            bool scoreMatches = (achievedScore == currentGoalValue);
-            bool suitMatches = dominantSuit.HasValue && (dominantSuit.Value == currentGoalSuit);
-            
-            if (!scoreMatches)
-            {
-                // Score doesn't match goal
-                Debug.Log("Round Result: MISS - Score doesn't match goal (0 points)");
-                return SuccessCodes.Failer;
-            }
-            else if (scoreMatches && !suitMatches)
-            {
-                // Score matches but suit doesn't
-                Debug.Log("Round Result: PARTIAL - Score matches but wrong suit (0.5 points)");
-                return SuccessCodes.Patrial;
-            }
-            else
-            {
-                // Perfect match!
-                Debug.Log("Round Result: PERFECT - Exact match! (1 point)");
-                return SuccessCodes.Success;
-            }
+            Score currentScore = ScoreCalculator.CalculateScore(targetBoard.GetCards());
+            return ScoreCalculator.EvaluateGoal(currentScore, currentGoalValue, currentGoalSuit);
         }
         
-        private Score CalculateScoreFromBoard()
-        {
-            var cards = targetBoard.GetCards();
+        // ===== UI Updates =====
 
-            CardLayout layout = new CardLayout();
-            foreach (var simpleCard in cards)
-            {
-                layout.AddCard(simpleCard);
-            }
-
-            return layout.GetScore();
-        }
-        
         /// <summary>
         /// Show round result to player
         /// </summary>
         private IEnumerator ShowRoundResult(SuccessCodes roundScore)
         {
+            // Capture round number now — currentRound may be incremented by a new
+            // StartRound() call while this coroutine is waiting.
+            int roundWhenStarted = currentRound;
+
             if (resultText != null)
             {
                 resultText.gameObject.SetActive(true);
-                
+
                 string resultMessage = "";
                 Color resultColor = Color.white;
-                
+
                 if (roundScore == SuccessCodes.Failer)
                 {
-                    resultMessage = "MISS!\nScore doesn't match\n+0 points";
+                    resultMessage = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "result_miss");
                     resultColor = new Color(1f, 0.3f, 0.3f); // Red
                 }
-                else if (roundScore == SuccessCodes.Patrial)
+                else if (roundScore == SuccessCodes.Partial)
                 {
-                    resultMessage = "PARTIAL!\nRight score, wrong suit\n+0.5 points";
+                    resultMessage = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "result_partial");
                     resultColor = new Color(1f, 0.8f, 0.2f); // Orange/Yellow
                 }
                 else
                 {
-                    resultMessage = "PERFECT!\nExact match!\n+1 point";
+                    resultMessage = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "result_perfect");
                     resultColor = new Color(0.3f, 1f, 0.3f); // Green
                 }
-                
+
                 resultText.text = resultMessage;
                 resultText.color = resultColor;
 
-                yield return new WaitForSeconds(resultDisplayTime);
+                yield return new WaitForSeconds(config.ResultDisplayTime);
 
                 resultText.gameObject.SetActive(false);
             }
 
-            // After last round, change button to "make prediction"
-            if (currentRound >= maxRounds)
+            if (roundWhenStarted >= config.MaxRounds)
             {
-                isReadyForPrediction = true;
-                if (endRoundButton != null && makePredictionSprite != null)
-                {
-                    Image buttonImage = endRoundButton.GetComponent<Image>();
-                    if (buttonImage != null)
-                    {
-                        buttonImage.sprite = makePredictionSprite;
-                    }
-                }
-                UpdateButtonStates();
+                PrepareForPrediction();
             }
         }
 
         /// <summary>
-        /// Clear all cards from the board
+        /// Transition UI to prediction mode after the final round
         /// </summary>
-        private void ClearBoard()
+        private void PrepareForPrediction()
         {
-            var cards = targetBoard.GetCards();
-            
-            // Destroy all card GameObjects
-            foreach (var card in cards)
+            isReadyForPrediction = true;
+
+            if (deck != null)
+                deck.SetAdviceGlow(false);
+
+            if (makePredictionText != null)
             {
-                if (card != null)
-                {
-                    Destroy(card.gameObject);
-                }
+                makePredictionText.text = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "prediction_button");
             }
-            
-            // Clear the board's internal list
-            targetBoard.ClearBoard();
-            
-            Debug.Log("Board cleared for next round");
+
+            UpdateButtonStates();
+
+            // Сбрасываем выбранный UI-элемент, иначе кнопка застревает в highlighted-состоянии
+            if (EventSystem.current != null)
+                EventSystem.current.SetSelectedGameObject(null);
         }
-        
+
+
+
         /// <summary>
         /// Show temporary message
         /// </summary>
@@ -644,7 +681,7 @@ namespace CardGame.Managers
         {
             if (scoreHistoryText != null)
             {
-                scoreHistoryText.text = "Scores: " + GetScoreHistoryString();
+                scoreHistoryText.text = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "score_history_prefix") + GetScoreHistoryString();
             }
         }
         
@@ -663,7 +700,7 @@ namespace CardGame.Managers
             {
                 if (score == SuccessCodes.Failer)
                     scoreStrings.Add("0");
-                else if (score == SuccessCodes.Patrial)
+                else if (score == SuccessCodes.Partial)
                     scoreStrings.Add("1/2");
                 else
                     scoreStrings.Add("1");
@@ -679,7 +716,9 @@ namespace CardGame.Managers
         {
             if (roundNumberText != null)
             {
-                roundNumberText.text = $"Round: {currentRound}";
+                roundNumberText.text = string.Format(
+                    LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "round_display"),
+                    currentRound);
             }
         }
         
@@ -703,9 +742,20 @@ namespace CardGame.Managers
 
             if (catAnimationController != null)
             {
-                catAnimationController.CatTalkForDuration(catTalkDuration);
+                catAnimationController.CatTalkForDuration(config.CatTalkDuration);
             }
         }
+
+        // ===== Pause =====
+
+        public void OpenPauseMenu()
+        {
+            if (inGameMenu) return;
+            inGameMenu = true;
+            SceneManager.LoadScene(SceneNames.GameMenu, LoadSceneMode.Additive);
+        }
+
+        // ===== Helpers =====
 
         /// <summary>
         /// Get color for a suit
@@ -744,19 +794,19 @@ namespace CardGame.Managers
             currentGoalValue = 0;
             isRoundActive = false;
             
-            ClearBoard();
-            
+            ClearPreviousRoundCards();
+            discardPile.Clear();
+
             UpdateRoundDisplay();
             UpdateScoreHistoryDisplay();
             
             if (goalValueText != null)
                 goalValueText.text = "?";
             if (goalSuitText != null)
-                goalSuitText.text = "Press Start";
+                goalSuitText.text = LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "initial_goal_text");
             if (catAnimationController != null)
                 catAnimationController.CatIdle();
 
-            Debug.Log("Game reset!");
         }
     }
 }

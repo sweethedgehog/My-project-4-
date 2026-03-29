@@ -8,6 +8,8 @@ using CardGame.Core;
 using CardGame.GameObjects;
 using CardGame.Scoring;
 using CardGame.UI;
+using DefaultNamespace.Tiles;
+using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 
 namespace CardGame.Managers
@@ -61,6 +63,7 @@ namespace CardGame.Managers
         
         [Header("UI Elements")]
         [SerializeField] private Button endTurnButton;
+        [SerializeField] private TextMeshProUGUI endTurnButtonText;
         [SerializeField] private GameObject pictureDisplay;
         [SerializeField] private GameObject hintDisplay;
         [SerializeField] private RulesPanel rulesPanel;
@@ -68,30 +71,26 @@ namespace CardGame.Managers
 
         [Header("Goal Display")]
         [SerializeField] private GameObject goalDisplay;
-        [SerializeField] private TMPro.TextMeshProUGUI goalValueText;
-        [SerializeField] private TMPro.TextMeshProUGUI goalSuitText;
-        [SerializeField] private Image ballImage;
+        [SerializeField] private TMPro.TextMeshPro goalValueText;
+        [SerializeField] private TMPro.TextMeshPro goalSuitText;
+        [SerializeField] private SpriteRenderer ballImage;
         [SerializeField] private Sprite coinBallSprite;
 
         [Header("Tutorial Settings")]
-        [SerializeField] private int tutorialGoalValue = 5;
+        [SerializeField] private int tutorialGoalValue = 11;
         [SerializeField] private Suits tutorialGoalSuit = Suits.Coins;
         [SerializeField] private float bubbleSkipDelay = 0.5f;
         
         [Header("Audio")]
         [SerializeField] private AudioClip tutorialCompleteSound;
         [SerializeField] private AudioClip cardDrawSound;
-        [SerializeField] private AudioClip goalValueCompleteSound;
-        [SerializeField] private AudioClip goalSuitCompleteSound;
         [SerializeField] private float cardDrawDelay = 0.2f;
         
         private int currentStep = 0;
         private bool waitingForInput = false;
         private bool stepInProgress = false;
-        private AudioSource audioSource;
         private bool isRulesOpened = false;
         private float bubbleShowTime;
-        private bool goalSoundPlayed = false;
 
         public static bool inGameMenu = false;
 
@@ -112,13 +111,7 @@ namespace CardGame.Managers
             // Start music through AudioManager
             if (AudioManager.Instance != null)
             {
-                AudioManager.Instance.PlayMenuMusic();
-            }
-
-            audioSource = GetComponent<AudioSource>();
-            if (audioSource == null)
-            {
-                audioSource = gameObject.AddComponent<AudioSource>();
+                AudioManager.Instance.PlayTutorialMusic();
             }
 
             // Hide all UI elements initially
@@ -130,10 +123,29 @@ namespace CardGame.Managers
             handBoard.SetFreeze(true);
             targetBoard.SetFreeze(true);
             
+            // Subscribe to goal value changes for dynamic button text
+            if (targetBoard != null && targetBoard.Scorer != null)
+                targetBoard.Scorer.OnValueGoalChanged += OnValueGoalChanged;
+
             // Start tutorial
             StartCoroutine(RunTutorial());
         }
         
+        private void OnDestroy()
+        {
+            if (targetBoard != null && targetBoard.Scorer != null)
+                targetBoard.Scorer.OnValueGoalChanged -= OnValueGoalChanged;
+        }
+
+        private void OnValueGoalChanged(bool isValueGoalMet)
+        {
+            if (endTurnButtonText == null) return;
+
+            endTurnButtonText.text = isValueGoalMet
+                ? LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "end_round_button_goal_met")
+                : LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "end_round_button");
+        }
+
         void Update()
         {
             // Block input while in game menu
@@ -142,8 +154,7 @@ namespace CardGame.Managers
             // Open game menu on Escape
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                inGameMenu = true;
-                SceneManager.LoadScene("GameMenu", LoadSceneMode.Additive);
+                OpenPauseMenu();
                 return;
             }
 
@@ -219,6 +230,17 @@ namespace CardGame.Managers
             yield return Step17_FinalAdvice();
         }
         
+        // ====================================================================
+        // PAUSE
+        // ====================================================================
+
+        public void OpenPauseMenu()
+        {
+            if (inGameMenu) return;
+            inGameMenu = true;
+            SceneManager.LoadScene(SceneNames.GameMenu, LoadSceneMode.Additive);
+        }
+
         // ====================================================================
         // TUTORIAL STEPS
         // ====================================================================
@@ -325,6 +347,9 @@ namespace CardGame.Managers
             HideAllBubbles();
             HideAllHighlights();
 
+            // Activate scorer now (goal display was shown in Step 6, but scoring starts here)
+            ActivateScorer();
+
             // Goal display is already visible from Step 6
             ShowHighlight(highlight_CurrentScore);
             ShowBubble(bubble7_ExplainGoalNumber);
@@ -371,16 +396,13 @@ namespace CardGame.Managers
         private IEnumerator Step10_ExplainMultiplier()
         {
             currentStep = 10;
-
-            // Wait for player to place the coin card
+            // Wait for player to place the coin card on the target board
             int initialCount = targetBoard.CardCount;
             while (targetBoard.CardCount <= initialCount)
             {
                 yield return null;
             }
-
-            // Unfreeze all cards after placement
-            UnfreezeAllCards();
+            FreezeAllCards();
 
             // Small delay to let glow effect show
             yield return new WaitForSeconds(0.5f);
@@ -403,7 +425,7 @@ namespace CardGame.Managers
             ShowBubble(bubble11_ReferToRules);
 
             // Wait for player to open the rules panel
-            while (rulesPanel == null || rulesPanel.CurrentTarget != RulesCords.Open)
+            while (rulesPanel == null || rulesPanel.CurrentTarget != RulesCoords.Open)
             {
                 yield return null;
             }
@@ -414,7 +436,7 @@ namespace CardGame.Managers
             ShowBubble(bubble11b_RulesScrollOpened);
 
             // Wait for player to start closing the rules panel (hide bubble immediately)
-            while (rulesPanel.CurrentTarget != RulesCords.Closed)
+            while (rulesPanel.CurrentTarget != RulesCoords.Closed)
             {
                 yield return null;
             }
@@ -436,6 +458,8 @@ namespace CardGame.Managers
             ShowHighlight(highlight_Crystal);
             ShowBubble(bubble12_ExplainDominantSuit);
             yield return WaitForPlayerClick();
+
+            UnfreezeAllCards();
         }
         
         private IEnumerator Step13_ExplainGoal()
@@ -466,9 +490,6 @@ namespace CardGame.Managers
             {
                 yield return new WaitForSeconds(0.5f);
             }
-
-            // Play goal completion sounds
-            PlayGoalCompleteSounds();
 
             // Goal reached - now hide the goal bubble and freeze all cards
             HideBubble(bubble13_ExplainGoal);
@@ -627,31 +648,22 @@ namespace CardGame.Managers
 
         /// <summary>
         /// Wait for player to click specifically on the deck
+        /// Uses Physics2D raycast to detect world-space deck with BoxCollider2D
         /// </summary>
         private IEnumerator WaitForDeckClick()
         {
             while (true)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (!inGameMenu && Input.GetMouseButtonDown(0))
                 {
-                    // Check if click is on the deck using raycast
-                    UnityEngine.EventSystems.PointerEventData pointerData =
-                        new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
-                        {
-                            position = Input.mousePosition
-                        };
+                    Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
-                    List<UnityEngine.EventSystems.RaycastResult> results = new List<UnityEngine.EventSystems.RaycastResult>();
-                    UnityEngine.EventSystems.EventSystem.current.RaycastAll(pointerData, results);
-
-                    foreach (var result in results)
+                    if (hit.collider != null && deck != null &&
+                        (hit.collider.gameObject == deck.gameObject ||
+                         hit.collider.transform.IsChildOf(deck.transform)))
                     {
-                        // Check if clicked object is the deck or a child of deck
-                        if (deck != null && (result.gameObject == deck.gameObject ||
-                            result.gameObject.transform.IsChildOf(deck.transform)))
-                        {
-                            yield break; // Exit coroutine - deck was clicked
-                        }
+                        yield break;
                     }
                 }
                 yield return null;
@@ -671,7 +683,8 @@ namespace CardGame.Managers
             if (pictureDisplay != null) pictureDisplay.SetActive(false);
             if (hintDisplay != null) hintDisplay.SetActive(false);
             if (endTurnButton != null) endTurnButton.gameObject.SetActive(false);
-            if (goalDisplay != null) goalDisplay.SetActive(false);
+            if (goalValueText != null) goalValueText.gameObject.SetActive(false);
+            if (goalSuitText != null) goalSuitText.gameObject.SetActive(false);
             if (rulesButton != null) rulesButton.interactable = false;
             if (rulesPanel != null) rulesPanel.SetLocked(true);
         }
@@ -681,18 +694,15 @@ namespace CardGame.Managers
         /// </summary>
         private void ShowGoalDisplay()
         {
-            if (goalDisplay != null)
-            {
-                goalDisplay.SetActive(true);
-            }
-
             if (goalValueText != null)
             {
+                goalValueText.gameObject.SetActive(true);
                 goalValueText.text = tutorialGoalValue.ToString();
             }
 
             if (goalSuitText != null)
             {
+                goalSuitText.gameObject.SetActive(true);
                 goalSuitText.text = tutorialGoalSuit.ToString();
             }
 
@@ -701,6 +711,14 @@ namespace CardGame.Managers
             {
                 ballImage.sprite = coinBallSprite;
             }
+        }
+
+        /// <summary>
+        /// Activate CardScorer + MirrorDisplay for the target board (called separately from ShowGoalDisplay)
+        /// </summary>
+        private void ActivateScorer()
+        {
+            targetBoard.SetGoal(tutorialGoalSuit, tutorialGoalValue);
         }
         
         /// <summary>
@@ -735,32 +753,7 @@ namespace CardGame.Managers
         {
             if (cardDrawSound != null && AudioManager.Instance != null)
             {
-                AudioManager.Instance.PlayCardShuffle(cardDrawSound);
-            }
-        }
-
-        private void PlayGoalCompleteSounds()
-        {
-            if (goalSoundPlayed) return;
-            goalSoundPlayed = true;
-
-            StartCoroutine(PlayGoalSoundsSequence());
-        }
-
-        private IEnumerator PlayGoalSoundsSequence()
-        {
-            // Play value complete sound
-            if (goalValueCompleteSound != null && AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayGoalValueComplete(goalValueCompleteSound);
-            }
-
-            yield return new WaitForSeconds(0.5f);
-
-            // Play suit complete sound
-            if (goalSuitCompleteSound != null && AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayGoalSuitComplete(goalSuitCompleteSound);
+                AudioManager.Instance.PlaySFX(cardDrawSound);
             }
         }
 
@@ -852,20 +845,9 @@ namespace CardGame.Managers
         private bool IsSpreadCorrect()
         {
             if (targetBoard.CardCount == 0) return false;
-            
-            // Get current score
-            CardLayout layout = new CardLayout();
-            foreach (SimpleCard card in targetBoard.GetCards())
-            {
-                layout.AddCard(card);
-            }
-            
-            Score score = layout.GetScore();
-            int totalValue = score.GetFullScore();
-            Suits? dominantSuit = score.GetDominantSuit();
-            
-            // Check if matches tutorial goal
-            return totalValue == tutorialGoalValue && dominantSuit == tutorialGoalSuit;
+
+            Score score = ScoreCalculator.CalculateScore(targetBoard.GetCards());
+            return ScoreCalculator.EvaluateGoal(score, tutorialGoalValue, tutorialGoalSuit) == SuccessCodes.Success;
         }
 
         /// <summary>
@@ -886,8 +868,6 @@ namespace CardGame.Managers
                 AudioManager.Instance.PlaySFX(tutorialCompleteSound);
             }
 
-            Debug.Log("Tutorial complete! Player is ready to play.");
-
             // Wait for final click then return to main menu
             StartCoroutine(WaitAndReturnToMenu());
         }
@@ -895,7 +875,7 @@ namespace CardGame.Managers
         private IEnumerator WaitAndReturnToMenu()
         {
             yield return WaitForPlayerClick();
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu);
         }
 
         /// <summary>

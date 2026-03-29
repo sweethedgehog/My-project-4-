@@ -80,3 +80,10 @@ Assets/Scripts/Score/.idea/workspace.xml
 *Fallback.asset
 /Assets/TextMesh Pro
 Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset
+
+# Generated PDF and script for text changes review
+generate_changes_pdf.py
+text_changes.pdf
+
+# Claude workspace
+claude_workspace/

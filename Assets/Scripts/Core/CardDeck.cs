@@ -12,11 +12,11 @@ namespace CardGame.Core
         
         public int RemainingCards => deck.Count;
         
-        public CardDeck(Dictionary<Suits, Dictionary<int, Sprite>> sprites = null)
+        public CardDeck(Dictionary<Suits, Dictionary<int, Sprite>> sprites = null, bool startEmpty = false)
         {
             spriteMap = sprites;
             deck = new List<CardData>();
-            InitializeDeck();
+            if (!startEmpty) InitializeDeck();
         }
         
         private void InitializeDeck()
@@ -42,7 +42,6 @@ namespace CardGame.Core
             }
             
             Shuffle();
-            Debug.Log($"Deck initialized with {deck.Count} cards");
 			
         }
         
@@ -70,7 +69,6 @@ namespace CardGame.Core
                 deck[randomIndex] = temp;
             }
             
-            Debug.Log("Deck shuffled");
         }
 
         public void PutCardIntoDeck(CardData card)
@@ -113,6 +111,8 @@ namespace CardGame.Core
         {
             InitializeDeck();
         }
+
+        public void Clear() => deck.Clear();
         
         public void ResetAndShuffle()
         {

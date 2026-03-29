@@ -1,0 +1,227 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: MainScene_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 100000000001
+    m_Localized: let it be
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000002
+    m_Localized: the rules
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000003
+    m_Localized: I'm ready to answer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000004
+    m_Localized: 'Suit: Roses
+
+      Cards double when placed between any two cards,
+      even of the same suit.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000005
+    m_Localized: 'Suit: Skulls Cards at the edges of the spread double their value'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000006
+    m_Localized: 'Suit: Coins A card doubles its value if it is next to another coin
+      card'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000007
+    m_Localized: 'Suit: Crowns Cards double if they are not next to other crowns'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000008
+    m_Localized: 'Mirror color: shows your dominant suit.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000009
+    m_Localized: 'Crystal Ball Color: shows the suit required for this round.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000010
+    m_Localized: Track your score here
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000011
+    m_Localized: Check the number needed to win each round
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000012
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000013
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000014
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000015
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000016
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000017
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000018
+    m_Localized: '{0}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000019
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000020
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000021
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000022
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000023
+    m_Localized: "Madame Quacking!\nI cannot express in words how grateful I am for
+      your reception. As a man of science, I had hoped until the last that I could
+      manage without\u2026esoteric indulgences, yet the police are powerless. I beg
+      you, madame, look \nnto the past and tell me\nwho killed my wife!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000024
+    m_Localized: "It was a gloomy evening.\nFoxicia and I set forth by carriage for
+      the estate of Sir Oswald Blackmore \u2014 the wealthiest badger in the kingdom.
+      He was hosting a charity dinner, at which Foxicia was to perform."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000025
+    m_Localized: 'The reception was splendid, and the guests numerous. Yet Foxicia
+
+      and
+      I spent the first part of the evening apart.
+
+      Many approached her, as
+      one would a celebrated pianist. I, meanwhile, encountered Lady Bella Nottingham,
+      and we lost ourselves in memories.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000026
+    m_Localized: "Once the guests had grown tired of conversation, Sir Blackmore
+      gave a brief, rather empty speech on the virtues of patrons. Then it was Foxicia\u2019s
+      turn: a stately polonaise, followed by a couple of her usual nocturnes \u2014
+      the audience applauded."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000027
+    m_Localized: 'Foxicia was surrounded by guests while I succumbed to boredom.
+
+      I
+      had likely overindulged in drink and failed to notice when she slipped away.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000028
+    m_Localized: I do not know how much time had passed, but at some point, Sir Blackmore
+      suggested a walk in the winter garden and a cigar. My head throbbed from the
+      drink I had taken. Fortunately, Blackmore spoke freely and demanded no reply.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000029
+    m_Localized: "This horror is beyond words!\nThe haze of drink cleared when I
+      saw her lying on the wet ground.\nHer dress was soiled, her fur matted, and
+      her eyes motionless.\nHow\u2026 how am I to live with this now!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000030
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000031
+    m_Localized: "Dr. Nicholas Purrley and Madame Foxicia are riding in a carriage
+      to the estate of Sir Oswald Blackmore \u2014 the wealthiest badger in the kingdom."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000032
+    m_Localized: A grand reception at the estate. Doctor Purrley meets his old acquaintance,
+      Lady Bella Nottingham. The guests are introduced to a young romantic poet,
+      Theodore Pawwood.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000033
+    m_Localized: "Madame Foxicia plays a solemn polonaise and a couple of familiar
+      nocturnes \u2014 the audience is enchanted."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000034
+    m_Localized: Dr. Purrley retreats into solitude and alcoholic drink, while Madame
+      Foxicia withdraws from the hall.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000035
+    m_Localized: Dr. Purrley and Sir Blackmore stroll through the winter garden.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000036
+    m_Localized: All the guests stand over the body of the deceased Madame Foxicia
+      in the winter garden.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000037
+    m_Localized: Focus on the items they're holding
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000038
+    m_Localized: The scene contains a murder weapon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000039
+    m_Localized: Focus on the wall
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000040
+    m_Localized: Something is missing in this scene.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000041
+    m_Localized: "Demonstrating a character\u2019s innocence"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000042
+    m_Localized: "The characters\u2019 appearances have changed"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 100000000043
+    m_Localized: read the spread
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

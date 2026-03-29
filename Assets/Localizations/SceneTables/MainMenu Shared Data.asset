@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: MainMenu Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: MainMenu
+  m_TableCollectionNameGuidString: 62ec75105729aca459b19cc64989d727
+  m_Entries:
+  - m_Id: 71252787200
+    m_Key: tutorial_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215876583424
+    m_Key: new_game_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12158787340443648
+    m_Key: exit_game_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13042768600604672
+    m_Key: settings_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13042859684110336
+    m_Key: authors_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238077563592704
+    m_Key: kostya_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238186787463168
+    m_Key: vitya_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238469605187584
+    m_Key: kolya_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238705048248320
+    m_Key: asya_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238811638095872
+    m_Key: kirill_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238992412598272
+    m_Key: back_but
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13239140156956672
+    m_Key: music_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13239417551446016
+    m_Key: sfx_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13239553706942464
+    m_Key: language_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13985903283511296
+    m_Key: Masha_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13986042572152832
+    m_Key: Shushan_name
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 5397054384666050825
+  references:
+    version: 2
+    RefIds:
+    - rid: 5397054384666050825
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1771363003927

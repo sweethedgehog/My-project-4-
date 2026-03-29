@@ -219,6 +219,9 @@ namespace CardGame.Core
     
     public static class CardCombinations
     {
+        // Reusable layout to avoid GC pressure during combination checking
+        private static readonly CardLayout sharedLayout = new CardLayout();
+
         /// <summary>
         /// Generate all ordered subsets of a collection and check for goal match.
         /// Returns: 0 (no match), 1 (score match only), or 2 (perfect match with suit)
@@ -226,34 +229,42 @@ namespace CardGame.Core
         public static int AllOrderedSubsets(List<CardData> cards, int goalValue, Suits goalSuit)
         {
             int n = cards.Count;
-            int maxScore = 0;
 
-            // For each possible subset size (0 to n)
-            for (int size = 0; size <= n; size++)
+            // Early exit: if max possible score (all values × 2) can't reach goal
+            int maxPossibleScore = 0;
+            for (int i = 0; i < n; i++)
+                maxPossibleScore += cards[i].cardValue * 2;
+            if (maxPossibleScore < goalValue)
+                return 0;
+
+            int bestMatch = 0;
+
+            // Skip size 0 (score is always 0) — start from size 1
+            for (int size = 1; size <= n; size++)
             {
-                // Get all combinations of that size
                 foreach (var combo in GetCombinations(cards, size))
                 {
-                    // Early skip: if sum of values * 2 < goal, skip
-                    int sumValues = combo.Sum(x => x.cardValue);
+                    // Early skip: if sum of values * 2 < goal, no permutation can reach it
+                    int sumValues = 0;
+                    for (int i = 0; i < combo.Count; i++)
+                        sumValues += combo[i].cardValue;
                     if (sumValues * 2 < goalValue)
                         continue;
 
-                    // Get all permutations of this combination
                     foreach (var perm in GetPermutations(combo))
                     {
-                        CardLayout layout = new CardLayout();
-                        foreach (var card in perm)
+                        sharedLayout.Clear();
+                        for (int i = 0; i < perm.Count; i++)
                         {
-                            layout.AddCard(card);
+                            sharedLayout.AddCard(perm[i]);
                         }
 
-                        Score score = layout.GetScore();
-                        
+                        Score score = sharedLayout.GetScore();
+
                         if (score.GetFullScore() == goalValue)
                         {
-                            maxScore = 1;
-                            
+                            bestMatch = 1;
+
                             Suits? dominantSuit = score.GetDominantSuit();
                             if (dominantSuit.HasValue && dominantSuit.Value == goalSuit)
                             {
@@ -264,7 +275,7 @@ namespace CardGame.Core
                 }
             }
 
-            return maxScore;
+            return bestMatch;
         }
 
         /// <summary>

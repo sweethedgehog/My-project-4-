@@ -2,83 +2,108 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using CardGame.Core;
+using CardGame.UI;
 
-public enum ImageType
+namespace CardGame.Managers
 {
-    Badger = 0,
-    Cat = 1,
-    Rabbit = 2,
-    Squirrel = 3
-}
-public class PostdictionManager : MonoBehaviour
-{
-    public FinalImage badger;
-    public FinalImage cat;
-    public FinalImage rabbit;
-    public FinalImage squirrel;
-    public Button makePostdictionButton;
-    public Button backToGameButton;
-    private bool rightChoise = false;
-    private ImageType lastChoise;
-
-    void Start()
+    public enum ImageType
     {
-        makePostdictionButton.onClick.AddListener(makePostdiction);
-        backToGameButton.onClick.AddListener(backToGame);
-        makePostdictionButton.interactable = false;
+        Badger = 0,
+        Cat = 1,
+        Rabbit = 2,
+        Squirrel = 3
     }
 
-    private void backToGame()
+    public class PostdictionManager : MonoBehaviour
     {
-        SceneManager.UnloadSceneAsync("PostdictionScene");
-    }
-    private void makePostdiction()
-    {
-        switch (lastChoise)
+        [SerializeField] private FinalImage badger;
+        [SerializeField] private FinalImage cat;
+        [SerializeField] private FinalImage rabbit;
+        [SerializeField] private FinalImage squirrel;
+        [SerializeField] private Button makePostdictionButton;
+        [SerializeField] private Button backToGameButton;
+        [SerializeField] private Button backToGameButton2;
+        private bool rightChoice = false;
+        private ImageType lastChoice;
+
+        void Start()
         {
-            case ImageType.Badger:
-                SceneManager.LoadScene("BadgerEndingScene", LoadSceneMode.Additive);
-                break;
-            case ImageType.Cat:
-                SceneManager.LoadScene("CatEndingScene", LoadSceneMode.Additive);
-                break;
-            case ImageType.Rabbit:
-                SceneManager.LoadScene("RabbitEndingScene", LoadSceneMode.Additive);
-                break;
-            case ImageType.Squirrel:
-                SceneManager.LoadScene("SquirrelEndingScene", LoadSceneMode.Additive);
-                break;
+            makePostdictionButton.onClick.AddListener(MakePostdiction);
+            backToGameButton.onClick.AddListener(BackToGame);
+			backToGameButton2.onClick.AddListener(BackToGame);
+            makePostdictionButton.interactable = false;
+            UpdateButtonVisual();
         }
-        // SceneManager.LoadScene(rightChoise ? "Win" : "Lose", LoadSceneMode.Additive);
-        SceneManager.UnloadSceneAsync("PostdictionScene");
-    }
-    public void select(ImageType type)
-    {
-        makePostdictionButton.interactable = true;
-        lastChoise = type;
-        rightChoise = type == ImageType.Badger;
-        switch (type)
+
+        private void BackToGame()
         {
-            case ImageType.Badger:
-                cat.clearSelection();
-                squirrel.clearSelection();
-                rabbit.clearSelection();
-                break;
-            case ImageType.Cat:
-                badger.clearSelection();
-                squirrel.clearSelection();
-                rabbit.clearSelection();
-                break;
-            case ImageType.Rabbit:
-                cat.clearSelection();
-                squirrel.clearSelection();
-                badger.clearSelection();
-                break;
-            default:
-                cat.clearSelection();
-                badger.clearSelection();
-                rabbit.clearSelection();
-                break;
+            SceneManager.UnloadSceneAsync(SceneNames.PostdictionScene);
+        }
+        private void MakePostdiction()
+        {
+            switch (lastChoice)
+            {
+                case ImageType.Badger:
+                    SceneManager.LoadScene(SceneNames.BadgerEndingScene, LoadSceneMode.Additive);
+                    break;
+                case ImageType.Cat:
+                    SceneManager.LoadScene(SceneNames.CatEndingScene, LoadSceneMode.Additive);
+                    break;
+                case ImageType.Rabbit:
+                    SceneManager.LoadScene(SceneNames.RabbitEndingScene, LoadSceneMode.Additive);
+                    break;
+                case ImageType.Squirrel:
+                    SceneManager.LoadScene(SceneNames.SquirrelEndingScene, LoadSceneMode.Additive);
+                    break;
+            }
+            SceneManager.UnloadSceneAsync(SceneNames.PostdictionScene);
+        }
+        public void Select(ImageType type)
+        {
+            makePostdictionButton.interactable = true;
+            lastChoice = type;
+            rightChoice = type == ImageType.Badger;
+            switch (type)
+            {
+                case ImageType.Badger:
+                    cat.ClearSelection();
+                    squirrel.ClearSelection();
+                    rabbit.ClearSelection();
+                    break;
+                case ImageType.Cat:
+                    badger.ClearSelection();
+                    squirrel.ClearSelection();
+                    rabbit.ClearSelection();
+                    break;
+                case ImageType.Rabbit:
+                    cat.ClearSelection();
+                    squirrel.ClearSelection();
+                    badger.ClearSelection();
+                    break;
+                default:
+                    cat.ClearSelection();
+                    badger.ClearSelection();
+                    rabbit.ClearSelection();
+                    break;
+            }
+            UpdateButtonVisual();
+        }
+        private void UpdateButtonVisual()
+        {
+            if (makePostdictionButton == null) return;
+
+            Image btnImage = makePostdictionButton.GetComponent<Image>();
+            if (btnImage == null) return;
+
+            if (makePostdictionButton.interactable)
+            {
+                btnImage.color = Color.white;
+            }
+            else
+            {
+                btnImage.color = new Color(0.5f, 0.5f, 0.5f, 1f);
+            }
         }
     }
 }

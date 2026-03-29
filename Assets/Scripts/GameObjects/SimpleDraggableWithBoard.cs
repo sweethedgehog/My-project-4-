@@ -1,130 +1,124 @@
+using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using CardGame.Cards;
+using CardGame.UI;
 
 namespace CardGame.GameObjects
 {
     /// <summary>
-    /// Enhanced draggable that works with CardBoard
+    /// World-space draggable that works with CardBoard
+    /// Uses OnMouse* callbacks with BoxCollider2D for drag detection
     /// Automatically adds/removes cards from boards
     /// </summary>
-    public class SimpleDraggableWithBoard : MonoBehaviour, 
-        IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
+    public class SimpleDraggableWithBoard : MonoBehaviour
     {
-        private RectTransform rectTransform;
-        private Canvas canvas;
-        private CanvasGroup canvasGroup;
         private SimpleCard simpleCard;
         private CardBoard currentBoard;
         private CardBoard hoverBoard;
         private bool isDragging = false;
-        private Vector2 offset;
-        
+        private Vector3 offset;
+        private Camera mainCamera;
+        private int originalSortingOrder;
+        private CardBoard[] cachedBoards;
+        private Vector3 originalScale;
+        private Coroutine scaleCoroutine;
+
         [Header("Drag Settings")]
-        [SerializeField] private float hoverDetectionDistance = 200f; // Increased for edge detection
+        [SerializeField] private int dragSortingOrder = 100;
         [SerializeField] private bool showDebugInfo = false;
-        
+
+        [Header("Drag Effects")]
+        [SerializeField] private Vector3 dragScale = new Vector3(1.15f, 1.15f, 1f);
+        [SerializeField] private float scaleTime = 0.1f;
+        [SerializeField] private GameObject shadowObject;
+
         void Awake()
         {
-            rectTransform = GetComponent<RectTransform>();
-            canvas = GetComponentInParent<Canvas>();
             simpleCard = GetComponent<SimpleCard>();
-            
-            canvasGroup = GetComponent<CanvasGroup>();
-            if (canvasGroup == null)
-            {
-                canvasGroup = gameObject.AddComponent<CanvasGroup>();
-            }
-            
-            Image img = GetComponent<Image>();
-            if (img != null)
-            {
-                img.raycastTarget = true;
-            }
+            cachedBoards = FindObjectsOfType<CardBoard>();
+            originalScale = transform.localScale;
         }
-        
-        public void OnPointerDown(PointerEventData eventData)
+
+        void OnMouseDown()
         {
-            Vector2 clickPos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvas.transform as RectTransform,
-                eventData.position,
-                canvas.worldCamera,
-                out clickPos
-            );
-            
-            offset = rectTransform.anchoredPosition - clickPos;
-            transform.SetAsLastSibling();
-        }
-        
-        public void OnBeginDrag(PointerEventData eventData)
-        {
-            if (!simpleCard.CanInteract())
-            {
-                return;
-            }
-            
+            if (!simpleCard.CanInteract()) return;
+
+            mainCamera = Camera.main;
+            Vector3 mouseWorld = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            mouseWorld.z = transform.position.z;
+            offset = transform.position - mouseWorld;
             isDragging = true;
-            canvasGroup.blocksRaycasts = false;
-            
+
+            // Stop smooth movement
             SmoothCardMover mover = GetComponent<SmoothCardMover>();
             if (mover != null)
             {
-                mover.Stop();  
+                mover.Stop();
             }
-            
-            // Remove from current board if on one
+
+            // Remove from current board
             currentBoard = GetComponentInParent<CardBoard>();
             if (currentBoard != null)
             {
                 currentBoard.RemoveCard(simpleCard);
             }
-            
-            // Move to canvas root for free dragging
-            transform.SetParent(canvas.transform);
-            transform.SetAsLastSibling();
-            
-            // Recalculate offset based on current position
-            Vector2 mousePos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvas.transform as RectTransform,
-                eventData.position,
-                canvas.worldCamera,
-                out mousePos
-            );
-            
-            offset = rectTransform.anchoredPosition - mousePos;
+
+            // Reparent to scene root for free dragging
+            transform.SetParent(null);
+
+            // Raise sorting order so dragged card renders on top of everything
+            originalSortingOrder = simpleCard.GetSortingOrder();
+            simpleCard.SetSortingOrder(dragSortingOrder);
+
+            // Disable collider so it doesn't block board detection
+            BoxCollider2D col = GetComponent<BoxCollider2D>();
+            if (col != null) col.enabled = false;
+
+            // Scale up and show shadow
+            if (scaleCoroutine != null) StopCoroutine(scaleCoroutine);
+            scaleCoroutine = StartCoroutine(ScaleTo(dragScale));
+            if (shadowObject != null) shadowObject.SetActive(true);
+
+            // Play pickup sound
+            CardSound cardSound = GetComponent<CardSound>();
+            if (cardSound != null) cardSound.PlayPickup();
         }
-        
-        public void OnDrag(PointerEventData eventData)
+
+        void OnMouseDrag()
         {
             if (!isDragging) return;
-   
-            Vector2 mousePos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvas.transform as RectTransform,
-                eventData.position,
-                canvas.worldCamera,
-                out mousePos
-            );
 
-            rectTransform.anchoredPosition = mousePos + offset;
-            
-            // Check if hovering over a board
+            Vector3 mouseWorld = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            mouseWorld.z = transform.position.z;
+            transform.position = mouseWorld + offset;
+
             CheckBoardHover();
         }
-        
-        public void OnEndDrag(PointerEventData eventData)
+
+        void OnMouseUp()
         {
             if (!isDragging) return;
-            
             isDragging = false;
-            canvasGroup.blocksRaycasts = true;
-            
-            // Try to add to a board
+
+            // Restore sorting order (sprite, value text, overlay, x2)
+            simpleCard.SetSortingOrder(originalSortingOrder);
+
+            // Re-enable collider
+            BoxCollider2D col = GetComponent<BoxCollider2D>();
+            if (col != null) col.enabled = true;
+
+            // Scale back and hide shadow
+            if (scaleCoroutine != null) StopCoroutine(scaleCoroutine);
+            scaleCoroutine = StartCoroutine(ScaleTo(originalScale));
+            if (shadowObject != null) shadowObject.SetActive(false);
+
+            // Play drop sound
+            CardSound cardSound = GetComponent<CardSound>();
+            if (cardSound != null) cardSound.PlayDrop();
+
+            // Find target board
             CardBoard targetBoard = FindNearestBoard();
-            
+
             if (targetBoard != null)
             {
                 targetBoard.AddCard(simpleCard);
@@ -138,11 +132,9 @@ namespace CardGame.GameObjects
                 }
                 else
                 {
-                    // Find any available board
-                    CardBoard[] allBoards = FindObjectsOfType<CardBoard>();
-                    if (allBoards.Length > 0)
+                    if (cachedBoards.Length > 0)
                     {
-                        allBoards[0].AddCard(simpleCard);
+                        cachedBoards[0].AddCard(simpleCard);
                     }
                     else
                     {
@@ -151,24 +143,22 @@ namespace CardGame.GameObjects
                 }
             }
         }
-        
+
         private void CheckBoardHover()
         {
-            CardBoard[] allBoards = FindObjectsOfType<CardBoard>();
             CardBoard closestBoard = null;
-            
-            // Get card's screen position
+
             Vector2 cardScreenPos = Input.mousePosition;
-            
-            foreach (CardBoard board in allBoards)
+
+            foreach (CardBoard board in cachedBoards)
             {
                 if (board.IsPositionNearBoard(cardScreenPos))
                 {
                     closestBoard = board;
-                    break; // Found a board in range
+                    break;
                 }
             }
-            
+
             if (hoverBoard != closestBoard)
             {
                 hoverBoard = closestBoard;
@@ -178,26 +168,20 @@ namespace CardGame.GameObjects
                 }
             }
         }
-        
+
         private CardBoard FindNearestBoard()
         {
-            CardBoard[] allBoards = FindObjectsOfType<CardBoard>();
             CardBoard nearestBoard = null;
             float nearestDistance = float.MaxValue;
-            
-            Vector2 cardPos = rectTransform.anchoredPosition;
-            
-            // Convert card position to screen space for accurate checking
-            Vector3 cardScreenPos = RectTransformUtility.WorldToScreenPoint(canvas.worldCamera, rectTransform.position);
-            
-            foreach (CardBoard board in allBoards)
+
+            Vector2 cardScreenPos = Input.mousePosition;
+
+            foreach (CardBoard board in cachedBoards)
             {
-                // Use the board's position check method for better edge detection
                 if (board.IsPositionNearBoard(cardScreenPos))
                 {
-                    RectTransform boardRect = board.GetComponent<RectTransform>();
-                    float distance = Vector2.Distance(rectTransform.position, boardRect.position);
-                    
+                    float distance = Vector2.Distance(transform.position, board.transform.position);
+
                     if (distance < nearestDistance)
                     {
                         nearestBoard = board;
@@ -205,7 +189,7 @@ namespace CardGame.GameObjects
                     }
                 }
             }
-            
+
             if (showDebugInfo && nearestBoard != null)
             {
                 Debug.Log($"Found board: {nearestBoard.name} at distance {nearestDistance}");
@@ -214,8 +198,21 @@ namespace CardGame.GameObjects
             {
                 Debug.Log("No board found at current position");
             }
-            
+
             return nearestBoard;
+        }
+
+        private IEnumerator ScaleTo(Vector3 target)
+        {
+            Vector3 start = transform.localScale;
+            float elapsed = 0f;
+            while (elapsed < scaleTime)
+            {
+                elapsed += Time.deltaTime;
+                transform.localScale = Vector3.Lerp(start, target, elapsed / scaleTime);
+                yield return null;
+            }
+            transform.localScale = target;
         }
     }
 }

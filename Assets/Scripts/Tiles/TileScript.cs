@@ -1,38 +1,45 @@
 using System;
-using DefaultNamespace.Tiles;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TileScript : MonoBehaviour, IPointerClickHandler
+namespace DefaultNamespace.Tiles
 {
-    public Sprite spriteSuccess;
-    public Sprite spriteLose;
-    public TilesManager tilesManager;
-    private Image thisImage;
-    private Color failColor = new (1f, 1f, 1f, 0.5f);
-    private int index;
-
-    void Start()
+    public class TileScript : MonoBehaviour, IPointerClickHandler
     {
-        thisImage = GetComponent<Image>();
-        thisImage.color = Color.clear;
-    }
+        [SerializeField] private Sprite spriteSuccess;
+        [SerializeField] private Sprite spriteLose;
+        [SerializeField] private TilesManager tilesManager;
+        [SerializeField] private GameObject selectedHighlight;
+        private Image thisImage;
+        private Color failColor = new (1f, 1f, 1f, 0.5f);
+        private int index;
 
-    public void setVisability(SuccessCodes status)
-    {
-        thisImage.sprite = spriteLose;
-        if (status == SuccessCodes.None) thisImage.color = Color.clear;
-        else if (status == SuccessCodes.Failer) thisImage.color = failColor;
-        else
+        void Start()
         {
-            thisImage.color = Color.white;
-            thisImage.sprite = spriteSuccess;
+            thisImage = GetComponent<Image>();
+            thisImage.color = Color.clear;
+        }
+
+        public void SetVisibility(SuccessCodes status)
+        {
+            thisImage.sprite = spriteLose;
+            if (status == SuccessCodes.None) thisImage.color = Color.clear;
+            else if (status == SuccessCodes.Failer) thisImage.color = failColor;
+            else
+            {
+                thisImage.color = Color.white;
+                thisImage.sprite = spriteSuccess;
+            }
+        }
+        public void ChangeSuccessSprites(Sprite sprite) => spriteSuccess = sprite;
+        public void SetIndex(int index) => this.index = index;
+        public void OnPointerClick(PointerEventData eventData) => tilesManager.ClickOn(index);
+        public void SetFailColor(Color color) => failColor = color;
+        public void SetSelected(bool selected)
+        {
+            if (selectedHighlight != null) selectedHighlight.SetActive(selected);
         }
     }
-    public void changeSuccessSprites(Sprite sprite) => spriteSuccess = sprite;
-    public void setIndex(int index) => this.index = index;
-    public void OnPointerClick(PointerEventData eventData) => tilesManager.clickOn(index);
-    public void setFailerColor(Color color) => failColor = color;
 }

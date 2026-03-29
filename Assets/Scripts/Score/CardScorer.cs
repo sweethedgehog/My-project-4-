@@ -1,11 +1,11 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
-using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Localization.Settings;
 using CardGame.Core;
 using CardGame.Cards;
 using CardGame.GameObjects;
 using CardGame.Managers;
+using CardGame.UI;
 using TMPro;
 using UnityEngine.Serialization;
 
@@ -14,77 +14,81 @@ namespace CardGame.Scoring
     public class CardScorer : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private TextMeshProUGUI totalScoreText;
-        [SerializeField] private TextMeshProUGUI roseScoreText;
-        [SerializeField] private TextMeshProUGUI crownScoreText;
-        [SerializeField] private TextMeshProUGUI skullScoreText;
-        [SerializeField] private TextMeshProUGUI coinsScoreText;
-        [SerializeField] private TextMeshProUGUI dominantSuitText;
-        [SerializeField] private CryLogic crystal;
+        [SerializeField] private TextMeshPro totalScoreText;
+        [SerializeField] private TextMeshPro roseScoreText;
+        [SerializeField] private TextMeshPro crownScoreText;
+        [SerializeField] private TextMeshPro skullScoreText;
+        [SerializeField] private TextMeshPro coinsScoreText;
+        [SerializeField] private TextMeshPro dominantSuitText;
+        [SerializeField] private CrystalDisplay crystal;
+        [SerializeField] private MirrorDisplay mirror;
+        [SerializeField] private BallParticleController ballParticle;
         
         [Header("Display Format")]
-        [SerializeField] private string totalScoreFormat = "Total: {0}";
-        [SerializeField] private string suitScoreFormat = "{0}: {1}";
-        [SerializeField] private string dominantFormat = "Dominant: {0}";
         [SerializeField] private bool showBreakdown = true;
         
         [Header("Goal Completion Sounds")]
+        [SerializeField] private float dualGoalDelay = 0.5f;
         [SerializeField] private AudioClip valueGoalCompleteSound;
         [SerializeField] private AudioClip roseSuitCompleteSound;
         [SerializeField] private AudioClip crownSuitCompleteSound;
         [SerializeField] private AudioClip skullSuitCompleteSound;
         [SerializeField] private AudioClip coinSuitCompleteSound;
         
-        [Header("Sound Settings")]
-        [SerializeField] [Range(0f, 1f)] private float soundVolume = 0.7f;
-        [SerializeField] private float dualGoalDelay = 0.5f; // Delay between sounds when both goals complete
-        
-        public AudioManager audioManager;
-        private AudioSource audioSource;
-        
+
         private Suits goalSuit;
         private int goalValue;
-        
+
         private bool valueGoalComplete = false;
         private bool suitGoalComplete = false;
-        
-        void Awake()
-        {
-            // Create audio source for goal completion sounds
-            audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.playOnAwake = false;
-            audioSource.loop = false;
-            audioSource.spatialBlend = 0f;
-        }
+        private bool isGoalSet = false;
+
+        /// <summary>
+        /// Fired when the value-goal completion state changes.
+        /// Parameter is true when value goal is met, false when lost.
+        /// </summary>
+        public event System.Action<bool> OnValueGoalChanged;
 
         public void SetGoal(Suits _goalSuit, int _goalValue)
         {
             goalSuit = _goalSuit;
             goalValue = _goalValue;
-            
+            isGoalSet = true;
+
             // Reset goal completion flags when new goal is set
             valueGoalComplete = false;
             suitGoalComplete = false;
+
+            if (mirror != null) mirror.ResetMirror();
+            if (ballParticle != null)
+            {
+                ballParticle.SetSuitColor(_goalSuit);
+                ballParticle.SetGoalComplete(false);
+            }
         }
-        
+
         public void UpdateScore(Score score)
         {
+            if (!isGoalSet) return;
+
             int currentValue = score.GetFullScore();
             Suits? dominantSuit = score.GetDominantSuit();
-            
+
+            bool wasValueGoalComplete = valueGoalComplete;
+
             // Check if value goal is currently met (EXACT MATCH ONLY)
             bool valueGoalMet = currentValue == goalValue;
-            
+
             // Check if value goal was just completed
             bool valueJustCompleted = !valueGoalComplete && valueGoalMet;
-            
+
             // Check if suit goal was just completed (BUT ONLY IF VALUE IS ALSO MET)
             bool suitJustCompleted = !suitGoalComplete && dominantSuit == goalSuit && goalSuit != null && valueGoalMet;
-            
+
             // Handle sound playback based on what completed
             if (valueJustCompleted && suitJustCompleted)
             {
-                // Both goals completed at the same time - play with delay
+                // Both goals completed at the same time - play value first, then suit after delay
                 StartCoroutine(PlayBothGoalSounds());
                 valueGoalComplete = true;
                 suitGoalComplete = true;
@@ -101,7 +105,7 @@ namespace CardGame.Scoring
                 PlaySuitGoalSound(goalSuit);
                 suitGoalComplete = true;
             }
-            
+
             // Reset flags if goals are no longer met
             if (!valueGoalMet)
             {
@@ -111,6 +115,12 @@ namespace CardGame.Scoring
             else if (dominantSuit != goalSuit)
             {
                 suitGoalComplete = false;
+            }
+
+            // Notify listeners when value goal completion state changes
+            if (valueGoalComplete != wasValueGoalComplete)
+            {
+                OnValueGoalChanged?.Invoke(valueGoalComplete);
             }
 
             DisplayScore(score);
@@ -123,8 +133,7 @@ namespace CardGame.Scoring
         {
             if (valueGoalCompleteSound != null && AudioManager.Instance != null)
             {
-                AudioManager.Instance.PlayGoalValueComplete(valueGoalCompleteSound);
-                Debug.Log($"Value goal completed! Target: {goalValue}");
+                AudioManager.Instance.PlaySFX(valueGoalCompleteSound);
             }
         }
 
@@ -137,11 +146,17 @@ namespace CardGame.Scoring
 
             if (suitSound != null && AudioManager.Instance != null)
             {
-                AudioManager.Instance.PlayGoalSuitComplete(suitSound);
-                Debug.Log($"Suit goal completed! Target suit: {suit}");
+                AudioManager.Instance.PlaySFX(suitSound);
             }
         }
         
+        private IEnumerator PlayBothGoalSounds()
+        {
+            PlayValueGoalSound();
+            yield return new WaitForSeconds(dualGoalDelay);
+            PlaySuitGoalSound(goalSuit);
+        }
+
         /// <summary>
         /// Get the appropriate sound clip for a suit
         /// </summary>
@@ -162,29 +177,15 @@ namespace CardGame.Scoring
             }
         }
         
-        /// <summary>
-        /// Play both goal completion sounds with a delay
-        /// </summary>
-        private IEnumerator PlayBothGoalSounds()
-        {
-            // Play value goal sound first
-            PlayValueGoalSound();
-            
-            // Wait for delay
-            yield return new WaitForSeconds(dualGoalDelay);
-            
-            // Play suit goal sound
-            PlaySuitGoalSound(goalSuit);
-            
-            Debug.Log($"Both goals completed! Value: {goalValue}, Suit: {goalSuit}");
-        }
 
         private void DisplayScore(Score score)
         {
             // Total score
             if (totalScoreText != null)
             {
-                totalScoreText.text = string.Format(totalScoreFormat, score.GetFullScore());
+                totalScoreText.text = string.Format(
+                    LocalizationSettings.StringDatabase.GetLocalizedString("MainScene", "score_total"),
+                    score.GetFullScore());
             }
             
             // Individual suit scores
@@ -215,7 +216,9 @@ namespace CardGame.Scoring
                 }
             }
             
-            if (crystal != null) crystal.setTexture(score.GetDominantSuit());
+            if (crystal != null) crystal.SetTexture(score.GetDominantSuit());
+            if (mirror != null) mirror.SetSuit(score.GetDominantSuit());
+            if (ballParticle != null) ballParticle.SetGoalComplete(valueGoalComplete && suitGoalComplete);
         }
     }
 }
