@@ -3805,7 +3805,7 @@ MonoBehaviour:
   tutorialMusic: {fileID: 8300000, guid: 444ba6c0d0db2de4dbda91efcf4f8a0e, type: 3}
   gameplayMusic: {fileID: 8300000, guid: c6a01a203618935418ecda0cf94b8809, type: 3}
   victoryMusic: {fileID: 0}
-  winSound: {fileID: 8300000, guid: e4105c5787c311744974bc5cbb60ac32, type: 3}
+  winSound: {fileID: 8300000, guid: ac88d9b2174bb104b92c84c2ea6cfbcd, type: 3}
   loseSound: {fileID: 8300000, guid: ac88d9b2174bb104b92c84c2ea6cfbcd, type: 3}
 --- !u!4 &1062332165
 Transform:

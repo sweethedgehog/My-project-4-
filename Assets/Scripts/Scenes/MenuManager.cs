@@ -146,7 +146,7 @@ namespace CardGame.Managers
         private void RefreshLanguageButtons()
         {
             var selectedLocale = LocalizationSettings.SelectedLocale;
-            string current = selectedLocale != null ? selectedLocale.Identifier.Code : "ru";
+            string current = selectedLocale != null ? selectedLocale.Identifier.Code : "en";
 
             bool isRussian = current == "ru";
             if (ruIndicator != null) ruIndicator.sprite = isRussian ? activeIndicatorSprite : inactiveIndicatorSprite;
